@@ -1,10 +1,11 @@
 /* ============================================================
    Cinema — Main Site JS
    Handles: navigation (mobile toggle, scroll state),
-            contact form (validation, storage)
+            contact form (validation, storage),
+            scroll reveal (IntersectionObserver)
 
-   Contact submissions are stored the same way as gate leads —
-   structured JSON in localStorage, ready for a backend swap.
+   Contact submissions are stored as structured JSON in
+   localStorage, ready to swap for an API call.
    ============================================================ */
 
 (function () {
@@ -34,7 +35,6 @@
         toggle.setAttribute('aria-expanded', String(isOpen));
       });
 
-      // Close mobile menu when any link is clicked
       links.querySelectorAll('a').forEach(function (link) {
         link.addEventListener('click', function () {
           links.classList.remove('is-open');
@@ -43,30 +43,16 @@
       });
     }
 
-    // Subtle background shift on scroll
     if (nav) {
       window.addEventListener('scroll', function () {
-        nav.style.background = window.scrollY > 50
-          ? 'rgba(10, 10, 10, 0.99)'
-          : 'rgba(10, 10, 10, 0.96)';
+        nav.style.background = window.scrollY > 60
+          ? 'rgba(8, 8, 9, 0.98)'
+          : 'rgba(8, 8, 9, 0.92)';
       }, { passive: true });
     }
   }
 
   /* ── Contact Form ───────────────────────────────────────── */
-  /*
-   * Submission object shape:
-   * {
-   *   id:        string
-   *   timestamp: string   — ISO 8601
-   *   source:    string
-   *   name:      string
-   *   email:     string
-   *   phone:     string
-   *   details:   string
-   *   status:    'new'
-   * }
-   */
   function storeContactSubmission(data) {
     var submission = {
       id:        generateId(),
@@ -128,10 +114,42 @@
     });
   }
 
+  /* ── Scroll Reveal ──────────────────────────────────────── */
+  /*
+   * Elements with [data-reveal] start hidden via CSS (opacity:0,
+   * translateY). IntersectionObserver adds .is-revealed when they
+   * enter the viewport. Hero uses CSS keyframes instead (see CSS).
+   */
+  function initReveal() {
+    var els = document.querySelectorAll('[data-reveal]');
+    if (!els.length) return;
+
+    // Graceful fallback for older browsers
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('is-revealed'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    els.forEach(function (el) { observer.observe(el); });
+  }
+
   /* ── Init ───────────────────────────────────────────────── */
   function init() {
     initNav();
     initContactForm();
+    initReveal();
   }
 
   if (document.readyState === 'loading') {
