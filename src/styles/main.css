@@ -579,30 +579,31 @@ h1, h2, h3, h4 {
 .hero__img-wrap {
   position: relative;
   width: 100%;
-  max-width: 560px;
+  max-width: 600px;
+  animation: heroFloat 9s ease-in-out infinite;
 }
 
 .hero__img {
   width: 100%;
-  border-radius: var(--radius-lg);
-  box-shadow:
-    0 60px 120px rgba(0, 0, 0, 0.7),
-    0 20px 50px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(192, 154, 69, 0.12);
-  animation: heroFloat 8s ease-in-out infinite;
+  display: block;
 }
 
-.hero__img-glow {
+/* Gradient vignette: dissolves white bg into site black */
+.hero__img-vignette {
   position: absolute;
-  inset: -20%;
-  background: radial-gradient(ellipse at center, rgba(192, 154, 69, 0.08) 0%, transparent 65%);
+  inset: 0;
+  background:
+    linear-gradient(to right, var(--black) 0%, rgba(8,8,9,0.75) 18%, transparent 45%),
+    linear-gradient(to left,  var(--black) 0%, rgba(8,8,9,0.5)  12%, transparent 38%),
+    linear-gradient(to top,   var(--black) 0%, rgba(8,8,9,0.6)  10%, transparent 30%),
+    linear-gradient(to bottom,var(--black) 0%, rgba(8,8,9,0.4)  10%, transparent 30%);
   pointer-events: none;
-  z-index: -1;
+  z-index: 1;
 }
 
 @keyframes heroFloat {
   0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-10px); }
+  50%       { transform: translateY(-12px); }
 }
 
 
@@ -646,30 +647,60 @@ h1, h2, h3, h4 {
 
 
 /* ============================================================
-   SHOWCASE — Pinned scroll-stop section
+   SHOWCASE — Pinned scroll-stop / assembly reveal
    ============================================================ */
 .showcase {
   min-height: 100vh;
   background: var(--black);
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
   overflow: hidden;
+  position: relative;
 }
 
-.showcase::before {
-  content: '';
+.showcase__layout {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 1.75rem;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+/* Image stack */
+.showcase__visuals { position: relative; }
+
+.showcase__img-frame { position: relative; width: 100%; }
+
+.showcase__img {
+  width: 100%;
+  display: block;
+}
+
+.showcase__img--final {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 50%, rgba(192, 154, 69, 0.06) 0%, transparent 65%);
-  pointer-events: none;
+  opacity: 0; /* GSAP reveals this */
 }
 
-.showcase__inner {
-  text-align: center;
-  padding-inline: 1.75rem;
-  max-width: 900px;
+/* Vignette dissolves white background into site black */
+.showcase__vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, var(--black) 0%, rgba(8,8,9,0.6) 12%, transparent 35%, rgba(8,8,9,0.5) 88%, var(--black) 100%),
+    linear-gradient(to top,   var(--black) 0%, rgba(8,8,9,0.5) 10%, transparent 28%),
+    linear-gradient(to bottom,var(--black) 0%, rgba(8,8,9,0.4) 8%,  transparent 25%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Copy column */
+.showcase__copy {
+  position: relative;
+  min-height: 320px;
 }
 
 .showcase__label {
@@ -680,34 +711,51 @@ h1, h2, h3, h4 {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.25rem;
+}
+
+.showcase__phase {
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  right: 0;
+}
+
+.showcase__phase--final {
   opacity: 0;
+  transform: translateY(18px);
 }
 
 .showcase__headline {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
   font-weight: 400;
   color: var(--cream);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  margin-bottom: 2rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
 }
 
-.sw {
-  display: inline-block;
-  opacity: 0.08;
-  margin-right: 0.2em;
-  transition: none;
+.showcase__headline em {
+  font-style: italic;
+  color: var(--gold);
 }
-
-.sw--gold { color: var(--gold); }
 
 .showcase__sub {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   color: var(--cream-muted);
   line-height: 1.85;
-  opacity: 0;
+  max-width: 360px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .showcase__layout {
+    grid-template-columns: 1fr;
+  }
+  .showcase__copy {
+    min-height: 260px;
+  }
 }
 
 

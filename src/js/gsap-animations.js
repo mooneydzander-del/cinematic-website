@@ -13,7 +13,7 @@
 
     /* ── Hero parallax scrub ──────────────────────────────── */
     gsap.to('.hero__img-wrap', {
-      yPercent: -20,
+      yPercent: -18,
       ease: 'none',
       scrollTrigger: {
         trigger: '.hero',
@@ -25,7 +25,7 @@
 
     gsap.to('.hero__text', {
       opacity: 0,
-      yPercent: -14,
+      yPercent: -12,
       ease: 'none',
       scrollTrigger: {
         trigger: '.hero',
@@ -35,29 +35,56 @@
       }
     });
 
-    /* ── Showcase — pinned scroll-stop word reveal ─────────── */
-    var words = gsap.utils.toArray('.sw');
-    var tl = gsap.timeline({
+    /* ── Showcase — pinned assembly crossfade ─────────────── */
+    /*
+     * Starts: png2 (exploded) visible, "Built from the ground up" copy shown
+     * Scroll:  png2 fades/scales out → png1 (polished) fades in
+     *          copy transitions to "Delivered pixel-perfect"
+     * End:     png1 fully visible, polished copy shown
+     */
+    var showcaseTl = gsap.timeline({
       scrollTrigger: {
         trigger: '.showcase',
         start: 'top top',
-        end: '+=250%',
+        end: '+=300%',
         pin: true,
-        scrub: 0.8,
+        scrub: 1,
         anticipatePin: 1
       }
     });
 
-    // Label fades in first
-    tl.to('.showcase__label', { opacity: 1, duration: 0.3 });
-
-    // Each word lights up in sequence
-    words.forEach(function (word) {
-      tl.to(word, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '>-0.1');
-    });
-
-    // Sub-line fades in last
-    tl.to('.showcase__sub', { opacity: 1, duration: 0.4 }, '>0.1');
+    showcaseTl
+      // Hold — let viewer read the exploded state
+      .to({}, { duration: 0.6 })
+      // Exploded image scales slightly and fades out
+      .to('.showcase__img--build', {
+        opacity: 0,
+        scale: 1.06,
+        duration: 2,
+        ease: 'power2.inOut'
+      })
+      // Polished image fades in (slightly offset so overlap feels smooth)
+      .to('.showcase__img--final', {
+        opacity: 1,
+        duration: 2,
+        ease: 'power2.inOut'
+      }, '<0.4')
+      // Build copy fades out
+      .to('.showcase__phase--build', {
+        opacity: 0,
+        y: -16,
+        duration: 1,
+        ease: 'power2.in'
+      }, '<')
+      // Final copy fades in
+      .to('.showcase__phase--final', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out'
+      }, '>-0.4')
+      // Hold at the polished state
+      .to({}, { duration: 0.6 });
 
     /* ── Services — staggered card reveal ─────────────────── */
     gsap.from('.card', {
