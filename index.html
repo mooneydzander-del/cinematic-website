@@ -9,6 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="src/styles/main.css" />
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 </head>
 <body>
 
@@ -92,7 +95,7 @@
         <div class="hero__visual">
           <div class="hero__img-wrap">
             <img
-              src="public/images/publicimagesimage.png.png"
+              src="public/images/hero-cinematic.jpeg"
               alt="Example of a premium Cinema website"
               class="hero__img"
             />
@@ -100,6 +103,37 @@
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <!-- ── MARQUEE TICKER ──────────────────────────────────── -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span class="marquee__item">Premium Web Design <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Cinematic Experiences <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Lead Capture Systems <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Conversion First <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Website Upgrades <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Premium Web Design <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Cinematic Experiences <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Lead Capture Systems <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Conversion First <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Website Upgrades <span class="marquee__dot">·</span></span>
+      </div>
+    </div>
+
+    <!-- ── SHOWCASE (pinned scroll-stop) ───────────────────── -->
+    <section class="showcase" id="showcase">
+      <div class="showcase__inner">
+        <p class="showcase__label">The Cinema Standard</p>
+        <h2 class="showcase__headline">
+          <span class="sw">Every</span>
+          <span class="sw">pixel</span>
+          <span class="sw sw--gold">earns</span>
+          <span class="sw">its</span>
+          <span class="sw">place.</span>
+        </h2>
+        <p class="showcase__sub">We don't build websites. We build the first impression that wins the client.</p>
       </div>
     </section>
 
@@ -112,17 +146,17 @@
           <p class="section-sub">Everything your business needs to look high-end online and generate real leads from every visitor.</p>
         </div>
         <div class="cards">
-          <div class="card" data-reveal data-delay="1">
+          <div class="card">
             <div class="card__accent"></div>
             <h3 class="card__title">Premium Web Design</h3>
             <p class="card__text">Custom, high-end websites designed from scratch to make your business look expensive, trustworthy, and ready to convert visitors into customers.</p>
           </div>
-          <div class="card" data-reveal data-delay="2">
+          <div class="card">
             <div class="card__accent"></div>
             <h3 class="card__title">Lead Capture Systems</h3>
             <p class="card__text">Strategic contact forms, entry flows, and lead funnels built into your site so you capture visitor information and never miss a follow-up opportunity.</p>
           </div>
-          <div class="card" data-reveal data-delay="3">
+          <div class="card">
             <div class="card__accent"></div>
             <h3 class="card__title">Website Upgrades</h3>
             <p class="card__text">Already have a website? We elevate it — improving the design, copy, structure, and lead capture so it actually works for your business.</p>
@@ -141,22 +175,22 @@
           <p class="section-sub">Most websites look fine but do nothing. Ours are engineered to impress visitors and built to generate leads from day one.</p>
         </div>
         <div class="pillars">
-          <div class="pillar" data-reveal data-delay="1">
+          <div class="pillar">
             <span class="pillar__number">01</span>
             <h3 class="pillar__title">Premium Design Quality</h3>
             <p class="pillar__text">Every website we build looks and feels expensive. First impressions matter — yours will be unforgettable.</p>
           </div>
-          <div class="pillar" data-reveal data-delay="2">
+          <div class="pillar">
             <span class="pillar__number">02</span>
             <h3 class="pillar__title">Conversion-First Structure</h3>
             <p class="pillar__text">Beautiful design means nothing without results. Every section is placed strategically to guide visitors toward taking action.</p>
           </div>
-          <div class="pillar" data-reveal data-delay="3">
+          <div class="pillar">
             <span class="pillar__number">03</span>
             <h3 class="pillar__title">Lead Recovery Built In</h3>
             <p class="pillar__text">We don't just build websites — we build lead machines. Capture visitor info and follow up with every potential customer automatically.</p>
           </div>
-          <div class="pillar" data-reveal data-delay="4">
+          <div class="pillar">
             <span class="pillar__number">04</span>
             <h3 class="pillar__title">Tailored to Your Brand</h3>
             <p class="pillar__text">No templates. No cookie-cutter designs. Every project is custom-built to match your brand, your audience, and your goals.</p>
@@ -174,22 +208,22 @@
           <p class="section-sub">A simple, transparent process designed to get you a premium website fast — without the back-and-forth.</p>
         </div>
         <div class="steps">
-          <div class="step" data-reveal data-delay="1">
+          <div class="step">
             <div class="step__num">1</div>
             <h3 class="step__title">Discovery Call</h3>
             <p class="step__text">We learn about your business, your goals, and what you need your website to accomplish. Zero fluff — just clarity and direction.</p>
           </div>
-          <div class="step" data-reveal data-delay="2">
+          <div class="step">
             <div class="step__num">2</div>
             <h3 class="step__title">Design &amp; Build</h3>
             <p class="step__text">Our team builds your premium website with the look, copy, and lead capture structure your business needs to grow.</p>
           </div>
-          <div class="step" data-reveal data-delay="3">
+          <div class="step">
             <div class="step__num">3</div>
             <h3 class="step__title">Review &amp; Refine</h3>
             <p class="step__text">We walk you through the build, make adjustments, and ensure every detail is exactly right before we go live.</p>
           </div>
-          <div class="step" data-reveal data-delay="4">
+          <div class="step">
             <div class="step__num">4</div>
             <h3 class="step__title">Launch &amp; Capture</h3>
             <p class="step__text">Your site goes live and immediately starts capturing visitor information so you never miss a lead again.</p>
@@ -202,7 +236,7 @@
     <section class="contact section section--dark" id="contact">
       <div class="container">
         <div class="contact__inner">
-          <div class="contact__copy" data-reveal>
+          <div class="contact__copy">
             <p class="section-label">Get Started</p>
             <h2 class="section-title">Ready for a Better Website?</h2>
             <p class="section-sub">Whether you need a brand new website or want to upgrade the one you have, Cinema builds premium sites that look high-end and capture leads on autopilot.</p>
@@ -213,7 +247,7 @@
               <li>Response within 24 hours</li>
             </ul>
           </div>
-          <div class="contact__form-wrap" data-reveal data-delay="2">
+          <div class="contact__form-wrap">
             <form class="contact__form" id="contact-form" novalidate>
               <div class="form-row">
                 <div class="form-group">
@@ -241,7 +275,7 @@
 
     <!-- ── 6. CTA ────────────────────────────────────────────── -->
     <section class="cta section" id="cta">
-      <div class="container cta__inner" data-reveal>
+      <div class="container cta__inner">
         <p class="section-label">Take the Next Step</p>
         <h2 class="cta__headline">Your Business Deserves a Website That Works</h2>
         <p class="cta__sub">Stop losing customers to competitors with better-looking websites. Get a premium Cinema website and start attracting more customers and capturing leads from day one.</p>
@@ -270,5 +304,6 @@
 
   <script src="src/js/gate.js"></script>
   <script src="src/js/main.js"></script>
+  <script src="src/js/gsap-animations.js"></script>
 </body>
 </html>

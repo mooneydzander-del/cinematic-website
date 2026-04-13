@@ -87,6 +87,8 @@
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         site.classList.add('site--visible');
+        // Signal GSAP animations to initialize
+        document.dispatchEvent(new CustomEvent('cinema:site-visible'));
       });
     });
 
