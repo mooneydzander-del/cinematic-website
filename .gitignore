@@ -5,3 +5,15 @@ dist/
 .DS_Store
 Thumbs.db
 *.log
+
+# Large binaries
+*.exe
+*.dmg
+*.pkg
+*.msi
+
+# Local tools (not part of the website)
+tools/
+
+# Claude local settings
+.claude/settings.local.json
