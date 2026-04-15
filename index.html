@@ -12,6 +12,9 @@
 </head>
 <body>
 
+  <!-- Scroll progress bar (GSAP drives scaleX) -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
   <!-- ============================================================
        ENTRY GATE — Lead capture before site access
        JS: src/js/gate.js
@@ -277,7 +280,17 @@
 
   </div><!-- /#main-site -->
 
+  <!-- Custom cursor (cinematic.js positions via GSAP ticker) -->
+  <div class="cursor-dot"  id="cursor-dot"  aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Cinematic libs: GSAP core, ScrollTrigger, Lenis smooth scroll -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+
   <script src="src/js/gate.js"></script>
   <script src="src/js/main.js"></script>
+  <script src="src/js/cinematic.js"></script>
 </body>
 </html>

@@ -114,42 +114,11 @@
     });
   }
 
-  /* ── Scroll Reveal ──────────────────────────────────────── */
-  /*
-   * Elements with [data-reveal] start hidden via CSS (opacity:0,
-   * translateY). IntersectionObserver adds .is-revealed when they
-   * enter the viewport. Hero uses CSS keyframes instead (see CSS).
-   */
-  function initReveal() {
-    var els = document.querySelectorAll('[data-reveal]');
-    if (!els.length) return;
-
-    // Graceful fallback for older browsers
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(function (el) { el.classList.add('is-revealed'); });
-      return;
-    }
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.08,
-      rootMargin: '0px 0px -40px 0px'
-    });
-
-    els.forEach(function (el) { observer.observe(el); });
-  }
-
   /* ── Init ───────────────────────────────────────────────── */
+  /* Scroll reveals are handled by cinematic.js (GSAP + ScrollTrigger) */
   function init() {
     initNav();
     initContactForm();
-    initReveal();
   }
 
   if (document.readyState === 'loading') {

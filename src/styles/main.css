@@ -53,7 +53,7 @@
 /* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: auto; -webkit-text-size-adjust: 100%; } /* Lenis owns smooth scroll */
 
 body {
   font-family: var(--font-body);
@@ -859,6 +859,98 @@ h1, h2, h3, h4 {
 .footer__copy { font-size: 0.78rem; color: rgba(237, 233, 224, 0.18); letter-spacing: 0.04em; }
 
 .hidden { display: none !important; }
+
+
+/* ============================================================
+   CINEMATIC EFFECTS
+   Scroll progress · Custom cursor · Reveal lines
+   clip-path support · Magnetic button will-change
+   ============================================================ */
+
+/* Scroll progress bar — fixed top of viewport, driven by GSAP */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+  transform: scaleX(0);
+  transform-origin: left center;
+  z-index: 200;
+  pointer-events: none;
+}
+
+/* Custom cursor — only renders on true pointer devices */
+.cursor-dot,
+.cursor-ring {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cursor-dot {
+    display: block;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    z-index: 9999;
+    transition: transform 0.25s, background 0.25s;
+  }
+
+  .cursor-ring {
+    display: block;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(192, 154, 69, 0.45);
+    z-index: 9998;
+    transition: width 0.3s var(--t-premium), height 0.3s var(--t-premium),
+                border-color 0.3s, opacity 0.3s;
+  }
+
+  .cursor-ring.cursor-ring--active {
+    width: 54px;
+    height: 54px;
+    border-color: rgba(192, 154, 69, 0.75);
+  }
+
+  .cursor-dot.cursor-dot--active {
+    transform: translate(-50%, -50%) scale(1.8);
+    background: var(--gold-light);
+  }
+
+  /* Hide OS cursor when custom cursor is active */
+  body.custom-cursor,
+  body.custom-cursor * { cursor: none !important; }
+}
+
+/* Section header reveal line — injected by JS */
+.reveal-line {
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin: calc(var(--space-md) * 0.75) auto 0;
+  transform-origin: left center;
+}
+
+/* Ensure clip-path animations don't clip box-shadow/overflow on containers */
+.section-title,
+.cta__headline {
+  overflow: visible;
+  will-change: clip-path, transform;
+}
+
+/* Magnetic buttons — hint browser for compositing */
+.btn--primary,
+.btn--gold {
+  will-change: transform;
+}
 
 
 /* ============================================================
