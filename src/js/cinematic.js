@@ -16,6 +16,7 @@
     11. Section header reveal lines
     12. Contact section split entrance
     13. CTA entrance
+    14. Cinematic reel (letterbox open, video parallax, text reveal)
    ============================================================ */
 
 (function () {
@@ -369,6 +370,90 @@
     );
   }
 
+  /* ── 14. Cinematic Reel ─────────────────────────────────── */
+  function initReel() {
+    var reel       = document.querySelector('.reel');
+    var barTop     = document.querySelector('.reel__bar--top');
+    var barBottom  = document.querySelector('.reel__bar--bottom');
+    var video      = document.querySelector('.reel__video');
+    var label      = document.querySelector('.reel__label');
+    var headline   = document.querySelector('.reel__headline');
+    var rule       = document.querySelector('.reel__rule');
+
+    if (!reel) return;
+
+    // Letterbox bars retract as section enters viewport
+    if (barTop && barBottom) {
+      gsap.to(barTop, {
+        scaleY: 0,
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: reel,
+          start: 'top 95%',
+          end: 'top 15%',
+          scrub: 1.4,
+        },
+      });
+      gsap.to(barBottom, {
+        scaleY: 0,
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: reel,
+          start: 'top 95%',
+          end: 'top 15%',
+          scrub: 1.4,
+        },
+      });
+    }
+
+    // Video slow parallax drift (slightly slower than scroll)
+    if (video) {
+      gsap.fromTo(video,
+        { y: -50 },
+        {
+          y: 50,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: reel,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
+    }
+
+    // Label fades in when bars are ~halfway open
+    if (label) {
+      gsap.to(label, {
+        opacity: 1, y: 0,
+        duration: 1.1, ease: 'power3.out',
+        scrollTrigger: { trigger: reel, start: 'top 55%', once: true },
+      });
+    }
+
+    // Headline enters after label
+    if (headline) {
+      gsap.fromTo(headline,
+        { opacity: 0, y: 32 },
+        {
+          opacity: 1, y: 0,
+          duration: 1.35, ease: 'power3.out', delay: 0.18,
+          scrollTrigger: { trigger: reel, start: 'top 55%', once: true },
+        }
+      );
+    }
+
+    // Gold rule expands after headline
+    if (rule) {
+      gsap.to(rule, {
+        width: 120,
+        duration: 1.4, ease: 'power3.inOut', delay: 0.45,
+        scrollTrigger: { trigger: reel, start: 'top 55%', once: true },
+      });
+    }
+  }
+
   /* ── Neutralize CSS data-reveal (GSAP owns all reveals) ─── */
   function neutralizeDataReveal() {
     document.querySelectorAll('[data-reveal]').forEach(function (el) {
@@ -389,6 +474,7 @@
     initHeroParallax();
     initTextReveals();
     initStatementReveal();
+    initReel();
     initGridAnimations();
     initCounters();
     initRevealLines();

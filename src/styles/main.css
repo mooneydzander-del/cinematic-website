@@ -429,6 +429,22 @@ h1, h2, h3, h4 {
   position: relative;
 }
 
+/* Slow-breathing ambient glow — brings the hero alive */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 35%, rgba(192, 154, 69, 0.09) 0%, transparent 58%);
+  animation: heroBreath 7s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes heroBreath {
+  0%,  100% { opacity: 0.7; transform: scale(1); }
+  50%        { opacity: 1.0; transform: scale(1.06); }
+}
+
 /* Film grain overlay */
 .hero::after {
   content: '';
@@ -591,6 +607,124 @@ h1, h2, h3, h4 {
 
 
 /* ============================================================
+   CINEMATIC REEL — full-bleed video showcase with letterbox
+   ============================================================ */
+.reel {
+  position: relative;
+  height: 100vh;
+  min-height: 560px;
+  overflow: hidden;
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Letterbox bars — animate open via GSAP on scroll */
+.reel__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--black);
+  z-index: 4;
+  transform-origin: top center;
+}
+.reel__bar--top    { top: 0;    height: 13%; transform-origin: top center; }
+.reel__bar--bottom { bottom: 0; height: 13%; transform-origin: bottom center; }
+
+/* Video fills the frame */
+.reel__video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.reel__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Multi-layer overlay — dark at edges, open in centre */
+.reel__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(8,8,9,0.18) 0%, rgba(8,8,9,0.6) 100%),
+    linear-gradient(to bottom, rgba(8,8,9,0.45) 0%, transparent 25%, transparent 75%, rgba(8,8,9,0.55) 100%);
+  z-index: 1;
+}
+
+/* Film grain on the video */
+.reel__grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.055;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Overlay text */
+.reel__content {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: 2rem;
+}
+
+.reel__label {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.375rem;
+  opacity: 0;
+}
+
+.reel__headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 7.5vw, 6rem);
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-shadow: 0 2px 40px rgba(8,8,9,0.7);
+  opacity: 0;
+}
+
+.reel__headline em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* Thin gold rule below headline */
+.reel__rule {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin-top: 2.25rem;
+}
+
+@media (max-width: 640px) {
+  .reel { height: 80vh; }
+  .reel__bar--top,
+  .reel__bar--bottom { height: 10%; }
+}
+
+
+/* ============================================================
    SERVICES
    ============================================================ */
 .services { background: var(--black-muted); }
@@ -612,8 +746,8 @@ h1, h2, h3, h4 {
 }
 .card:hover {
   border-color: var(--gold-border);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--gold-border);
+  transform: translateY(-5px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--gold-border), 0 0 30px rgba(192, 154, 69, 0.06);
 }
 
 .card__accent {
@@ -819,7 +953,17 @@ h1, h2, h3, h4 {
 .footer {
   background: var(--black);
   padding-block: var(--space-lg);
-  border-top: 1px solid rgba(237, 233, 224, 0.05);
+  border-top: none;
+  position: relative;
+}
+
+/* Gold gradient rule at top of footer */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold-border) 30%, var(--gold) 50%, var(--gold-border) 70%, transparent 100%);
 }
 
 .footer__inner {
