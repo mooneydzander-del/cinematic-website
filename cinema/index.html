@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinema — Cinematic Websites That Attract, Capture, and Convert</title>
+  <meta name="description" content="Cinema builds premium, high-end websites that make your business look world-class and turn every visitor into a potential customer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/styles/main.css" />
+</head>
+<body>
+
+  <!-- Scroll progress bar (GSAP drives scaleX) -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       ENTRY GATE — Lead capture before site access
+       JS: src/js/gate.js
+  ============================================================ -->
+  <div id="entry-gate" class="gate" role="dialog" aria-modal="true" aria-label="Site access form">
+    <div class="gate__inner">
+
+      <div class="gate__brand">
+        <span class="gate__logo">Cinema</span>
+        <div class="gate__divider"></div>
+      </div>
+
+      <div class="gate__content">
+        <p class="gate__label">Exclusive Access</p>
+        <h1 class="gate__headline">See What a Premium Website Can Do For Your Business</h1>
+        <p class="gate__subtext">Enter your details below to access our portfolio and receive a complimentary website strategy consultation — no obligation, no spam.</p>
+      </div>
+
+      <form id="gate-form" class="gate__form" novalidate>
+        <div class="form-group">
+          <input type="text" id="gate-name" name="name" placeholder="Full Name" autocomplete="name" />
+          <span class="field-error" id="error-name"></span>
+        </div>
+        <div class="form-group">
+          <input type="email" id="gate-email" name="email" placeholder="Email Address" autocomplete="email" />
+          <span class="field-error" id="error-email"></span>
+        </div>
+        <div class="form-group">
+          <input type="tel" id="gate-phone" name="phone" placeholder="Phone Number" autocomplete="tel" />
+          <span class="field-error" id="error-phone"></span>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full">Access the Site &rarr;</button>
+        <p class="gate__privacy">We respect your privacy. Your information is never sold or shared.</p>
+      </form>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       MAIN SITE
+  ============================================================ -->
+  <div id="main-site" class="site" aria-hidden="true">
+
+    <!-- NAV -->
+    <header class="nav" id="nav">
+      <div class="container nav__inner">
+        <a href="#hero" class="nav__logo">Cinema</a>
+        <button class="nav__toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="nav__links" id="nav-links" aria-label="Main navigation">
+          <a href="#services" class="nav__link">Services</a>
+          <a href="#why-us" class="nav__link">Why Us</a>
+          <a href="#process" class="nav__link">Process</a>
+          <a href="#contact" class="nav__link">Contact</a>
+          <a href="#contact" class="btn btn--primary btn--sm">Get Started</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ── 1. HERO ──────────────────────────────────────────── -->
+    <section class="hero" id="hero">
+      <div class="hero__bg-text" aria-hidden="true">Cinema</div>
+
+      <!-- Golden light rays -->
+      <div class="hero__rays" aria-hidden="true">
+        <span class="hero__ray"></span>
+        <span class="hero__ray"></span>
+        <span class="hero__ray"></span>
+        <span class="hero__ray"></span>
+        <span class="hero__ray"></span>
+      </div>
+
+      <!-- Floating gold dust orbs -->
+      <div class="hero__orbs" aria-hidden="true">
+        <span class="hero__orb hero__orb--1"></span>
+        <span class="hero__orb hero__orb--2"></span>
+        <span class="hero__orb hero__orb--3"></span>
+        <span class="hero__orb hero__orb--4"></span>
+        <span class="hero__orb hero__orb--5"></span>
+      </div>
+
+      <div class="container hero__inner">
+        <p class="section-label">Premium Web Design Agency</p>
+        <h1 class="hero__headline">Websites That <em class="gold-shimmer">Attract,<br />Capture,</em> and Convert</h1>
+        <p class="hero__subtext">Cinema builds premium, high-end websites that make your business look world-class — and turn every visitor into a potential customer.</p>
+        <div class="hero__rule" aria-hidden="true"></div>
+        <div class="hero__cta">
+          <a href="#contact" class="btn btn--primary btn--lg">Get My Premium Website</a>
+          <a href="#services" class="btn btn--ghost btn--lg">See What We Build</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MARQUEE TICKER ──────────────────────────────────── -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span class="marquee__item">Premium Web Design <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Cinematic Experiences <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Lead Capture Systems <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Conversion First <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Website Upgrades <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Premium Web Design <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Cinematic Experiences <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Lead Capture Systems <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Conversion First <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Website Upgrades <span class="marquee__dot">·</span></span>
+      </div>
+    </div>
+
+    <!-- ── STATEMENT ────────────────────────────────────────── -->
+    <section class="statement" data-reveal>
+      <div class="container">
+        <p class="statement__quote">We don't build websites.<br /><em class="gold-shimmer">We build your reputation.</em></p>
+      </div>
+    </section>
+
+    <!-- ── CINEMATIC REEL ─────────────────────────────────────── -->
+    <section class="reel" id="reel" aria-label="Cinematic showcase">
+      <div class="reel__bar reel__bar--top" aria-hidden="true"></div>
+      <div class="reel__bar reel__bar--bottom" aria-hidden="true"></div>
+      <div class="reel__video-wrap">
+        <video class="reel__video" autoplay muted loop playsinline preload="auto">
+          <source src="public/images/hf_20260416_190003_8014e2a1-e395-495d-932a-5b2aaeaccf55.mp4" type="video/mp4" />
+        </video>
+        <div class="reel__overlay" aria-hidden="true"></div>
+        <div class="reel__grain" aria-hidden="true"></div>
+      </div>
+      <div class="reel__content">
+        <p class="reel__label">The Cinema Standard</p>
+        <h2 class="reel__headline">This Is What <em>Premium</em><br />Looks Like</h2>
+        <div class="reel__rule" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- ── 2. SERVICES ──────────────────────────────────────── -->
+    <section class="services section" id="services">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="section-label">What We Do</p>
+          <h2 class="section-title">Premium Services Built to Perform</h2>
+          <p class="section-sub">Everything your business needs to look high-end online and generate real leads from every visitor.</p>
+        </div>
+        <div class="cards">
+          <div class="card" data-reveal data-delay="1">
+            <div class="card__accent"></div>
+            <h3 class="card__title">Premium Web Design</h3>
+            <p class="card__text">Custom, high-end websites designed from scratch to make your business look expensive, trustworthy, and ready to convert visitors into customers.</p>
+          </div>
+          <div class="card" data-reveal data-delay="2">
+            <div class="card__accent"></div>
+            <h3 class="card__title">Lead Capture Systems</h3>
+            <p class="card__text">Strategic contact forms, entry flows, and lead funnels built into your site so you capture visitor information and never miss a follow-up opportunity.</p>
+          </div>
+          <div class="card" data-reveal data-delay="3">
+            <div class="card__accent"></div>
+            <h3 class="card__title">Website Upgrades</h3>
+            <p class="card__text">Already have a website? We elevate it — improving the design, copy, structure, and lead capture so it actually works for your business.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. WHY CHOOSE US ─────────────────────────────────── -->
+    <section class="why-us section section--dark" id="why-us">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="section-label">Why Cinema</p>
+          <h2 class="section-title">Built Different. Built to Convert.</h2>
+          <p class="section-sub">Most websites look fine but do nothing. Ours are engineered to impress visitors and built to generate leads from day one.</p>
+        </div>
+        <div class="pillars">
+          <div class="pillar" data-reveal data-delay="1">
+            <span class="pillar__number">01</span>
+            <h3 class="pillar__title">Premium Design Quality</h3>
+            <p class="pillar__text">Every website we build looks and feels expensive. First impressions matter — yours will be unforgettable.</p>
+          </div>
+          <div class="pillar" data-reveal data-delay="2">
+            <span class="pillar__number">02</span>
+            <h3 class="pillar__title">Conversion-First Structure</h3>
+            <p class="pillar__text">Beautiful design means nothing without results. Every section is placed strategically to guide visitors toward taking action.</p>
+          </div>
+          <div class="pillar" data-reveal data-delay="3">
+            <span class="pillar__number">03</span>
+            <h3 class="pillar__title">Lead Recovery Built In</h3>
+            <p class="pillar__text">We don't just build websites — we build lead machines. Capture visitor info and follow up with every potential customer automatically.</p>
+          </div>
+          <div class="pillar" data-reveal data-delay="4">
+            <span class="pillar__number">04</span>
+            <h3 class="pillar__title">Tailored to Your Brand</h3>
+            <p class="pillar__text">No templates. No cookie-cutter designs. Every project is custom-built to match your brand, your audience, and your goals.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4. PROCESS ───────────────────────────────────────── -->
+    <section class="process section" id="process">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="section-label">How It Works</p>
+          <h2 class="section-title">From Idea to Launch in 4 Steps</h2>
+          <p class="section-sub">A simple, transparent process designed to get you a premium website fast — without the back-and-forth.</p>
+        </div>
+        <div class="steps">
+          <div class="step" data-reveal data-delay="1">
+            <div class="step__num">1</div>
+            <h3 class="step__title">Discovery Call</h3>
+            <p class="step__text">We learn about your business, your goals, and what you need your website to accomplish. Zero fluff — just clarity and direction.</p>
+          </div>
+          <div class="step" data-reveal data-delay="2">
+            <div class="step__num">2</div>
+            <h3 class="step__title">Design &amp; Build</h3>
+            <p class="step__text">Our team builds your premium website with the look, copy, and lead capture structure your business needs to grow.</p>
+          </div>
+          <div class="step" data-reveal data-delay="3">
+            <div class="step__num">3</div>
+            <h3 class="step__title">Review &amp; Refine</h3>
+            <p class="step__text">We walk you through the build, make adjustments, and ensure every detail is exactly right before we go live.</p>
+          </div>
+          <div class="step" data-reveal data-delay="4">
+            <div class="step__num">4</div>
+            <h3 class="step__title">Launch &amp; Capture</h3>
+            <p class="step__text">Your site goes live and immediately starts capturing visitor information so you never miss a lead again.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. CONTACT / LEAD CAPTURE ────────────────────────── -->
+    <section class="contact section contact--cinematic" id="contact">
+
+      <!-- Cinematic video background -->
+      <div class="contact__video-bg" aria-hidden="true">
+        <video class="contact__video" autoplay muted loop playsinline preload="auto">
+          <source src="public/hf_20260418_053326_f7fd2cf4-1e25-4953-b34d-dbd00aeadfa4.mp4" type="video/mp4" />
+        </video>
+        <div class="contact__video-overlay"></div>
+        <div class="contact__video-grain"></div>
+        <div class="contact__video-rays" aria-hidden="true">
+          <span class="contact__vray"></span>
+          <span class="contact__vray"></span>
+          <span class="contact__vray"></span>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="contact__inner">
+          <div class="contact__copy" data-reveal>
+            <p class="section-label">Get Started</p>
+            <h2 class="section-title">Ready for a Better Website?</h2>
+            <p class="section-sub">Whether you need a brand new website or want to upgrade the one you have, Cinema builds premium sites that look high-end and capture leads on autopilot.</p>
+            <ul class="contact__list">
+              <li>New websites built from scratch</li>
+              <li>Existing website upgrades</li>
+              <li>Lead capture built into every site</li>
+              <li>Response within 24 hours</li>
+            </ul>
+          </div>
+          <div class="contact__form-wrap" data-reveal data-delay="2">
+            <form class="contact__form" id="contact-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <input type="text" name="name" placeholder="Full Name" required />
+                </div>
+                <div class="form-group">
+                  <input type="email" name="email" placeholder="Email Address" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="tel" name="phone" placeholder="Phone Number" />
+              </div>
+              <div class="form-group">
+                <textarea name="details" placeholder="Tell us about your website — new build or upgrade, your business type, and anything else we should know..." rows="5"></textarea>
+              </div>
+              <button type="submit" class="btn btn--primary btn--full">Get My Premium Website &rarr;</button>
+              <div class="form-success" id="contact-success">
+                <p>Thank you — we'll be in touch within 24 hours.</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6. CTA ────────────────────────────────────────────── -->
+    <section class="cta section" id="cta">
+      <div class="container cta__inner" data-reveal>
+        <p class="section-label">Take the Next Step</p>
+        <h2 class="cta__headline">Your Business Deserves a Website That Works</h2>
+        <p class="cta__sub">Stop losing customers to competitors with better-looking websites. Get a premium Cinema website and start attracting more customers and capturing leads from day one.</p>
+        <a href="#contact" class="btn btn--gold btn--lg">Get My Premium Website</a>
+      </div>
+    </section>
+
+    <!-- ── 7. FOOTER ─────────────────────────────────────────── -->
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div class="footer__brand">
+          <span class="footer__logo">Cinema</span>
+          <p class="footer__tagline">Cinematic Websites That Attract, Capture, and Convert</p>
+        </div>
+        <nav class="footer__nav" aria-label="Footer navigation">
+          <a href="#services" class="footer__link">Services</a>
+          <a href="#why-us" class="footer__link">Why Us</a>
+          <a href="#process" class="footer__link">Process</a>
+          <a href="#contact" class="footer__link">Contact</a>
+        </nav>
+        <p class="footer__copy">&copy; 2026 Cinema. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Gold ambient dust — JS populates particles -->
+    <div class="gold-dust-canvas" id="gold-dust-canvas" aria-hidden="true"></div>
+
+  </div><!-- /#main-site -->
+
+  <!-- Custom cursor (cinematic.js positions via GSAP ticker) -->
+  <div class="cursor-dot"  id="cursor-dot"  aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Cinematic libs: GSAP core, ScrollTrigger, Lenis smooth scroll -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+
+  <script src="src/js/gate.js"></script>
+  <script src="src/js/main.js"></script>
+  <script src="src/js/cinematic.js"></script>
+</body>
+</html>
