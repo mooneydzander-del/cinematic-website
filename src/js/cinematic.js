@@ -454,21 +454,22 @@
     }
   }
 
-  /* ── 15. 3D Card / Step Hover Tilt ─────────────────────── */
+  /* ── 15. 3D Card / Step / Pillar Hover Tilt ────────────── */
   function init3DTilt() {
     if (isTouchDevice) return;
 
-    document.querySelectorAll('.card, .step').forEach(function (el) {
+    document.querySelectorAll('.card, .step, .pillar').forEach(function (el) {
       el.addEventListener('mousemove', function (e) {
         var r    = el.getBoundingClientRect();
         var xPct = (e.clientX - r.left) / r.width  - 0.5;
         var yPct = (e.clientY - r.top)  / r.height - 0.5;
 
         gsap.to(el, {
-          rotateY:              xPct * 16,
-          rotateX:              -yPct * 11,
-          transformPerspective: 700,
-          duration:             0.35,
+          rotateY:              xPct * 25,
+          rotateX:              -yPct * 18,
+          transformPerspective: 600,
+          z:                    20,
+          duration:             0.25,
           ease:                 'power2.out',
         });
       });
@@ -477,54 +478,74 @@
         gsap.to(el, {
           rotateY:  0,
           rotateX:  0,
-          duration: 1.1,
-          ease:     'elastic.out(1, 0.44)',
+          z:        0,
+          duration: 0.9,
+          ease:     'elastic.out(1, 0.5)',
         });
       });
     });
   }
 
-  /* ── 16. 3D Scroll Depth Rotations ─────────────────────── */
+  /* ── 16. 3D Scroll Depth ────────────────────────────────── */
   function init3DScrollDepth() {
-    // Grid containers tilt in from below (like a stage rising)
+    // Grid containers: dramatic flip-up from below as they enter
     ['.cards', '.pillars', '.steps'].forEach(function (sel) {
       var el = document.querySelector(sel);
       if (!el) return;
 
       gsap.fromTo(el,
-        { transformPerspective: 1100, rotateX: 7 },
+        { transformPerspective: 900, rotateX: 18, y: 60, opacity: 0.3 },
         {
           rotateX:  0,
-          duration: 1.5,
+          y:        0,
+          opacity:  1,
+          duration: 1.4,
           ease:     'power3.out',
           scrollTrigger: { trigger: el, start: 'top 88%', once: true },
         }
       );
     });
 
-    // Hero bg-text gets additional depth on scroll-out
+    // Hero bg-text: dramatic depth recede on scroll
     var bgText = document.querySelector('.hero__bg-text');
     if (bgText) {
       gsap.to(bgText, {
-        rotateX:              15,
-        transformPerspective: 900,
+        rotateX:              20,
+        scale:                1.3,
+        opacity:              0,
+        transformPerspective: 800,
         ease:                 'none',
         scrollTrigger: {
           trigger: '.hero',
           start:   'top top',
           end:     'bottom top',
-          scrub:   1.8,
+          scrub:   1.5,
         },
       });
     }
 
-    // Statement section rises from 3D depth
+    // Section headers: tilt in from depth
+    document.querySelectorAll('.section-header').forEach(function (el) {
+      gsap.fromTo(el,
+        { transformPerspective: 1000, rotateX: 12, y: 40 },
+        {
+          rotateX:  0,
+          y:        0,
+          duration: 1.2,
+          ease:     'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 86%', once: true },
+        }
+      );
+    });
+
+    // Statement: dramatic scale + 3D entrance
     var statement = document.querySelector('.statement');
     if (statement) {
       gsap.fromTo(statement,
-        { transformPerspective: 1400, rotateX: 5 },
+        { transformPerspective: 1200, rotateX: 8, scale: 0.94 },
         {
           rotateX:  0,
+          scale:    1,
           duration: 1.6,
           ease:     'power3.out',
           scrollTrigger: { trigger: statement, start: 'top 86%', once: true },
@@ -532,17 +553,35 @@
       );
     }
 
-    // CTA enters with Z-depth push
+    // CTA: push from behind in Z
     var cta = document.querySelector('.cta__inner');
     if (cta) {
       gsap.fromTo(cta,
-        { transformPerspective: 900, z: -80, scale: 0.96 },
+        { transformPerspective: 800, z: -120, scale: 0.92, opacity: 0 },
         {
           z:        0,
           scale:    1,
-          duration: 1.2,
+          opacity:  1,
+          duration: 1.3,
           ease:     'power3.out',
           scrollTrigger: { trigger: cta, start: 'top 82%', once: true },
+        }
+      );
+    }
+
+    // Individual cards: staggered depth entrance
+    var cards = document.querySelectorAll('.card');
+    if (cards.length) {
+      gsap.fromTo(cards,
+        { transformPerspective: 800, rotateX: 15, y: 80, opacity: 0 },
+        {
+          rotateX:  0,
+          y:        0,
+          opacity:  1,
+          duration: 1.0,
+          stagger:  0.14,
+          ease:     'power3.out',
+          scrollTrigger: { trigger: '.cards', start: 'top 86%', once: true },
         }
       );
     }
@@ -553,32 +592,33 @@
     var video = document.querySelector('.contact__video');
     if (!video) return;
 
+    // Video drifts at different speed to content — strong parallax
     gsap.fromTo(video,
-      { y: -50, scale: 1.08 },
+      { y: -80, scale: 1.15 },
       {
-        y:    50,
+        y:    80,
         ease: 'none',
         scrollTrigger: {
           trigger: '.contact--cinematic',
           start:   'top bottom',
           end:     'bottom top',
-          scrub:   1.8,
+          scrub:   2,
         },
       }
     );
 
-    // Reveal contact section with dramatic gold flash
+    // Section enters with a sweep of gold light
     var overlay = document.querySelector('.contact__video-overlay');
     if (overlay) {
       gsap.fromTo(overlay,
-        { opacity: 1.4 },
+        { opacity: 1.8 },
         {
           opacity:  1,
-          duration: 1.8,
-          ease:     'power2.inOut',
+          duration: 2,
+          ease:     'power2.out',
           scrollTrigger: {
             trigger: '.contact--cinematic',
-            start:   'top 75%',
+            start:   'top 78%',
             once:    true,
           },
         }
@@ -586,22 +626,23 @@
     }
   }
 
-  /* ── 18. Gold Dust Particle System ─────────────────────── */
+  /* ── 18. Gold Dust Particles ────────────────────────────── */
   function initGoldDust() {
     var canvas = document.getElementById('gold-dust-canvas');
     if (!canvas) return;
 
-    var COUNT = 28;
+    var COUNT = 35;
 
     for (var i = 0; i < COUNT; i++) {
-      (function (idx) {
+      (function () {
         var p     = document.createElement('span');
-        var size  = 1 + Math.random() * 3.5;
+        var size  = 2 + Math.random() * 5;
         var startX = Math.random() * 100;
-        var startY = 20 + Math.random() * 80;
-        var alpha  = 0.25 + Math.random() * 0.55;
-        var dur    = 18 + Math.random() * 22;
-        var delay  = Math.random() * 20;
+        var startY = 15 + Math.random() * 85;
+        var alpha  = 0.5 + Math.random() * 0.5;
+        var glow   = size * 4;
+        var dur    = 12 + Math.random() * 18;
+        var delay  = Math.random() * 15;
 
         p.style.cssText = [
           'position:absolute',
@@ -610,39 +651,44 @@
           'height:'    + size + 'px',
           'left:'      + startX + '%',
           'top:'       + startY + '%',
-          'background: rgba(192,154,69,' + alpha + ')',
-          'box-shadow: 0 0 ' + (size * 3.5) + 'px ' + Math.ceil(size * 1.2) + 'px rgba(192,154,69,' + (alpha * 0.5) + ')',
-          'will-change:transform,opacity',
+          'background: rgba(212,174,90,' + alpha + ')',
+          'box-shadow: 0 0 ' + glow + 'px ' + Math.ceil(size * 1.5) + 'px rgba(192,154,69,' + (alpha * 0.6) + ')',
           'pointer-events:none',
+          'will-change:transform,opacity',
         ].join(';');
 
         canvas.appendChild(p);
 
-        function animate() {
+        function run() {
           gsap.fromTo(p,
-            { x: 0, y: 0, opacity: 0 },
             {
-              x:       (Math.random() - 0.5) * 130,
-              y:       -(220 + Math.random() * 460),
+              x:       0,
+              y:       0,
               opacity: 0,
+              left:    (Math.random() * 100) + '%',
+              top:     (15 + Math.random() * 85) + '%',
+            },
+            {
+              x:        (Math.random() - 0.5) * 160,
+              y:        -(180 + Math.random() * 380),
+              opacity:  0,
               duration: dur,
-              delay:   delay,
-              ease:    'none',
-              onComplete: function () {
-                // Reset and loop
-                delay = Math.random() * 8;
-                dur   = 18 + Math.random() * 22;
-                animate();
-              },
+              delay:    delay,
+              ease:     'none',
               onStart: function () {
-                gsap.to(p, { opacity: alpha, duration: dur * 0.08, ease: 'power1.in' });
+                gsap.to(p, { opacity: alpha, duration: dur * 0.1, ease: 'power2.in' });
+              },
+              onComplete: function () {
+                delay = Math.random() * 5;
+                dur   = 12 + Math.random() * 18;
+                run();
               },
             }
           );
         }
 
-        animate();
-      })(i);
+        run();
+      })();
     }
   }
 
