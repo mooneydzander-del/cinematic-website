@@ -454,6 +454,198 @@
     }
   }
 
+  /* ── 15. 3D Card / Step Hover Tilt ─────────────────────── */
+  function init3DTilt() {
+    if (isTouchDevice) return;
+
+    document.querySelectorAll('.card, .step').forEach(function (el) {
+      el.addEventListener('mousemove', function (e) {
+        var r    = el.getBoundingClientRect();
+        var xPct = (e.clientX - r.left) / r.width  - 0.5;
+        var yPct = (e.clientY - r.top)  / r.height - 0.5;
+
+        gsap.to(el, {
+          rotateY:              xPct * 16,
+          rotateX:              -yPct * 11,
+          transformPerspective: 700,
+          duration:             0.35,
+          ease:                 'power2.out',
+        });
+      });
+
+      el.addEventListener('mouseleave', function () {
+        gsap.to(el, {
+          rotateY:  0,
+          rotateX:  0,
+          duration: 1.1,
+          ease:     'elastic.out(1, 0.44)',
+        });
+      });
+    });
+  }
+
+  /* ── 16. 3D Scroll Depth Rotations ─────────────────────── */
+  function init3DScrollDepth() {
+    // Grid containers tilt in from below (like a stage rising)
+    ['.cards', '.pillars', '.steps'].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (!el) return;
+
+      gsap.fromTo(el,
+        { transformPerspective: 1100, rotateX: 7 },
+        {
+          rotateX:  0,
+          duration: 1.5,
+          ease:     'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+        }
+      );
+    });
+
+    // Hero bg-text gets additional depth on scroll-out
+    var bgText = document.querySelector('.hero__bg-text');
+    if (bgText) {
+      gsap.to(bgText, {
+        rotateX:              15,
+        transformPerspective: 900,
+        ease:                 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start:   'top top',
+          end:     'bottom top',
+          scrub:   1.8,
+        },
+      });
+    }
+
+    // Statement section rises from 3D depth
+    var statement = document.querySelector('.statement');
+    if (statement) {
+      gsap.fromTo(statement,
+        { transformPerspective: 1400, rotateX: 5 },
+        {
+          rotateX:  0,
+          duration: 1.6,
+          ease:     'power3.out',
+          scrollTrigger: { trigger: statement, start: 'top 86%', once: true },
+        }
+      );
+    }
+
+    // CTA enters with Z-depth push
+    var cta = document.querySelector('.cta__inner');
+    if (cta) {
+      gsap.fromTo(cta,
+        { transformPerspective: 900, z: -80, scale: 0.96 },
+        {
+          z:        0,
+          scale:    1,
+          duration: 1.2,
+          ease:     'power3.out',
+          scrollTrigger: { trigger: cta, start: 'top 82%', once: true },
+        }
+      );
+    }
+  }
+
+  /* ── 17. Contact Video Parallax ─────────────────────────── */
+  function initContactVideoParallax() {
+    var video = document.querySelector('.contact__video');
+    if (!video) return;
+
+    gsap.fromTo(video,
+      { y: -50, scale: 1.08 },
+      {
+        y:    50,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.contact--cinematic',
+          start:   'top bottom',
+          end:     'bottom top',
+          scrub:   1.8,
+        },
+      }
+    );
+
+    // Reveal contact section with dramatic gold flash
+    var overlay = document.querySelector('.contact__video-overlay');
+    if (overlay) {
+      gsap.fromTo(overlay,
+        { opacity: 1.4 },
+        {
+          opacity:  1,
+          duration: 1.8,
+          ease:     'power2.inOut',
+          scrollTrigger: {
+            trigger: '.contact--cinematic',
+            start:   'top 75%',
+            once:    true,
+          },
+        }
+      );
+    }
+  }
+
+  /* ── 18. Gold Dust Particle System ─────────────────────── */
+  function initGoldDust() {
+    var canvas = document.getElementById('gold-dust-canvas');
+    if (!canvas) return;
+
+    var COUNT = 28;
+
+    for (var i = 0; i < COUNT; i++) {
+      (function (idx) {
+        var p     = document.createElement('span');
+        var size  = 1 + Math.random() * 3.5;
+        var startX = Math.random() * 100;
+        var startY = 20 + Math.random() * 80;
+        var alpha  = 0.25 + Math.random() * 0.55;
+        var dur    = 18 + Math.random() * 22;
+        var delay  = Math.random() * 20;
+
+        p.style.cssText = [
+          'position:absolute',
+          'border-radius:50%',
+          'width:'     + size + 'px',
+          'height:'    + size + 'px',
+          'left:'      + startX + '%',
+          'top:'       + startY + '%',
+          'background: rgba(192,154,69,' + alpha + ')',
+          'box-shadow: 0 0 ' + (size * 3.5) + 'px ' + Math.ceil(size * 1.2) + 'px rgba(192,154,69,' + (alpha * 0.5) + ')',
+          'will-change:transform,opacity',
+          'pointer-events:none',
+        ].join(';');
+
+        canvas.appendChild(p);
+
+        function animate() {
+          gsap.fromTo(p,
+            { x: 0, y: 0, opacity: 0 },
+            {
+              x:       (Math.random() - 0.5) * 130,
+              y:       -(220 + Math.random() * 460),
+              opacity: 0,
+              duration: dur,
+              delay:   delay,
+              ease:    'none',
+              onComplete: function () {
+                // Reset and loop
+                delay = Math.random() * 8;
+                dur   = 18 + Math.random() * 22;
+                animate();
+              },
+              onStart: function () {
+                gsap.to(p, { opacity: alpha, duration: dur * 0.08, ease: 'power1.in' });
+              },
+            }
+          );
+        }
+
+        animate();
+      })(i);
+    }
+  }
+
   /* ── Neutralize CSS data-reveal (GSAP owns all reveals) ─── */
   function neutralizeDataReveal() {
     document.querySelectorAll('[data-reveal]').forEach(function (el) {
@@ -480,6 +672,10 @@
     initRevealLines();
     initContactReveal();
     initCTAReveal();
+    init3DTilt();
+    init3DScrollDepth();
+    initContactVideoParallax();
+    initGoldDust();
     ScrollTrigger.refresh();
   }
 

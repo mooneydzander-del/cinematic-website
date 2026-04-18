@@ -1006,6 +1006,450 @@ h1, h2, h3, h4 {
 
 
 /* ============================================================
+   GOLDEN PRESENCE — 3D, Light Rays, Shimmer, Video Contact
+   ============================================================ */
+
+/* ── Gold Shimmer Text ──────────────────────────────────── */
+.gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--gold-dark)  0%,
+    var(--gold)       20%,
+    #f5d97a           45%,
+    var(--gold)       70%,
+    var(--gold-dark) 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 5s linear infinite;
+  font-style: italic;
+}
+
+@keyframes goldShimmer {
+  from { background-position: 300% center; }
+  to   { background-position: -300% center; }
+}
+
+
+/* ── Hero Golden Light Rays ─────────────────────────────── */
+.hero__rays {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__ray {
+  position: absolute;
+  top: -8%;
+  width: 1px;
+  height: 90%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(192, 154, 69, 0) 8%,
+    rgba(192, 154, 69, 0.4) 48%,
+    rgba(192, 154, 69, 0.12) 78%,
+    transparent 100%
+  );
+  transform-origin: top center;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.hero__ray:nth-child(1) {
+  left: 16%;
+  width: 2px;
+  transform: rotate(-30deg);
+  animation: goldRay 11s ease-in-out 0s infinite;
+}
+.hero__ray:nth-child(2) {
+  left: 36%;
+  width: 1px;
+  transform: rotate(-10deg);
+  animation: goldRay 15s ease-in-out 3.5s infinite;
+}
+.hero__ray:nth-child(3) {
+  left: 51%;
+  width: 1.5px;
+  transform: rotate(4deg);
+  animation: goldRay 12s ease-in-out 1.8s infinite;
+}
+.hero__ray:nth-child(4) {
+  right: 28%;
+  width: 1px;
+  transform: rotate(20deg);
+  animation: goldRay 14s ease-in-out 6s infinite;
+}
+.hero__ray:nth-child(5) {
+  right: 10%;
+  width: 2px;
+  transform: rotate(34deg);
+  animation: goldRay 10s ease-in-out 2.5s infinite;
+}
+
+@keyframes goldRay {
+  0%   { opacity: 0; }
+  12%  { opacity: 0.65; }
+  38%  { opacity: 0.12; }
+  58%  { opacity: 0.50; }
+  82%  { opacity: 0.08; }
+  100% { opacity: 0; }
+}
+
+
+/* ── Hero Floating Gold Orbs ────────────────────────────── */
+.hero__orbs {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__orb {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+
+.hero__orb--1 {
+  width: 4px; height: 4px;
+  left: 11%; bottom: 38%;
+  background: radial-gradient(circle, rgba(192, 154, 69, 1) 0%, transparent 100%);
+  box-shadow: 0 0 8px 3px rgba(192, 154, 69, 0.45);
+  animation: orbFloat 14s ease-in-out 0s infinite;
+}
+.hero__orb--2 {
+  width: 3px; height: 3px;
+  left: 42%; bottom: 22%;
+  background: radial-gradient(circle, rgba(212, 174, 90, 1) 0%, transparent 100%);
+  box-shadow: 0 0 5px 2px rgba(212, 174, 90, 0.4);
+  animation: orbFloat 19s ease-in-out 5.5s infinite;
+}
+.hero__orb--3 {
+  width: 5px; height: 5px;
+  right: 20%; bottom: 48%;
+  background: radial-gradient(circle, rgba(192, 154, 69, 0.9) 0%, transparent 100%);
+  box-shadow: 0 0 10px 4px rgba(192, 154, 69, 0.3);
+  animation: orbFloat 16s ease-in-out 11s infinite;
+}
+.hero__orb--4 {
+  width: 2px; height: 2px;
+  right: 38%; bottom: 18%;
+  background: rgba(212, 174, 90, 1);
+  box-shadow: 0 0 5px 2px rgba(192, 154, 69, 0.55);
+  animation: orbFloat 21s ease-in-out 3s infinite;
+}
+.hero__orb--5 {
+  width: 3px; height: 3px;
+  left: 70%; bottom: 60%;
+  background: radial-gradient(circle, rgba(192, 154, 69, 0.85) 0%, transparent 100%);
+  box-shadow: 0 0 7px 2px rgba(192, 154, 69, 0.35);
+  animation: orbFloat 17s ease-in-out 8s infinite;
+}
+
+@keyframes orbFloat {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  8%   { opacity: 1; }
+  48%  { transform: translateY(-130px) translateX(18px); }
+  55%  { transform: translateY(-155px) translateX(-4px); }
+  90%  { opacity: 0.65; }
+  100% { transform: translateY(-280px) translateX(12px); opacity: 0; }
+}
+
+
+/* ── Contact Cinematic Video Section ────────────────────── */
+.contact--cinematic {
+  position: relative;
+  overflow: hidden;
+  background: var(--black);
+}
+
+.contact__video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.contact__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  will-change: transform;
+  filter: saturate(0.55) brightness(0.32);
+  transform-origin: center center;
+}
+
+/* Deep multi-layer overlay — keeps text legible */
+.contact__video-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(192, 154, 69, 0.09) 0%, transparent 55%),
+    linear-gradient(
+      to bottom,
+      rgba(8,8,9,0.88) 0%,
+      rgba(8,8,9,0.55) 20%,
+      rgba(8,8,9,0.42) 50%,
+      rgba(8,8,9,0.62) 80%,
+      rgba(8,8,9,0.92) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(8,8,9,0.72) 0%,
+      rgba(8,8,9,0.18) 28%,
+      rgba(8,8,9,0.18) 72%,
+      rgba(8,8,9,0.72) 100%
+    );
+  z-index: 1;
+}
+
+.contact__video-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Animated golden light rays on the contact video */
+.contact__video-rays {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.contact__vray {
+  position: absolute;
+  top: -10%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(192, 154, 69, 0) 15%,
+    rgba(192, 154, 69, 0.22) 50%,
+    rgba(192, 154, 69, 0.06) 80%,
+    transparent 100%
+  );
+  transform-origin: top center;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.contact__vray:nth-child(1) {
+  left: 22%;
+  width: 2px;
+  transform: rotate(-20deg);
+  animation: goldRay 13s ease-in-out 1s infinite;
+}
+.contact__vray:nth-child(2) {
+  left: 55%;
+  width: 1px;
+  transform: rotate(6deg);
+  animation: goldRay 17s ease-in-out 5s infinite;
+}
+.contact__vray:nth-child(3) {
+  right: 18%;
+  width: 1.5px;
+  transform: rotate(25deg);
+  animation: goldRay 11s ease-in-out 9s infinite;
+}
+
+.contact--cinematic .container {
+  position: relative;
+  z-index: 3;
+}
+
+/* Gold border aura on the form card */
+.contact--cinematic .contact__form-wrap {
+  position: relative;
+}
+
+.contact--cinematic .contact__form-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    145deg,
+    rgba(192, 154, 69, 0.28) 0%,
+    transparent 35%,
+    transparent 65%,
+    rgba(192, 154, 69, 0.18) 100%
+  );
+  z-index: -1;
+  animation: formAuraPulse 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes formAuraPulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* Contact copy — gold accentuated list items on cinematic bg */
+.contact--cinematic .contact__list li::before {
+  color: var(--gold-light);
+  text-shadow: 0 0 8px rgba(192, 154, 69, 0.6);
+}
+
+.contact--cinematic .contact__copy .section-title {
+  text-shadow: 0 2px 40px rgba(8,8,9,0.8);
+}
+
+
+/* ── Gold Ambient Dust Canvas ───────────────────────────── */
+.gold-dust-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+
+/* ── 3D Card / Step Tilt ────────────────────────────────── */
+.card,
+.step {
+  transform-style: preserve-3d;
+}
+
+.card {
+  position: relative;
+}
+
+/* Radial gold glow on card hover */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(ellipse at 50% 0%, rgba(192, 154, 69, 0.14) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--t-med);
+  pointer-events: none;
+  z-index: 0;
+}
+.card:hover::after { opacity: 1; }
+
+
+/* ── Button Sheen Sweep ─────────────────────────────────── */
+.btn--primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn--primary::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -65%;
+  width: 38%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.22),
+    transparent
+  );
+  transform: skewX(-18deg);
+  animation: btnSheen 6s ease-in-out 2.5s infinite;
+  pointer-events: none;
+}
+
+@keyframes btnSheen {
+  0%   { left: -65%; opacity: 0; }
+  8%   { opacity: 1; }
+  38%  { left: 130%; opacity: 0; }
+  100% { left: 130%; opacity: 0; }
+}
+
+
+/* ── Enhanced Marquee Gold Dots ─────────────────────────── */
+.marquee__dot {
+  color: var(--gold);
+  animation: dotPulse 3s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.7; text-shadow: none; }
+  50%       { opacity: 1; text-shadow: 0 0 8px rgba(192, 154, 69, 0.6); }
+}
+
+
+/* ── Section Perspective Wrappers ───────────────────────── */
+.services .container,
+.why-us .container,
+.process .container {
+  perspective: 2200px;
+  perspective-origin: 50% -10%;
+}
+
+
+/* ── Enhanced Why-Us Gold Pillar Accent ─────────────────── */
+.pillar:hover .pillar__number {
+  text-shadow: 0 0 12px rgba(192, 154, 69, 0.7);
+}
+
+.pillar__title {
+  transition: color var(--t);
+}
+.pillar:hover .pillar__title {
+  color: var(--gold-light);
+}
+
+
+/* ── Step Number Enhanced Glow ──────────────────────────── */
+.step:hover .step__num {
+  box-shadow: 0 0 20px 6px rgba(192, 154, 69, 0.25);
+}
+
+
+/* ── CTA Gold Haze ──────────────────────────────────────── */
+.cta {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(192, 154, 69, 0.05) 0%, transparent 68%);
+  animation: ctaHaze 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.cta .container { position: relative; z-index: 1; }
+
+@keyframes ctaHaze {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1.2; transform: scale(1.08); }
+}
+
+
+/* ── Footer Gold Line Pulse ─────────────────────────────── */
+.footer::before {
+  animation: footerLine 6s ease-in-out infinite;
+}
+
+@keyframes footerLine {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; box-shadow: 0 0 6px rgba(192, 154, 69, 0.3); }
+}
+
+
+/* ============================================================
    CINEMATIC EFFECTS
    Scroll progress · Custom cursor · Reveal lines
    clip-path support · Magnetic button will-change

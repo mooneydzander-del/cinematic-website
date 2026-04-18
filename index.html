@@ -81,9 +81,28 @@
     <!-- ── 1. HERO ──────────────────────────────────────────── -->
     <section class="hero" id="hero">
       <div class="hero__bg-text" aria-hidden="true">Cinema</div>
+
+      <!-- Golden light rays -->
+      <div class="hero__rays" aria-hidden="true">
+        <span class="hero__ray"></span>
+        <span class="hero__ray"></span>
+        <span class="hero__ray"></span>
+        <span class="hero__ray"></span>
+        <span class="hero__ray"></span>
+      </div>
+
+      <!-- Floating gold dust orbs -->
+      <div class="hero__orbs" aria-hidden="true">
+        <span class="hero__orb hero__orb--1"></span>
+        <span class="hero__orb hero__orb--2"></span>
+        <span class="hero__orb hero__orb--3"></span>
+        <span class="hero__orb hero__orb--4"></span>
+        <span class="hero__orb hero__orb--5"></span>
+      </div>
+
       <div class="container hero__inner">
         <p class="section-label">Premium Web Design Agency</p>
-        <h1 class="hero__headline">Websites That <em>Attract,<br />Capture,</em> and Convert</h1>
+        <h1 class="hero__headline">Websites That <em class="gold-shimmer">Attract,<br />Capture,</em> and Convert</h1>
         <p class="hero__subtext">Cinema builds premium, high-end websites that make your business look world-class — and turn every visitor into a potential customer.</p>
         <div class="hero__rule" aria-hidden="true"></div>
         <div class="hero__cta">
@@ -112,7 +131,7 @@
     <!-- ── STATEMENT ────────────────────────────────────────── -->
     <section class="statement" data-reveal>
       <div class="container">
-        <p class="statement__quote">We don't build websites.<br /><em>We build your reputation.</em></p>
+        <p class="statement__quote">We don't build websites.<br /><em class="gold-shimmer">We build your reputation.</em></p>
       </div>
     </section>
 
@@ -229,7 +248,22 @@
     </section>
 
     <!-- ── 5. CONTACT / LEAD CAPTURE ────────────────────────── -->
-    <section class="contact section section--dark" id="contact">
+    <section class="contact section contact--cinematic" id="contact">
+
+      <!-- Cinematic video background -->
+      <div class="contact__video-bg" aria-hidden="true">
+        <video class="contact__video" autoplay muted loop playsinline preload="auto">
+          <source src="public/hf_20260418_053326_f7fd2cf4-1e25-4953-b34d-dbd00aeadfa4.mp4" type="video/mp4" />
+        </video>
+        <div class="contact__video-overlay"></div>
+        <div class="contact__video-grain"></div>
+        <div class="contact__video-rays" aria-hidden="true">
+          <span class="contact__vray"></span>
+          <span class="contact__vray"></span>
+          <span class="contact__vray"></span>
+        </div>
+      </div>
+
       <div class="container">
         <div class="contact__inner">
           <div class="contact__copy" data-reveal>
@@ -295,6 +329,9 @@
         <p class="footer__copy">&copy; 2026 Cinema. All rights reserved.</p>
       </div>
     </footer>
+
+    <!-- Gold ambient dust — JS populates particles -->
+    <div class="gold-dust-canvas" id="gold-dust-canvas" aria-hidden="true"></div>
 
   </div><!-- /#main-site -->
 
