@@ -114,10 +114,22 @@
     });
   }
 
+  /* ── Active Nav Link ────────────────────────────────────── */
+  function initActiveNav() {
+    var page = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav__link').forEach(function (link) {
+      var href = (link.getAttribute('href') || '').split('/').pop();
+      if (href && href !== '' && href === page) {
+        link.classList.add('nav__link--active');
+      }
+    });
+  }
+
   /* ── Init ───────────────────────────────────────────────── */
   /* Scroll reveals are handled by cinematic.js (GSAP + ScrollTrigger) */
   function init() {
     initNav();
+    initActiveNav();
     initContactForm();
   }
 
