@@ -1,14 +1,10 @@
 /* ============================================================
-   Cinema — Entry Gate
-   Handles: form validation, lead storage, gate-to-site transition
+   Cinema — Lead Capture Popup
+   Floats over the visible website. Form submits store a lead
+   and dismiss the modal. "View Website" dismisses without capture.
 
-   Lead data is stored in localStorage as structured JSON objects,
-   ready to be sent to a backend, CRM, or email automation later.
-
-   To connect to a backend:
-     1. Replace or supplement the storeLead() localStorage call
-        with a fetch() POST to your API endpoint.
-     2. The `lead` object shape matches what most CRMs expect.
+   To connect to a backend replace the localStorage block in
+   storeLead() with a fetch() POST to your API endpoint.
    ============================================================ */
 
 (function () {
@@ -31,18 +27,6 @@
   }
 
   /* ── Lead Storage ───────────────────────────────────────── */
-  /*
-   * Lead object shape (keep stable for backend compatibility):
-   * {
-   *   id:        string   — unique identifier
-   *   timestamp: string   — ISO 8601
-   *   source:    string   — page URL at time of capture
-   *   name:      string
-   *   email:     string   — normalized to lowercase
-   *   phone:     string
-   *   status:    string   — 'new' | 'contacted' | 'converted'
-   * }
-   */
   function storeLead(data) {
     var lead = {
       id:        generateId(),
@@ -54,7 +38,7 @@
       status:    'new'
     };
 
-    // Save to localStorage — replace with API call when backend is ready:
+    // Replace with API call when backend is ready:
     // fetch('/api/leads', {
     //   method: 'POST',
     //   headers: { 'Content-Type': 'application/json' },
@@ -64,60 +48,34 @@
       var existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
       existing.push(lead);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
-    } catch (e) {
-      // localStorage unavailable — continue without failing
-    }
+    } catch (e) {}
 
     return lead;
   }
 
-  /* ── Gate → Site Transition ─────────────────────────────── */
-  function enterSite() {
+  /* ── Dismiss Modal ──────────────────────────────────────── */
+  function dismissModal() {
     var gate = document.getElementById('entry-gate');
-    var site = document.getElementById('main-site');
+    if (!gate) return;
 
-    // Start gate fade-out
-    gate.classList.add('gate--exit');
+    gate.classList.add('gate-modal--exit');
 
-    // Reveal and prepare site
-    site.removeAttribute('aria-hidden');
-    site.classList.remove('site--hidden');
-
-    // Fade site in after one frame (ensures transition fires)
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        site.classList.add('site--visible');
-      });
-    });
-
-    // Remove gate from DOM after fade completes
     gate.addEventListener('transitionend', function onEnd(e) {
       if (e.propertyName !== 'opacity') return;
       gate.removeEventListener('transitionend', onEnd);
       if (gate.parentNode) gate.parentNode.removeChild(gate);
+      document.body.classList.remove('modal-open');
     });
   }
 
   /* ── Validation ─────────────────────────────────────────── */
   function validateForm(name, email, phone) {
     var errors = {};
-
-    if (!name.trim()) {
-      errors.name = 'Please enter your full name.';
-    }
-
-    if (!email.trim()) {
-      errors.email = 'Please enter your email address.';
-    } else if (!isValidEmail(email)) {
-      errors.email = 'Please enter a valid email address.';
-    }
-
-    if (!phone.trim()) {
-      errors.phone = 'Please enter your phone number.';
-    } else if (!isValidPhone(phone)) {
-      errors.phone = 'Please enter a valid phone number.';
-    }
-
+    if (!name.trim())              errors.name  = 'Please enter your full name.';
+    if (!email.trim())             errors.email = 'Please enter your email address.';
+    else if (!isValidEmail(email)) errors.email = 'Please enter a valid email address.';
+    if (!phone.trim())             errors.phone = 'Please enter your phone number.';
+    else if (!isValidPhone(phone)) errors.phone = 'Please enter a valid phone number.';
     return errors;
   }
 
@@ -126,7 +84,6 @@
       var input   = document.getElementById('gate-' + field);
       var errorEl = document.getElementById('error-' + field);
       if (!input || !errorEl) return;
-
       if (errors[field]) {
         input.classList.add('is-error');
         errorEl.textContent = errors[field];
@@ -140,19 +97,15 @@
   /* ── Init ───────────────────────────────────────────────── */
   function init() {
     var gate = document.getElementById('entry-gate');
-    var site = document.getElementById('main-site');
     var form = document.getElementById('gate-form');
+    var skip = document.getElementById('gate-skip');
 
-    if (!gate || !form || !site) return;
+    if (!gate || !form) return;
 
-    // Hide site while gate is displayed
-    site.classList.add('site--hidden');
+    // Lock scroll while modal is open
+    document.body.classList.add('modal-open');
 
-    // ── Uncomment to skip gate for returning visitors: ──────
-    // var leads = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    // if (leads.length > 0) { enterSite(); return; }
-    // ────────────────────────────────────────────────────────
-
+    // Form submit — capture lead then dismiss
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
@@ -169,8 +122,13 @@
 
       applyErrors({});
       storeLead({ name: name, email: email, phone: phone });
-      enterSite();
+      dismissModal();
     });
+
+    // "View Website" — dismiss without requiring form
+    if (skip) {
+      skip.addEventListener('click', dismissModal);
+    }
   }
 
   if (document.readyState === 'loading') {

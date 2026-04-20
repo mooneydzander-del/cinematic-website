@@ -16,35 +16,35 @@
   <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
   <!-- ============================================================
-       ENTRY GATE — Lead capture before site access
+       LEAD CAPTURE POPUP — floats over the visible website
        JS: src/js/gate.js
   ============================================================ -->
-  <div id="entry-gate" class="gate" role="dialog" aria-modal="true" aria-label="Site access form">
+  <div id="entry-gate" class="gate-modal" role="dialog" aria-modal="true" aria-label="Get started with Cinema">
 
-    <!-- Cinematic video background -->
-    <div class="gate__video-bg" aria-hidden="true">
-      <video class="gate__video" autoplay muted loop playsinline preload="auto">
-        <source src="public/hf_20260418_053326_f7fd2cf4-1e25-4953-b34d-dbd00aeadfa4.mp4" type="video/mp4" />
-      </video>
-      <div class="gate__video-overlay"></div>
-    </div>
+    <div class="gate-modal__backdrop" aria-hidden="true"></div>
 
-    <div class="gate__inner">
+    <div class="gate-modal__card">
 
-      <div class="gate__brand">
-        <span class="gate__logo">Cinema</span>
-        <div class="gate__divider"></div>
+      <!-- Gold top bar -->
+      <div class="gate-modal__bar" aria-hidden="true"></div>
+
+      <!-- Brand mark -->
+      <div class="gate-modal__brand" aria-hidden="true">
+        <span class="gate-modal__logo">Cinema</span>
+        <div class="gate-modal__logo-line"></div>
       </div>
 
-      <div class="gate__content">
-        <p class="gate__label">Exclusive Access</p>
-        <h1 class="gate__headline">See What a Premium Website Can Do For Your Business</h1>
-        <p class="gate__subtext">Enter your details below to access our portfolio and receive a complimentary website strategy consultation — no obligation, no spam.</p>
+      <!-- Hook -->
+      <div class="gate-modal__hook">
+        <h2 class="gate-modal__headline">Losing Leads?</h2>
+        <p class="gate-modal__sub">You need a cinematic website — capture and transform leads into customers.</p>
       </div>
 
-      <form id="gate-form" class="gate__form" novalidate>
+      <!-- Form -->
+      <form id="gate-form" class="gate-modal__form" novalidate>
+
         <div class="form-group">
-          <input type="text" id="gate-name" name="name" placeholder="Full Name" autocomplete="name" />
+          <input type="text"  id="gate-name"  name="name"  placeholder="Full Name"     autocomplete="name"  />
           <span class="field-error" id="error-name"></span>
         </div>
         <div class="form-group">
@@ -52,21 +52,29 @@
           <span class="field-error" id="error-email"></span>
         </div>
         <div class="form-group">
-          <input type="tel" id="gate-phone" name="phone" placeholder="Phone Number" autocomplete="tel" />
+          <input type="tel"   id="gate-phone" name="phone" placeholder="Phone Number"  autocomplete="tel"   />
           <span class="field-error" id="error-phone"></span>
         </div>
-        <button type="submit" class="btn btn--primary btn--full">Access the Site &rarr;</button>
-        <p class="gate__privacy">We respect your privacy. Your information is never sold or shared.</p>
+
+        <p class="gate-modal__grow">Grow Your Business</p>
+
+        <button type="submit" class="btn btn--primary btn--full gate-modal__submit">
+          Start Here <span class="gate-modal__arrow" aria-hidden="true">→</span>
+        </button>
+
       </form>
+
+      <!-- Skip -->
+      <button type="button" class="gate-modal__skip" id="gate-skip">View Website</button>
 
     </div>
   </div>
 
 
   <!-- ============================================================
-       MAIN SITE
+       MAIN SITE — visible behind popup from load
   ============================================================ -->
-  <div id="main-site" class="site" aria-hidden="true">
+  <div id="main-site" class="site site--visible">
 
     <!-- NAV -->
     <header class="nav" id="nav">
