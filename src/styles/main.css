@@ -264,14 +264,15 @@ h1, h2, h3, h4 {
 
 
 /* ============================================================
-   LEAD CAPTURE POPUP MODAL
-   Website is visible behind the semi-transparent backdrop.
+   TWO-STEP LEAD CAPTURE POPUP
+   Step 1: Hook copy + "Start Here" button (no form).
+   Step 2: GSAP transition reveals form with "Growing→Showing" flip.
+   Website is always visible behind the blurred backdrop.
    ============================================================ */
 
-/* Scroll lock when modal is open */
 body.modal-open { overflow: hidden; }
 
-/* ── Overlay wrapper ──────────────────────────────────────── */
+/* ── Overlay ─────────────────────────────────────────────── */
 .gate-modal {
   position: fixed;
   inset: 0;
@@ -280,53 +281,45 @@ body.modal-open { overflow: hidden; }
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.gate-modal--exit {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* ── Blurred semi-transparent backdrop ───────────────────── */
+/* ── Backdrop ────────────────────────────────────────────── */
 .gate-modal__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(8, 8, 9, 0.72);
+  background: rgba(8, 8, 9, 0.74);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* ── Popup card ──────────────────────────────────────────── */
+/* ── Card ────────────────────────────────────────────────── */
 .gate-modal__card {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 440px;
-  background: rgba(20, 20, 24, 0.96);
-  border: 1px solid rgba(192, 154, 69, 0.25);
+  max-width: 448px;
+  background: rgba(18, 18, 22, 0.97);
+  border: 1px solid rgba(192, 154, 69, 0.22);
   border-radius: var(--radius-lg);
-  padding: 2.75rem 2.5rem 2.25rem;
-  text-align: center;
-  box-shadow:
-    0 40px 120px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(192, 154, 69, 0.08),
-    0 0 60px rgba(192, 154, 69, 0.06);
-  animation: modalRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
   overflow: hidden;
+  box-shadow:
+    0 40px 120px rgba(0, 0, 0, 0.72),
+    0 0 0 1px rgba(192, 154, 69, 0.07),
+    0 0 60px rgba(192, 154, 69, 0.06);
+  animation: modalRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes modalRise {
-  from { opacity: 0; transform: translateY(28px) scale(0.97); }
+  from { opacity: 0; transform: translateY(32px) scale(0.96); }
   to   { opacity: 1; transform: translateY(0)    scale(1); }
 }
 
-/* Ambient gold radial inside card */
+/* Ambient gold top glow inside card */
 .gate-modal__card::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, rgba(192, 154, 69, 0.08) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(192,154,69,0.09) 0%, transparent 55%);
   pointer-events: none;
   z-index: 0;
 }
@@ -338,31 +331,61 @@ body.modal-open { overflow: hidden; }
   height: 3px;
   background: linear-gradient(90deg,
     transparent,
-    var(--gold-dark) 20%,
+    var(--gold-dark) 18%,
     var(--gold)      50%,
-    var(--gold-light) 60%,
-    var(--gold-dark) 80%,
+    var(--gold-light) 62%,
+    var(--gold-dark) 82%,
     transparent
   );
-  box-shadow: 0 0 18px rgba(192, 154, 69, 0.5);
+  box-shadow: 0 0 20px rgba(192,154,69,0.5);
+  z-index: 10;
+}
+
+/* ── Shimmer sweep (fires during step transition) ────────── */
+.gate-modal__shimmer {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 55%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(192,154,69,0.12),
+    rgba(192,154,69,0.06),
+    transparent
+  );
+  transform: skewX(-14deg);
+  pointer-events: none;
+  z-index: 9;
+  left: -70%;
+  opacity: 0;
+}
+
+/* ── Steps ───────────────────────────────────────────────── */
+.gate-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2.75rem 2.5rem 2.25rem;
+}
+
+.gate-step--form {
+  padding-top: 2.5rem;
 }
 
 /* ── Brand mark ──────────────────────────────────────────── */
-.gate-modal__brand {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 1.625rem;
-}
+.gate-modal__brand { margin-bottom: 1.5rem; }
 
 .gate-modal__logo {
   display: block;
   font-family: var(--font-head);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 800;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
   color: var(--cream-muted);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.7rem;
 }
 
 .gate-modal__logo-line {
@@ -370,91 +393,65 @@ body.modal-open { overflow: hidden; }
   height: 1px;
   background: var(--gold);
   margin-inline: auto;
-  box-shadow: 0 0 6px rgba(192, 154, 69, 0.5);
+  box-shadow: 0 0 8px rgba(192,154,69,0.55);
 }
 
-/* ── Hook copy ───────────────────────────────────────────── */
-.gate-modal__hook {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 2rem;
-}
-
+/* ── Step 1 copy ─────────────────────────────────────────── */
 .gate-modal__headline {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 6vw, 3.125rem);
+  font-size: clamp(2.375rem, 7vw, 3.25rem);
   font-weight: 500;
   color: var(--cream);
-  line-height: 1.05;
+  line-height: 1.0;
   letter-spacing: -0.03em;
   margin-bottom: 0.875rem;
-}
-
-.gate-modal__headline em {
-  font-style: italic;
-  color: var(--gold);
 }
 
 .gate-modal__sub {
   font-size: 0.9375rem;
   color: var(--cream-muted);
   line-height: 1.75;
-  max-width: 340px;
-  margin-inline: auto;
-}
-
-/* ── Form ────────────────────────────────────────────────── */
-.gate-modal__form {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  max-width: 320px;
+  margin-bottom: 1.875rem;
 }
 
 .gate-modal__grow {
   font-family: var(--font-head);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-top: 0.5rem;
-  margin-bottom: 0;
-  text-shadow: 0 0 8px rgba(192, 154, 69, 0.35);
+  margin-bottom: 1rem;
   animation: growPulse 3s ease-in-out infinite;
 }
 
 @keyframes growPulse {
-  0%, 100% { opacity: 0.85; }
-  50%       { opacity: 1; text-shadow: 0 0 14px rgba(192, 154, 69, 0.55); }
+  0%, 100% { opacity: 0.8;  text-shadow: none; }
+  50%       { opacity: 1;   text-shadow: 0 0 14px rgba(192,154,69,0.5); }
 }
 
+/* ── Shared button styles ────────────────────────────────── */
 .gate-modal__submit {
-  margin-top: 0.25rem;
   font-size: 0.875rem;
   letter-spacing: 0.12em;
   padding: 1rem 2rem;
+  width: 100%;
 }
 
 .gate-modal__arrow {
   display: inline-block;
   margin-left: 0.5rem;
-  transition: transform 0.3s ease;
+  transition: transform 0.28s ease;
 }
+.gate-modal__submit:hover .gate-modal__arrow { transform: translateX(5px); }
 
-.gate-modal__submit:hover .gate-modal__arrow {
-  transform: translateX(4px);
-}
-
-/* ── Skip / View Website ─────────────────────────────────── */
+/* ── View Website link ───────────────────────────────────── */
 .gate-modal__skip {
-  position: relative;
-  z-index: 1;
-  display: block;
-  margin: 1.375rem auto 0;
+  display: inline-block;
+  margin-top: 1.25rem;
   font-family: var(--font-head);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -462,11 +459,10 @@ body.modal-open { overflow: hidden; }
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.375rem 0;
+  padding: 0.25rem 0;
   transition: color var(--t);
   position: relative;
 }
-
 .gate-modal__skip::after {
   content: '';
   position: absolute;
@@ -477,13 +473,57 @@ body.modal-open { overflow: hidden; }
   transition: transform var(--t);
   transform-origin: center;
 }
+.gate-modal__skip:hover              { color: var(--cream-muted); }
+.gate-modal__skip:hover::after       { transform: scaleX(1); }
 
-.gate-modal__skip:hover {
-  color: var(--cream-muted);
+/* ── Step 2 headline with flip word ─────────────────────── */
+.gate-form__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 1.875rem;
+  text-align: center;
 }
 
-.gate-modal__skip:hover::after {
-  transform: scaleX(1);
+.gate-form__title-small {
+  display: block;
+  font-size: clamp(0.875rem, 2.5vw, 1.0625rem);
+  color: var(--cream-muted);
+  letter-spacing: 0.01em;
+  margin-block: 0.15em;
+}
+
+/* Word wrap provides perspective for 3-D flip */
+.gate-word-wrap {
+  display: block;
+  perspective: 560px;
+  perspective-origin: 50% 50%;
+  margin-block: 0.1em;
+}
+
+#gate-word-front,
+#gate-word-back {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 8vw, 3rem);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: -0.025em;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+}
+
+/* Step 2 form */
+.gate-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 
