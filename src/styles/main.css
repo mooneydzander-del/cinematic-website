@@ -371,6 +371,7 @@ body.modal-open { overflow: hidden; }
 }
 
 .gate-step--form {
+  display: none;
   padding-top: 2.625rem;
 }
 
