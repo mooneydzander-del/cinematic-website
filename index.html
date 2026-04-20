@@ -30,33 +30,25 @@
       <!-- Transition shimmer sweep -->
       <div class="gate-modal__shimmer" id="gate-shimmer" aria-hidden="true"></div>
 
-      <!-- ── STEP 1 : Hook — no form ───────────────── -->
+      <!-- ── STEP 1 : Hook ─────────────────────────── -->
       <div class="gate-step" id="gate-step-1">
-
-        <div class="gate-modal__brand">
-          <span class="gate-modal__logo">Cinema</span>
-          <div class="gate-modal__logo-line"></div>
-        </div>
 
         <h2 class="gate-modal__headline">Losing Leads?</h2>
         <p class="gate-modal__sub">You need a cinematic website — capture and transform leads into customers.</p>
-
         <p class="gate-modal__grow">Grow Your Business</p>
 
         <button type="button" class="btn btn--primary btn--full gate-modal__submit" id="gate-next">
           Start Here <span class="gate-modal__arrow" aria-hidden="true">→</span>
         </button>
 
-        <button type="button" class="gate-modal__skip" id="gate-skip">View Website</button>
-
       </div>
 
-      <!-- ── STEP 2 : Form — revealed on transition ── -->
+      <!-- ── STEP 2 : Form ─────────────────────────── -->
       <div class="gate-step gate-step--form" id="gate-step-2" aria-hidden="true">
 
         <h2 class="gate-form__title">
           <span class="gate-form__title-small">Start</span>
-          <span class="gate-word-wrap" id="gate-word-wrap">
+          <span class="gate-word-wrap">
             <span id="gate-word-front">Growing</span><span id="gate-word-back" style="display:none;">Showing</span>
           </span>
           <span class="gate-form__title-small">Your Business</span>
@@ -75,10 +67,12 @@
             <input type="tel"   id="gate-phone" name="phone" placeholder="Phone Number"  autocomplete="tel"   />
             <span class="field-error" id="error-phone"></span>
           </div>
-          <button type="submit" class="btn btn--gold btn--full gate-modal__submit" style="margin-top:0.375rem;">
+          <button type="submit" class="btn btn--gold btn--full gate-modal__submit">
             Start Now <span class="gate-modal__arrow" aria-hidden="true">→</span>
           </button>
         </form>
+
+        <button type="button" class="gate-modal__skip" id="gate-skip">View Website</button>
 
       </div>
 

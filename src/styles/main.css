@@ -367,33 +367,11 @@ body.modal-open { overflow: hidden; }
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 2.75rem 2.5rem 2.25rem;
+  padding: 3rem 2.5rem 2.5rem;
 }
 
 .gate-step--form {
-  padding-top: 2.5rem;
-}
-
-/* ── Brand mark ──────────────────────────────────────────── */
-.gate-modal__brand { margin-bottom: 1.5rem; }
-
-.gate-modal__logo {
-  display: block;
-  font-family: var(--font-head);
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: var(--cream-muted);
-  margin-bottom: 0.7rem;
-}
-
-.gate-modal__logo-line {
-  width: 28px;
-  height: 1px;
-  background: var(--gold);
-  margin-inline: auto;
-  box-shadow: 0 0 8px rgba(192,154,69,0.55);
+  padding-top: 2.625rem;
 }
 
 /* ── Step 1 copy ─────────────────────────────────────────── */
