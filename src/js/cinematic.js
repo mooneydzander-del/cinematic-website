@@ -587,7 +587,27 @@
     }
   }
 
-  /* ── 17. Contact Video Parallax ─────────────────────────── */
+  /* ── 17. Hero Video Parallax ────────────────────────────── */
+  function initHeroVideoParallax() {
+    var video = document.querySelector('.hero__video');
+    if (!video) return;
+
+    gsap.fromTo(video,
+      { y: -60, scale: 1.12 },
+      {
+        y:    60,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start:   'top top',
+          end:     'bottom top',
+          scrub:   1.5,
+        },
+      }
+    );
+  }
+
+  /* ── 18. Contact Video Parallax ─────────────────────────── */
   function initContactVideoParallax() {
     var video = document.querySelector('.contact__video');
     if (!video) return;
@@ -720,6 +740,7 @@
     initCTAReveal();
     init3DTilt();
     init3DScrollDepth();
+    initHeroVideoParallax();
     initContactVideoParallax();
     initGoldDust();
     ScrollTrigger.refresh();

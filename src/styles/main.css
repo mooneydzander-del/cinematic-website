@@ -581,9 +581,6 @@ body.modal-open { overflow: hidden; }
 .hero {
   min-height: 100vh;
   background: var(--black);
-  background-image:
-    radial-gradient(ellipse at 50% 40%, rgba(192, 154, 69, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 15% 80%, rgba(192, 154, 69, 0.08) 0%, transparent 40%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1196,6 +1193,40 @@ body.modal-open { overflow: hidden; }
 @keyframes goldShimmer {
   0%   { background-position: 250% center; }
   100% { background-position: -250% center; }
+}
+
+
+/* ── Hero Video Background ──────────────────────────────── */
+.hero__video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.55) brightness(0.30);
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.hero__video-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(192,154,69,0.20) 0%, transparent 56%),
+    radial-gradient(ellipse at 15% 78%, rgba(192,154,69,0.09) 0%, transparent 42%),
+    linear-gradient(to bottom,
+      rgba(8,8,9,0.60) 0%,
+      rgba(8,8,9,0.18) 35%,
+      rgba(8,8,9,0.18) 65%,
+      rgba(8,8,9,0.68) 100%
+    );
+  z-index: 1;
 }
 
 
