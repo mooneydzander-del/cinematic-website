@@ -265,81 +265,240 @@ h1, h2, h3, h4 {
 
 
 /* ============================================================
-   ENTRY GATE
+   TWO-STEP LEAD CAPTURE POPUP
+   Step 1: Landing page hook — "Want More Leads From Your Ads?"
+   Step 2: GSAP morph transition reveals form with staggered headline.
+   Website is always visible behind the blurred backdrop.
    ============================================================ */
-.gate {
+
+body.modal-open { overflow: hidden; }
+
+/* ── Overlay ─────────────────────────────────────────────── */
+.gate-modal {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: var(--black);
-  background-image: radial-gradient(ellipse at 50% 0%, rgba(192, 154, 69, 0.07) 0%, transparent 55%);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  transition: opacity var(--t-slow);
 }
-.gate.gate--exit { opacity: 0; pointer-events: none; }
 
-.gate__inner { width: 100%; max-width: 460px; text-align: center; }
+/* ── Backdrop ────────────────────────────────────────────── */
+.gate-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 8, 9, 0.76);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
 
-.gate__brand { margin-bottom: var(--space-md); }
+/* ── Card ────────────────────────────────────────────────── */
+.gate-modal__card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 468px;
+  background: rgba(16, 16, 20, 0.98);
+  border: 1px solid rgba(192, 154, 69, 0.2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow:
+    0 48px 130px rgba(0, 0, 0, 0.78),
+    0 0 0 1px rgba(192, 154, 69, 0.06),
+    0 0 70px rgba(192, 154, 69, 0.05);
+  animation: modalRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 
-.gate__logo {
-  display: block;
+@keyframes modalRise {
+  from { opacity: 0; transform: translateY(32px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+.gate-modal__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(192,154,69,0.08) 0%, transparent 58%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Gold top bar ────────────────────────────────────────── */
+.gate-modal__bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--gold-dark) 18%,
+    var(--gold)      50%,
+    var(--gold-light) 62%,
+    var(--gold-dark) 82%,
+    transparent
+  );
+  box-shadow: 0 0 22px rgba(192,154,69,0.55);
+  z-index: 10;
+}
+
+/* ── Shimmer sweep ───────────────────────────────────────── */
+.gate-modal__shimmer {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 55%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(192,154,69,0.14),
+    rgba(192,154,69,0.07),
+    transparent
+  );
+  transform: skewX(-14deg);
+  pointer-events: none;
+  z-index: 9;
+  left: -70%;
+  opacity: 0;
+}
+
+/* ── Steps ───────────────────────────────────────────────── */
+.gate-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 2.75rem 2.75rem;
+}
+
+.gate-step--form {
+  display: none;
+  padding-top: 2.75rem;
+}
+
+/* ── Step 1 : eyebrow ────────────────────────────────────── */
+.gate-modal__eyebrow {
   font-family: var(--font-head);
-  font-size: 1.75rem;
-  font-weight: 800;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--cream);
-  margin-bottom: 1.125rem;
-}
-
-.gate__divider {
-  width: 32px;
-  height: 1px;
-  background: var(--gold);
-  margin-inline: auto;
-}
-
-.gate__content { margin-bottom: 2rem; }
-
-.gate__label {
-  display: block;
-  font-family: var(--font-head);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 0.875rem;
+  opacity: 0.88;
 }
 
-.gate__headline {
+/* ── Step 1 : headline ───────────────────────────────────── */
+.gate-modal__headline {
   font-family: var(--font-display);
-  font-size: clamp(1.375rem, 3vw, 2rem);
+  font-size: clamp(2.25rem, 7vw, 3.125rem);
   font-weight: 500;
+  font-style: italic;
   color: var(--cream);
-  line-height: 1.2;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
   margin-bottom: 1rem;
-  letter-spacing: -0.01em;
 }
 
-.gate__subtext {
+/* ── Step 1 : body copy ──────────────────────────────────── */
+.gate-modal__sub {
+  font-family: var(--font-body);
   font-size: 0.9375rem;
   color: var(--cream-muted);
-  line-height: 1.8;
+  line-height: 1.72;
+  max-width: 340px;
+  margin-bottom: 2rem;
 }
 
-.gate__form { display: flex; flex-direction: column; gap: 0.75rem; }
-
-.gate__privacy {
-  font-size: 0.72rem;
-  color: var(--gray-mid);
-  margin-top: 0.25rem;
-  letter-spacing: 0.02em;
+/* ── Submit button ───────────────────────────────────────── */
+.gate-modal__submit {
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  padding: 1rem 2rem;
+  width: 100%;
 }
+
+.gate-modal__arrow {
+  display: inline-block;
+  margin-left: 0.5rem;
+  transition: transform 0.28s ease;
+}
+.gate-modal__submit:hover .gate-modal__arrow { transform: translateX(5px); }
+
+/* ── Step 1 : "See How It Works" subtle text link ────────── */
+.gate-modal__see-how {
+  display: inline-block;
+  margin-top: 1.125rem;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: rgba(192, 154, 69, 0.65);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem 0;
+  transition: color 0.25s ease;
+  position: relative;
+  letter-spacing: 0.01em;
+}
+.gate-modal__see-how::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0.4);
+  transition: transform 0.28s ease, opacity 0.28s ease;
+  transform-origin: left;
+  opacity: 0.5;
+}
+.gate-modal__see-how:hover { color: var(--gold); }
+.gate-modal__see-how:hover::after { transform: scaleX(1); opacity: 1; }
+
+/* ── Step 2 : stacked headline ───────────────────────────── */
+.gate-headline-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.875rem;
+  gap: 0.05em;
+}
+
+.gate-headline-line {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 7.5vw, 2.875rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--cream);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.gate-headline-line--accent { color: var(--gold); }
+
+/* ── Step 2 : form ───────────────────────────────────────── */
+.gate-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Step 2 : dismiss text ───────────────────────────────── */
+.gate-modal__dismiss {
+  margin-top: 1.125rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(237, 233, 224, 0.28);
+  cursor: pointer;
+  transition: color 0.25s ease;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+.gate-modal__dismiss:hover { color: rgba(237, 233, 224, 0.5); }
 
 
 /* ============================================================

@@ -16,48 +16,74 @@
   <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
   <!-- ============================================================
-       ENTRY GATE — Lead capture before site access
+       LEAD CAPTURE POPUP — two-step cinematic modal
        JS: src/js/gate.js
   ============================================================ -->
-  <div id="entry-gate" class="gate" role="dialog" aria-modal="true" aria-label="Site access form">
-    <div class="gate__inner">
+  <div id="entry-gate" class="gate-modal" role="dialog" aria-modal="true" aria-label="Get started with Cinema">
 
-      <div class="gate__brand">
-        <span class="gate__logo">Cinema</span>
-        <div class="gate__divider"></div>
+    <div class="gate-modal__backdrop" aria-hidden="true"></div>
+
+    <div class="gate-modal__card" id="gate-card">
+
+      <!-- Gold top bar -->
+      <div class="gate-modal__bar" aria-hidden="true"></div>
+      <!-- Transition shimmer sweep -->
+      <div class="gate-modal__shimmer" id="gate-shimmer" aria-hidden="true"></div>
+
+      <!-- ── STEP 1 : Hook ─────────────────────────── -->
+      <div class="gate-step" id="gate-step-1">
+
+        <p class="gate-modal__eyebrow">Landing Pages That Convert</p>
+        <h2 class="gate-modal__headline">Want More Leads<br />From Your Ads?</h2>
+        <p class="gate-modal__sub">Stop sending paid traffic to a regular website. Get a focused landing page built to turn clicks into calls, quote requests, bookings, and customers.</p>
+
+        <button type="button" class="btn btn--gold btn--full gate-modal__submit" id="gate-next">
+          Get My Landing Page <span class="gate-modal__arrow" aria-hidden="true">→</span>
+        </button>
+
+        <button type="button" class="gate-modal__see-how" id="gate-see-how">See How It Works</button>
+
       </div>
 
-      <div class="gate__content">
-        <p class="gate__label">Landing Page Agency</p>
-        <h1 class="gate__headline">See What a High-Converting Landing Page Can Do For Your Business</h1>
-        <p class="gate__subtext">Enter your details below to access our work and find out how Cinema turns ad clicks into calls, leads, and customers.</p>
-      </div>
+      <!-- ── STEP 2 : Form ─────────────────────────── -->
+      <div class="gate-step gate-step--form" id="gate-step-2" style="display:none;">
 
-      <form id="gate-form" class="gate__form" novalidate>
-        <div class="form-group">
-          <input type="text" id="gate-name" name="name" placeholder="Full Name" autocomplete="name" />
-          <span class="field-error" id="error-name"></span>
+        <div class="gate-headline-stack" id="gate-headline-stack">
+          <span class="gate-headline-line" id="gate-line-1">One Page.</span>
+          <span class="gate-headline-line gate-headline-line--accent" id="gate-line-2">One Offer.</span>
+          <span class="gate-headline-line" id="gate-line-3">One Clear Action.</span>
         </div>
-        <div class="form-group">
-          <input type="email" id="gate-email" name="email" placeholder="Email Address" autocomplete="email" />
-          <span class="field-error" id="error-email"></span>
-        </div>
-        <div class="form-group">
-          <input type="tel" id="gate-phone" name="phone" placeholder="Phone Number" autocomplete="tel" />
-          <span class="field-error" id="error-phone"></span>
-        </div>
-        <button type="submit" class="btn btn--primary btn--full">Access the Site &rarr;</button>
-        <p class="gate__privacy">We respect your privacy. Your information is never sold or shared.</p>
-      </form>
+
+        <form id="gate-form" class="gate-modal__form" novalidate>
+          <div class="form-group">
+            <input type="text"  id="gate-name"     name="name"     placeholder="Your Name"      autocomplete="name"         />
+            <span class="field-error" id="error-name"></span>
+          </div>
+          <div class="form-group">
+            <input type="text"  id="gate-business" name="business" placeholder="Business Name"  autocomplete="organization" />
+            <span class="field-error" id="error-business"></span>
+          </div>
+          <div class="form-group">
+            <input type="text"  id="gate-contact"  name="contact"  placeholder="Email or Phone" autocomplete="email"        />
+            <span class="field-error" id="error-contact"></span>
+          </div>
+          <button type="submit" class="btn btn--gold btn--full gate-modal__submit">
+            Request My Landing Page <span class="gate-modal__arrow" aria-hidden="true">→</span>
+          </button>
+        </form>
+
+        <p class="gate-modal__dismiss" id="gate-skip">No pressure. Just show me how it works.</p>
+
+      </div>
 
     </div>
   </div>
 
 
   <!-- ============================================================
-       MAIN SITE
+       MAIN SITE — visible behind popup
   ============================================================ -->
-  <div id="main-site" class="site" aria-hidden="true">
+  <div id="main-site" class="site site--visible">
 
     <!-- NAV -->
     <header class="nav" id="nav">
