@@ -2178,6 +2178,14 @@ body.modal-open { overflow: hidden; }
   max-width: 540px;
 }
 
+.pricing-care__notice {
+  font-size: 0.8rem;
+  color: var(--color-cream);
+  opacity: 0.6;
+  font-style: italic;
+  margin-top: 0.75rem;
+}
+
 
 /* ============================================================
    FAQ
