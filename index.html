@@ -33,46 +33,46 @@
       <!-- ── STEP 1 : Hook ─────────────────────────── -->
       <div class="gate-step" id="gate-step-1">
 
-        <h2 class="gate-modal__headline">Losing Leads?</h2>
-        <p class="gate-modal__sub">You need a cinematic website — capture and transform leads into customers.</p>
-        <p class="gate-modal__grow">Grow Your Business</p>
+        <p class="gate-modal__eyebrow">Landing Pages That Convert</p>
+        <h2 class="gate-modal__headline">Want More Leads<br />From Your Ads?</h2>
+        <p class="gate-modal__sub">Stop sending paid traffic to a regular website. Get a focused landing page built to turn clicks into calls, quote requests, bookings, and customers.</p>
 
-        <button type="button" class="btn btn--primary btn--full gate-modal__submit" id="gate-next">
-          Start Here <span class="gate-modal__arrow" aria-hidden="true">→</span>
+        <button type="button" class="btn btn--gold btn--full gate-modal__submit" id="gate-next">
+          Get My Landing Page <span class="gate-modal__arrow" aria-hidden="true">→</span>
         </button>
+
+        <button type="button" class="gate-modal__see-how" id="gate-see-how">See How It Works</button>
 
       </div>
 
       <!-- ── STEP 2 : Form ─────────────────────────── -->
       <div class="gate-step gate-step--form" id="gate-step-2" style="display:none;">
 
-        <h2 class="gate-form__title">
-          <span class="gate-form__title-small">Start</span>
-          <span class="gate-word-wrap">
-            <span id="gate-word-front">Growing</span><span id="gate-word-back" style="display:none;">Showing</span>
-          </span>
-          <span class="gate-form__title-small">Your Business</span>
-        </h2>
+        <div class="gate-headline-stack" id="gate-headline-stack" aria-label="One Page. One Offer. One Clear Action.">
+          <span class="gate-headline-line" id="gate-line-1">One Page.</span>
+          <span class="gate-headline-line gate-headline-line--accent" id="gate-line-2">One Offer.</span>
+          <span class="gate-headline-line" id="gate-line-3">One Clear Action.</span>
+        </div>
 
         <form id="gate-form" class="gate-modal__form" novalidate>
           <div class="form-group">
-            <input type="text"  id="gate-name"  name="name"  placeholder="Full Name"     autocomplete="name"  />
+            <input type="text"  id="gate-name"     name="name"     placeholder="Your Name"      autocomplete="name"         />
             <span class="field-error" id="error-name"></span>
           </div>
           <div class="form-group">
-            <input type="email" id="gate-email" name="email" placeholder="Email Address" autocomplete="email" />
-            <span class="field-error" id="error-email"></span>
+            <input type="text"  id="gate-business" name="business" placeholder="Business Name"  autocomplete="organization" />
+            <span class="field-error" id="error-business"></span>
           </div>
           <div class="form-group">
-            <input type="tel"   id="gate-phone" name="phone" placeholder="Phone Number"  autocomplete="tel"   />
-            <span class="field-error" id="error-phone"></span>
+            <input type="text"  id="gate-contact"  name="contact"  placeholder="Email or Phone" autocomplete="email"        />
+            <span class="field-error" id="error-contact"></span>
           </div>
           <button type="submit" class="btn btn--gold btn--full gate-modal__submit">
-            Start Now <span class="gate-modal__arrow" aria-hidden="true">→</span>
+            Request My Landing Page <span class="gate-modal__arrow" aria-hidden="true">→</span>
           </button>
         </form>
 
-        <button type="button" class="gate-modal__skip" id="gate-skip">View Website</button>
+        <p class="gate-modal__dismiss" id="gate-skip">No pressure. Just show me how it works.</p>
 
       </div>
 
