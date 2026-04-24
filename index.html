@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cinema — Cinematic Websites That Attract, Capture, and Convert</title>
-  <meta name="description" content="Cinema builds premium, high-end websites that make your business look world-class and turn every visitor into a potential customer." />
+  <title>Cinema | Cinematic Landing Pages for Ads</title>
+  <meta name="description" content="Cinema builds cinematic, persuasive landing pages that help turn ad clicks into calls, quote requests, bookings, and leads." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -25,55 +25,45 @@
 
     <div class="gate-modal__card" id="gate-card">
 
-      <!-- Gold top bar -->
       <div class="gate-modal__bar" aria-hidden="true"></div>
-      <!-- Transition shimmer sweep -->
       <div class="gate-modal__shimmer" id="gate-shimmer" aria-hidden="true"></div>
 
-      <!-- ── STEP 1 : Hook ─────────────────────────── -->
+      <!-- STEP 1 : Hook -->
       <div class="gate-step" id="gate-step-1">
-
         <p class="gate-modal__eyebrow">Landing Pages That Convert</p>
         <h2 class="gate-modal__headline">Want More Leads<br />From Your Ads?</h2>
         <p class="gate-modal__sub">Stop sending paid traffic to a regular website. Get a focused landing page built to turn clicks into calls, quote requests, bookings, and customers.</p>
-
         <button type="button" class="btn btn--gold btn--full gate-modal__submit" id="gate-next">
           Get My Landing Page <span class="gate-modal__arrow" aria-hidden="true">→</span>
         </button>
-
         <button type="button" class="gate-modal__see-how" id="gate-see-how">See How It Works</button>
-
       </div>
 
-      <!-- ── STEP 2 : Form ─────────────────────────── -->
+      <!-- STEP 2 : Form -->
       <div class="gate-step gate-step--form" id="gate-step-2" style="display:none;">
-
-        <div class="gate-headline-stack" id="gate-headline-stack" aria-label="One Page. One Offer. One Clear Action.">
+        <div class="gate-headline-stack" id="gate-headline-stack">
           <span class="gate-headline-line" id="gate-line-1">One Page.</span>
           <span class="gate-headline-line gate-headline-line--accent" id="gate-line-2">One Offer.</span>
           <span class="gate-headline-line" id="gate-line-3">One Clear Action.</span>
         </div>
-
         <form id="gate-form" class="gate-modal__form" novalidate>
           <div class="form-group">
-            <input type="text"  id="gate-name"     name="name"     placeholder="Your Name"      autocomplete="name"         />
+            <input type="text" id="gate-name" name="name" placeholder="Your Name" autocomplete="name" />
             <span class="field-error" id="error-name"></span>
           </div>
           <div class="form-group">
-            <input type="text"  id="gate-business" name="business" placeholder="Business Name"  autocomplete="organization" />
+            <input type="text" id="gate-business" name="business" placeholder="Business Name" autocomplete="organization" />
             <span class="field-error" id="error-business"></span>
           </div>
           <div class="form-group">
-            <input type="text"  id="gate-contact"  name="contact"  placeholder="Email or Phone" autocomplete="email"        />
+            <input type="text" id="gate-contact" name="contact" placeholder="Email or Phone" autocomplete="email" />
             <span class="field-error" id="error-contact"></span>
           </div>
           <button type="submit" class="btn btn--gold btn--full gate-modal__submit">
             Request My Landing Page <span class="gate-modal__arrow" aria-hidden="true">→</span>
           </button>
         </form>
-
         <p class="gate-modal__dismiss" id="gate-skip">No pressure. Just show me how it works.</p>
-
       </div>
 
     </div>
@@ -81,7 +71,7 @@
 
 
   <!-- ============================================================
-       MAIN SITE — visible behind popup from load
+       MAIN SITE
   ============================================================ -->
   <div id="main-site" class="site site--visible">
 
@@ -90,16 +80,14 @@
       <div class="container nav__inner">
         <a href="#hero" class="nav__logo">Cinema</a>
         <button class="nav__toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-          <span></span>
-          <span></span>
-          <span></span>
+          <span></span><span></span><span></span>
         </button>
         <nav class="nav__links" id="nav-links" aria-label="Main navigation">
-          <a href="services.html" class="nav__link">Services</a>
-          <a href="process.html" class="nav__link">Process</a>
-          <a href="pricing.html" class="nav__link">Pricing</a>
-          <a href="contact.html" class="nav__link">Contact</a>
-          <a href="contact.html" class="btn btn--primary btn--sm">Get Started</a>
+          <a href="#services" class="nav__link">Services</a>
+          <a href="#why-us" class="nav__link">Why Us</a>
+          <a href="#pricing" class="nav__link">Pricing</a>
+          <a href="#contact" class="nav__link">Contact</a>
+          <a href="#contact" class="btn btn--primary btn--sm">Get My Landing Page</a>
         </nav>
       </div>
     </header>
@@ -107,17 +95,16 @@
     <!-- ── 1. HERO ──────────────────────────────────────────── -->
     <section class="hero" id="hero">
 
-      <!-- Cinematic video background -->
+      <!-- Star constellation video background -->
       <div class="hero__video-bg" aria-hidden="true">
         <video class="hero__video" autoplay muted loop playsinline preload="auto">
-          <source src="public/images/hf_20260416_190003_8014e2a1-e395-495d-932a-5b2aaeaccf55.mp4" type="video/mp4" />
+          <source src="public/videos/star-constellation-bg.mp4" type="video/mp4" />
         </video>
         <div class="hero__video-overlay"></div>
       </div>
 
       <div class="hero__bg-text" aria-hidden="true">Cinema</div>
 
-      <!-- Golden light rays -->
       <div class="hero__rays" aria-hidden="true">
         <span class="hero__ray"></span>
         <span class="hero__ray"></span>
@@ -126,7 +113,6 @@
         <span class="hero__ray"></span>
       </div>
 
-      <!-- Floating gold dust orbs -->
       <div class="hero__orbs" aria-hidden="true">
         <span class="hero__orb hero__orb--1"></span>
         <span class="hero__orb hero__orb--2"></span>
@@ -136,41 +122,102 @@
       </div>
 
       <div class="container hero__inner">
-        <p class="section-label">Premium Web Design Agency</p>
-        <h1 class="hero__headline">
-          Websites That<br />
-          <em class="gold-shimmer">Attract, Capture,</em><br />
-          and Convert
-        </h1>
-        <p class="hero__subtext">Cinema builds premium, high-end websites that make your business look world-class — and turn every visitor into a potential customer.</p>
+        <p class="section-label">Landing Page &amp; Lead Capture Agency</p>
+        <h1 class="hero__headline">Your Ads Got the Click.<br /><em class="gold-shimmer">We Build the Page</em><br />That Gets the Customer.</h1>
+        <p class="hero__subtext">Cinema builds focused, cinematic landing pages for businesses running ads, so every click lands on a page built around one offer, one audience, and one clear action.</p>
+        <p class="hero__microcopy">No distractions. No confusing menus. Just a clear path from click to lead.</p>
         <div class="hero__rule" aria-hidden="true"></div>
         <div class="hero__cta">
-          <a href="contact.html" class="btn btn--primary btn--lg">Get My Premium Website</a>
-          <a href="services.html" class="btn btn--ghost btn--lg">See What We Build</a>
+          <a href="#contact" class="btn btn--primary btn--lg">Get My Landing Page</a>
+          <a href="#problem" class="btn btn--ghost btn--lg">See the Strategy</a>
         </div>
+        <p class="hero__trust">Built for paid ads, local services, promotions, quote requests, bookings, and lead capture.</p>
       </div>
     </section>
 
     <!-- ── MARQUEE TICKER ──────────────────────────────────── -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span class="marquee__item">Premium Web Design <span class="marquee__dot">·</span></span>
-        <span class="marquee__item">Cinematic Experiences <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Ad Landing Pages <span class="marquee__dot">·</span></span>
         <span class="marquee__item">Lead Capture Systems <span class="marquee__dot">·</span></span>
-        <span class="marquee__item">Conversion First <span class="marquee__dot">·</span></span>
-        <span class="marquee__item">Website Upgrades <span class="marquee__dot">·</span></span>
-        <span class="marquee__item">Premium Web Design <span class="marquee__dot">·</span></span>
-        <span class="marquee__item">Cinematic Experiences <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Conversion Copywriting <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Mobile-First Design <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Click To Customer <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Cinematic Pages That Convert <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Ad Landing Pages <span class="marquee__dot">·</span></span>
         <span class="marquee__item">Lead Capture Systems <span class="marquee__dot">·</span></span>
-        <span class="marquee__item">Conversion First <span class="marquee__dot">·</span></span>
-        <span class="marquee__item">Website Upgrades <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Conversion Copywriting <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Mobile-First Design <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Click To Customer <span class="marquee__dot">·</span></span>
+        <span class="marquee__item">Cinematic Pages That Convert <span class="marquee__dot">·</span></span>
       </div>
     </div>
 
     <!-- ── STATEMENT ────────────────────────────────────────── -->
     <section class="statement" data-reveal>
       <div class="container">
-        <p class="statement__quote">We don't build websites.<br /><em class="gold-shimmer">We build your reputation.</em></p>
+        <p class="statement__quote">Your ads are only as good as<br /><em class="gold-shimmer">the page they land on.</em></p>
+      </div>
+    </section>
+
+    <!-- ── PROBLEM ─────────────────────────────────────────── -->
+    <section class="problem section" id="problem">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="section-label">The Real Problem</p>
+          <h2 class="section-title">Your Ads Are Only as Good as the Page They Land On</h2>
+          <p class="section-sub">Most businesses spend money on ads, then send people to a regular website that was never built to convert. Visitors click around, get distracted, lose interest, and leave without calling, booking, or requesting a quote.</p>
+        </div>
+
+        <div class="problem__split" data-reveal data-delay="1">
+          <div class="problem__col problem__col--bad">
+            <p class="problem__col-label">Regular Website</p>
+            <ul class="problem__list problem__list--bad">
+              <li>Too many menu options and pages</li>
+              <li>Visitors click away without taking action</li>
+              <li>No focused offer or clear next step</li>
+              <li>Weak or missing calls to action</li>
+              <li>No urgency or reason to act now</li>
+              <li>Ad traffic gets lost and wasted</li>
+            </ul>
+          </div>
+          <div class="problem__divider" aria-hidden="true">
+            <span class="problem__vs">VS</span>
+          </div>
+          <div class="problem__col problem__col--good">
+            <p class="problem__col-label">Cinema Landing Page</p>
+            <ul class="problem__list problem__list--good">
+              <li>One clear offer, one target customer</li>
+              <li>Persuasive copy that guides every visitor</li>
+              <li>Strong headlines and benefit sections</li>
+              <li>Trust-building sections and FAQs</li>
+              <li>Mobile-first, built for ad traffic</li>
+              <li>Easy path to call, book, or request a quote</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="funnel-flow" data-reveal data-delay="2">
+          <div class="funnel-step">
+            <div class="funnel-icon">&#9654;</div>
+            <p class="funnel-label">Ad Click</p>
+          </div>
+          <div class="funnel-arrow" aria-hidden="true">&#8594;</div>
+          <div class="funnel-step">
+            <div class="funnel-icon">&#9707;</div>
+            <p class="funnel-label">Landing Page</p>
+          </div>
+          <div class="funnel-arrow" aria-hidden="true">&#8594;</div>
+          <div class="funnel-step">
+            <div class="funnel-icon">&#9638;</div>
+            <p class="funnel-label">Lead Captured</p>
+          </div>
+          <div class="funnel-arrow" aria-hidden="true">&#8594;</div>
+          <div class="funnel-step">
+            <div class="funnel-icon">&#10003;</div>
+            <p class="funnel-label">New Customer</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -180,58 +227,412 @@
       <div class="reel__bar reel__bar--bottom" aria-hidden="true"></div>
       <div class="reel__video-wrap">
         <video class="reel__video" autoplay muted loop playsinline preload="auto">
-          <source src="public/hf_20260418_053326_f7fd2cf4-1e25-4953-b34d-dbd00aeadfa4.mp4" type="video/mp4" />
+          <source src="public/images/hf_20260416_190003_8014e2a1-e395-495d-932a-5b2aaeaccf55.mp4" type="video/mp4" />
         </video>
         <div class="reel__overlay" aria-hidden="true"></div>
         <div class="reel__grain" aria-hidden="true"></div>
       </div>
       <div class="reel__content">
         <p class="reel__label">The Cinema Standard</p>
-        <h2 class="reel__headline">This Is What <em>Premium</em><br />Looks Like</h2>
+        <h2 class="reel__headline">Pages Built to<br /><em>Convert</em></h2>
         <div class="reel__rule" aria-hidden="true"></div>
       </div>
     </section>
 
-    <!-- ── HOME CTA ─────────────────────────────────────────── -->
-    <section class="cta section" id="cta">
-      <div class="container cta__inner" data-reveal>
-        <p class="section-label">Take the Next Step</p>
-        <h2 class="cta__headline">Your Business Deserves a Website That Works</h2>
-        <p class="cta__sub">Stop losing customers to competitors with better-looking websites. Cinema builds premium, cinematic sites engineered to attract, capture, and convert from day one.</p>
-        <div class="hero__cta">
-          <a href="pricing.html" class="btn btn--gold btn--lg">View Pricing</a>
-          <a href="contact.html" class="btn btn--ghost btn--lg">Get Started</a>
+    <!-- ── 2. SERVICES ──────────────────────────────────────── -->
+    <section class="services section" id="services">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="section-label">What We Build</p>
+          <h2 class="section-title">Cinematic Landing Pages Built to Capture Leads</h2>
+          <p class="section-sub">Every service is designed to help your ads work harder and turn more of your paid traffic into real opportunities.</p>
+        </div>
+        <div class="cards">
+          <div class="card" data-reveal data-delay="1">
+            <div class="card__accent"></div>
+            <h3 class="card__title">Ad Landing Pages</h3>
+            <p class="card__text">Focused landing pages built for paid ads, promotions, local services, and special offers. One page. One offer. One action.</p>
+          </div>
+          <div class="card" data-reveal data-delay="2">
+            <div class="card__accent"></div>
+            <h3 class="card__title">Lead Capture Pages</h3>
+            <p class="card__text">Pages designed to collect names, emails, phone numbers, quote requests, bookings, and customer inquiries from every visitor who lands.</p>
+          </div>
+          <div class="card" data-reveal data-delay="3">
+            <div class="card__accent"></div>
+            <h3 class="card__title">Offer Strategy</h3>
+            <p class="card__text">We help position your service, promotion, or offer so visitors understand the value fast and feel like they landed exactly where they needed to be.</p>
+          </div>
+          <div class="card" data-reveal data-delay="1">
+            <div class="card__accent"></div>
+            <h3 class="card__title">Conversion Copywriting</h3>
+            <p class="card__text">Persuasive headlines, benefit sections, trust points, FAQs, and CTAs written to guide visitors toward action instead of sending them away.</p>
+          </div>
+          <div class="card" data-reveal data-delay="2">
+            <div class="card__accent"></div>
+            <h3 class="card__title">Mobile-First Design</h3>
+            <p class="card__text">Pages designed to look clean, professional, and easy to use on phones — where most of your ad traffic actually lands and decides.</p>
+          </div>
+          <div class="card" data-reveal data-delay="3">
+            <div class="card__accent"></div>
+            <h3 class="card__title">Fast Launch Setup</h3>
+            <p class="card__text">Quick builds made to help businesses launch campaigns faster without overcomplicating the process or waiting months to go live.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ── FOOTER ─────────────────────────────────────────────── -->
+    <!-- ── WHO THIS IS FOR ────────────────────────────────────── -->
+    <section class="who-for section section--dark" id="who-for">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="section-label">Who This Is For</p>
+          <h2 class="section-title">Built for Businesses That Need More Action From Their Traffic</h2>
+          <p class="section-sub">This is for businesses that are already running ads, planning to run ads, or want a focused page for a specific service, promotion, or campaign.</p>
+        </div>
+        <div class="audience-tags" data-reveal data-delay="1">
+          <span class="audience-tag">Local Service Businesses</span>
+          <span class="audience-tag">Contractors</span>
+          <span class="audience-tag">Med Spas</span>
+          <span class="audience-tag">Auto Detailers</span>
+          <span class="audience-tag">Wrap &amp; Sign Shops</span>
+          <span class="audience-tag">Roofers</span>
+          <span class="audience-tag">Cleaners</span>
+          <span class="audience-tag">Real Estate Professionals</span>
+          <span class="audience-tag">Gyms &amp; Trainers</span>
+          <span class="audience-tag">Coaches &amp; Consultants</span>
+          <span class="audience-tag">Restaurants &amp; Local Offers</span>
+          <span class="audience-tag">Agencies</span>
+        </div>
+        <div class="who-for__cta" data-reveal data-delay="2">
+          <a href="#contact" class="btn btn--gold btn--lg">Build My Landing Page</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. WHY US ───────────────────────────────────────── -->
+    <section class="why-us section" id="why-us">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="section-label">Why Landing Pages</p>
+          <h2 class="section-title">Why Landing Pages Beat Regular Websites for Ads</h2>
+          <p class="section-sub">A regular website is built for many goals. A landing page is built for one — and that focus is what turns paid traffic into real leads.</p>
+        </div>
+        <div class="pillars">
+          <div class="pillar" data-reveal data-delay="1">
+            <span class="pillar__number">01</span>
+            <h3 class="pillar__title">Less Distraction</h3>
+            <p class="pillar__text">A landing page keeps visitors focused instead of sending them through menus, galleries, and unrelated pages that cause them to leave before acting.</p>
+          </div>
+          <div class="pillar" data-reveal data-delay="2">
+            <span class="pillar__number">02</span>
+            <h3 class="pillar__title">Stronger Message Match</h3>
+            <p class="pillar__text">The page is built around the exact ad, offer, and audience — so the visitor feels like they landed in exactly the right place.</p>
+          </div>
+          <div class="pillar" data-reveal data-delay="3">
+            <span class="pillar__number">03</span>
+            <h3 class="pillar__title">Clearer Call to Action</h3>
+            <p class="pillar__text">Every section pushes toward one action: call, book, request a quote, or submit a form. No confusion. No second-guessing. Just a clear next step.</p>
+          </div>
+          <div class="pillar" data-reveal data-delay="4">
+            <span class="pillar__number">04</span>
+            <h3 class="pillar__title">Better Lead Capture</h3>
+            <p class="pillar__text">The form, phone number, booking link, or quote request is placed where visitors are most ready to act — not buried at the bottom of a long site.</p>
+          </div>
+        </div>
+        <div class="why-us__bottom" data-reveal>
+          <div class="why-us__statement">
+            <p class="section-label">Not Just a Pretty Page</p>
+            <h3 class="why-us__statement-title">A Page With a Job.</h3>
+            <p class="why-us__statement-body">The cinematic effects create attention. The strategy creates action. Every section is built to move the visitor one step closer to becoming a lead.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4. PROCESS ───────────────────────────────────────── -->
+    <section class="process section" id="process">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="section-label">How It Works</p>
+          <h2 class="section-title">Simple Process. Fast Launch.</h2>
+          <p class="section-sub">A straightforward process designed to get your landing page live and capturing leads without the back-and-forth.</p>
+        </div>
+        <div class="steps">
+          <div class="step" data-reveal data-delay="1">
+            <div class="step__num">1</div>
+            <h3 class="step__title">Understand Your Offer</h3>
+            <p class="step__text">We learn what you sell, who your ideal customer is, and what action you want visitors to take. Zero fluff — just clarity and direction.</p>
+          </div>
+          <div class="step" data-reveal data-delay="2">
+            <div class="step__num">2</div>
+            <h3 class="step__title">Build the Message</h3>
+            <p class="step__text">We create the headline, offer angle, benefits, trust points, and call-to-action flow — written to persuade, not just inform.</p>
+          </div>
+          <div class="step" data-reveal data-delay="3">
+            <div class="step__num">3</div>
+            <h3 class="step__title">Design the Page</h3>
+            <p class="step__text">We build a cinematic, persuasive landing page that keeps visitors focused on your offer and guided toward your CTA.</p>
+          </div>
+          <div class="step" data-reveal data-delay="4">
+            <div class="step__num">4</div>
+            <h3 class="step__title">Connect Lead Capture</h3>
+            <p class="step__text">We connect the form, email notification, phone button, quote request, or booking link so no lead slips through.</p>
+          </div>
+          <div class="step" data-reveal data-delay="1">
+            <div class="step__num">5</div>
+            <h3 class="step__title">Launch &amp; Improve</h3>
+            <p class="step__text">Your page goes live so you can start sending ad traffic to a page designed to convert — and we refine from there.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. PRICING ──────────────────────────────────────── -->
+    <section class="pricing section section--dark" id="pricing">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="section-label">Packages</p>
+          <h2 class="section-title">Landing Page Packages</h2>
+          <p class="section-sub">Every business is different. Pricing depends on page complexity, copy, integrations, tracking setup, and cinematic effects needed.</p>
+        </div>
+        <div class="pricing-cards">
+          <div class="pricing-card" data-reveal data-delay="1">
+            <div class="pricing-card__accent"></div>
+            <p class="pricing-card__name">Quick Landing Page</p>
+            <p class="pricing-card__price">$750 – $1,500</p>
+            <p class="pricing-card__best">Best for simple service offers, quote requests, basic ad campaigns, or one focused promotion.</p>
+            <ul class="pricing-card__list">
+              <li>One high-converting landing page</li>
+              <li>Mobile-friendly design</li>
+              <li>Persuasive headline and CTA copy</li>
+              <li>Contact or quote request form</li>
+              <li>Click-to-call button</li>
+              <li>Basic trust sections</li>
+              <li>Fast launch setup</li>
+              <li>Light cinematic effects</li>
+            </ul>
+            <a href="#contact" class="btn btn--ghost btn--full">Start Quick Page</a>
+          </div>
+          <div class="pricing-card pricing-card--featured" data-reveal data-delay="2">
+            <div class="pricing-card__badge">Most Popular</div>
+            <div class="pricing-card__accent"></div>
+            <p class="pricing-card__name">Conversion Landing Page</p>
+            <p class="pricing-card__price">$1,500 – $3,500</p>
+            <p class="pricing-card__best">Best for businesses actively running ads and needing a stronger page built to capture more leads.</p>
+            <ul class="pricing-card__list">
+              <li>Everything in Quick Landing Page</li>
+              <li>Stronger offer positioning</li>
+              <li>Detailed conversion copy</li>
+              <li>Multiple CTA sections</li>
+              <li>Benefit-focused sections</li>
+              <li>Testimonials &amp; trust sections</li>
+              <li>FAQ section</li>
+              <li>Email notification setup</li>
+              <li>Analytics/tracking readiness</li>
+              <li>Enhanced transitions &amp; motion effects</li>
+            </ul>
+            <a href="#contact" class="btn btn--primary btn--full">Build Conversion Page</a>
+          </div>
+          <div class="pricing-card" data-reveal data-delay="3">
+            <div class="pricing-card__accent"></div>
+            <p class="pricing-card__name">Landing Page Funnel System</p>
+            <p class="pricing-card__price">$3,500 – $6,500+</p>
+            <p class="pricing-card__best">Best for businesses that need a complete lead capture system for paid ads, multiple offers, or higher-ticket services.</p>
+            <ul class="pricing-card__list">
+              <li>Custom landing page strategy</li>
+              <li>Advanced persuasive copy</li>
+              <li>Multiple landing page sections</li>
+              <li>Lead form or booking flow</li>
+              <li>Thank-you page</li>
+              <li>Follow-up direction</li>
+              <li>Tracking-ready structure</li>
+              <li>Optional automation connection</li>
+              <li>Premium cinematic motion design</li>
+            </ul>
+            <a href="#contact" class="btn btn--ghost btn--full">Build My Funnel</a>
+          </div>
+        </div>
+        <div class="pricing-care" data-reveal>
+          <div class="pricing-care__inner">
+            <div class="pricing-care__copy">
+              <p class="section-label">Optional Add-On</p>
+              <h3 class="pricing-care__title">Landing Page Care Plan</h3>
+              <p class="pricing-care__price">$250 – $1,000 / month</p>
+              <p class="pricing-care__text">Text updates, offer updates, CTA changes, form checks, new section edits, and basic monthly optimization to keep your page performing.</p>
+            </div>
+            <a href="#contact" class="btn btn--gold btn--lg">Ask About Care Plan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6. FAQ ───────────────────────────────────────────── -->
+    <section class="faq section" id="faq">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="section-label">Common Questions</p>
+          <h2 class="section-title">Questions Business Owners Usually Ask</h2>
+        </div>
+        <div class="faq-list" data-reveal data-delay="1">
+          <details class="faq-item">
+            <summary class="faq-item__q">Why not just send ads to my regular website?</summary>
+            <p class="faq-item__a">You can, but regular websites are built for general information. A landing page is built around one offer and one action, which makes it significantly better for ad campaigns where you want visitors to do something specific.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">Do I need a landing page if I already have a website?</summary>
+            <p class="faq-item__a">Yes, especially if you are running ads. Your website can still exist for everything else, but your ads should send people to a focused page built specifically for that campaign and offer.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">Can the page collect quote requests or bookings?</summary>
+            <p class="faq-item__a">Yes. The page can include a contact form, quote request form, click-to-call button, booking link, email notification, or other lead capture method based on what your business needs.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">How fast can a landing page be built?</summary>
+            <p class="faq-item__a">Simple landing pages can usually be built quickly once the offer, business details, and needed content are ready. More advanced pages with funnels, integrations, or cinematic motion effects take longer depending on complexity.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">Will the cinematic effects slow the page down?</summary>
+            <p class="faq-item__a">The goal is to keep every page smooth, fast, and conversion-focused. Motion is used to guide attention toward the offer and CTA — not to make the page harder to use or load.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">Can this work for local businesses?</summary>
+            <p class="faq-item__a">Yes. Landing pages work especially well for local service businesses because they help people quickly understand the offer and take action — whether that is a call, booking, or quote request.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">Do you write the words for the page?</summary>
+            <p class="faq-item__a">Yes. Cinema helps create persuasive landing page copy including the headline, benefits, trust sections, FAQs, and calls to action — written to move visitors toward becoming a lead.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 7. CONTACT ────────────────────────────────────────── -->
+    <section class="contact section contact--cinematic" id="contact">
+      <div class="contact__video-bg" aria-hidden="true">
+        <video class="contact__video" autoplay muted loop playsinline preload="auto">
+          <source src="public/hf_20260418_053326_f7fd2cf4-1e25-4953-b34d-dbd00aeadfa4.mp4" type="video/mp4" />
+        </video>
+        <div class="contact__video-overlay"></div>
+        <div class="contact__video-grain"></div>
+        <div class="contact__video-rays" aria-hidden="true">
+          <span class="contact__vray"></span>
+          <span class="contact__vray"></span>
+          <span class="contact__vray"></span>
+        </div>
+      </div>
+      <div class="container">
+        <div class="contact__inner">
+          <div class="contact__copy" data-reveal>
+            <p class="section-label">Get Started</p>
+            <h2 class="section-title">Request Your Landing Page</h2>
+            <p class="section-sub">Tell us what you want to promote, where your traffic is coming from, and what action you want visitors to take.</p>
+            <ul class="contact__list">
+              <li>Landing pages built for paid ads</li>
+              <li>Focused on one offer and one action</li>
+              <li>Lead capture built into every page</li>
+              <li>Response within 24 hours</li>
+            </ul>
+          </div>
+          <div class="contact__form-wrap" data-reveal data-delay="2">
+            <form class="contact__form" id="contact-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <input type="text" name="name" placeholder="Full Name" required />
+                </div>
+                <div class="form-group">
+                  <input type="text" name="businessName" placeholder="Business Name" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <input type="email" name="email" placeholder="Email Address" required />
+                </div>
+                <div class="form-group">
+                  <input type="tel" name="phone" placeholder="Phone Number" />
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" name="website" placeholder="Website or Social Media Link (optional)" />
+              </div>
+              <div class="form-group">
+                <textarea name="offer" placeholder="What service, product, or offer do you want to promote?" rows="3"></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <select name="runningAds">
+                    <option value="" disabled selected>Are you currently running ads?</option>
+                    <option value="yes">Yes, currently running ads</option>
+                    <option value="planning">Planning to run ads</option>
+                    <option value="no">Not running ads yet</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <select name="goal">
+                    <option value="" disabled selected>What should the page do?</option>
+                    <option value="calls">Get phone calls</option>
+                    <option value="quotes">Collect quote requests</option>
+                    <option value="bookings">Book appointments</option>
+                    <option value="leads">Collect emails / leads</option>
+                    <option value="sales">Sell a product or service</option>
+                    <option value="unsure">Not sure yet</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" name="timeline" placeholder="Desired launch timeline (e.g. ASAP, within 2 weeks)" />
+              </div>
+              <div class="form-group">
+                <textarea name="message" placeholder="Anything else we should know about your business or campaign?" rows="4"></textarea>
+              </div>
+              <button type="submit" class="btn btn--primary btn--full">Request My Landing Page &rarr;</button>
+              <div class="form-success" id="contact-success">
+                <p>Thank you — we'll be in touch within 24 hours.</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 8. CTA ────────────────────────────────────────────── -->
+    <section class="cta section" id="cta">
+      <div class="container cta__inner" data-reveal>
+        <p class="section-label">Take the Next Step</p>
+        <h2 class="cta__headline">Stop Sending Paid Traffic to a Page That Wasn't Built to Convert</h2>
+        <p class="cta__sub">Your ads are already doing the hard work of getting attention. The landing page should finish the job. Cinema creates cinematic, focused, persuasive pages that help turn visitors into calls, quote requests, bookings, and customers.</p>
+        <div class="cta__buttons">
+          <a href="#contact" class="btn btn--gold btn--lg">Request My Landing Page</a>
+          <a href="#pricing" class="btn btn--ghost btn--lg">View Packages</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 9. FOOTER ─────────────────────────────────────────── -->
     <footer class="footer">
       <div class="container footer__inner">
         <div class="footer__brand">
           <span class="footer__logo">Cinema</span>
-          <p class="footer__tagline">Cinematic Websites That Attract, Capture, and Convert</p>
+          <p class="footer__tagline">Cinematic Landing Pages That Turn Clicks Into Customers</p>
         </div>
         <nav class="footer__nav" aria-label="Footer navigation">
-          <a href="services.html" class="footer__link">Services</a>
-          <a href="process.html" class="footer__link">Process</a>
-          <a href="pricing.html" class="footer__link">Pricing</a>
-          <a href="contact.html" class="footer__link">Contact</a>
+          <a href="#services" class="footer__link">Services</a>
+          <a href="#why-us" class="footer__link">Why Us</a>
+          <a href="#pricing" class="footer__link">Pricing</a>
+          <a href="#faq" class="footer__link">FAQ</a>
+          <a href="#contact" class="footer__link">Contact</a>
         </nav>
         <p class="footer__copy">&copy; 2026 Cinema. All rights reserved.</p>
       </div>
     </footer>
 
-    <!-- Gold ambient dust — JS populates particles -->
     <div class="gold-dust-canvas" id="gold-dust-canvas" aria-hidden="true"></div>
 
   </div><!-- /#main-site -->
 
-  <!-- Custom cursor (cinematic.js positions via GSAP ticker) -->
   <div class="cursor-dot"  id="cursor-dot"  aria-hidden="true"></div>
   <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 
-  <!-- Cinematic libs: GSAP core, ScrollTrigger, Lenis smooth scroll -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>

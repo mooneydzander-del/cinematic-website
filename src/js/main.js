@@ -55,14 +55,20 @@
   /* ── Contact Form ───────────────────────────────────────── */
   function storeContactSubmission(data) {
     var submission = {
-      id:        generateId(),
-      timestamp: new Date().toISOString(),
-      source:    window.location.href,
-      name:      data.name,
-      email:     data.email.toLowerCase(),
-      phone:     data.phone,
-      details:   data.details,
-      status:    'new'
+      id:           generateId(),
+      timestamp:    new Date().toISOString(),
+      source:       window.location.href,
+      name:         data.name,
+      businessName: data.businessName,
+      email:        data.email.toLowerCase(),
+      phone:        data.phone,
+      website:      data.website,
+      offer:        data.offer,
+      runningAds:   data.runningAds,
+      goal:         data.goal,
+      timeline:     data.timeline,
+      message:      data.message,
+      status:       'new'
     };
 
     // Replace with API call when backend is ready:
@@ -82,6 +88,11 @@
     return submission;
   }
 
+  function getField(form, name) {
+    var el = form.querySelector('[name="' + name + '"]');
+    return el ? (el.value || '').trim() : '';
+  }
+
   function initContactForm() {
     var form      = document.getElementById('contact-form');
     var successEl = document.getElementById('contact-success');
@@ -91,10 +102,8 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      var name    = (form.querySelector('[name="name"]').value    || '').trim();
-      var email   = (form.querySelector('[name="email"]').value   || '').trim();
-      var phone   = (form.querySelector('[name="phone"]').value   || '').trim();
-      var details = (form.querySelector('[name="details"]').value || '').trim();
+      var name  = getField(form, 'name');
+      var email = getField(form, 'email');
 
       if (!name || !email) {
         alert('Please enter your name and email address.');
@@ -106,7 +115,18 @@
         return;
       }
 
-      storeContactSubmission({ name: name, email: email, phone: phone, details: details });
+      storeContactSubmission({
+        name:         name,
+        businessName: getField(form, 'businessName'),
+        email:        email,
+        phone:        getField(form, 'phone'),
+        website:      getField(form, 'website'),
+        offer:        getField(form, 'offer'),
+        runningAds:   getField(form, 'runningAds'),
+        goal:         getField(form, 'goal'),
+        timeline:     getField(form, 'timeline'),
+        message:      getField(form, 'message')
+      });
 
       form.reset();
       form.style.display = 'none';
@@ -114,22 +134,10 @@
     });
   }
 
-  /* ── Active Nav Link ────────────────────────────────────── */
-  function initActiveNav() {
-    var page = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.nav__link').forEach(function (link) {
-      var href = (link.getAttribute('href') || '').split('/').pop();
-      if (href && href !== '' && href === page) {
-        link.classList.add('nav__link--active');
-      }
-    });
-  }
-
   /* ── Init ───────────────────────────────────────────────── */
   /* Scroll reveals are handled by cinematic.js (GSAP + ScrollTrigger) */
   function init() {
     initNav();
-    initActiveNav();
     initContactForm();
   }
 

@@ -61,13 +61,12 @@
         }
       });
     } else {
-      gate.classList.add('gate-modal--exit');
-      gate.addEventListener('transitionend', function onEnd(e) {
-        if (e.propertyName !== 'opacity') return;
-        gate.removeEventListener('transitionend', onEnd);
+      gate.style.transition = 'opacity 0.55s ease';
+      gate.style.opacity = '0';
+      setTimeout(function () {
         if (gate.parentNode) gate.parentNode.removeChild(gate);
         document.body.classList.remove('modal-open');
-      });
+      }, 580);
     }
   }
 
@@ -99,23 +98,23 @@
 
     var tl = gsap.timeline();
 
-    /* 1. Step 1 collapses: scale down + blur out + fade */
+    /* 1. Step 1 collapses */
     tl.to(step1, {
-      scale:   0.94,
-      opacity: 0,
-      filter:  'blur(5px)',
+      scale:    0.94,
+      opacity:  0,
+      filter:   'blur(5px)',
       duration: 0.32,
-      ease:    'power2.in'
+      ease:     'power2.in'
     })
 
-    /* 2. Card gold pulse + shimmer sweep */
+    /* 2. Card gold pulse + shimmer */
     .call(function () {
       gsap.to(card, {
         boxShadow: '0 40px 120px rgba(0,0,0,0.8), 0 0 90px rgba(192,154,69,0.28), 0 0 0 1px rgba(192,154,69,0.35)',
-        duration:  0.24,
-        ease:      'power1.out',
-        yoyo:      true,
-        repeat:    1
+        duration: 0.24,
+        ease: 'power1.out',
+        yoyo: true,
+        repeat: 1
       });
       if (shimmer) {
         gsap.fromTo(shimmer,
@@ -130,13 +129,7 @@
     /* 3. Swap steps */
     .call(function () {
       step1.style.display = 'none';
-      gsap.set(step2, {
-        display:  'flex',
-        opacity:  0,
-        scale:    1.05,
-        filter:   'blur(6px)',
-        y:        0
-      });
+      gsap.set(step2, { display: 'flex', opacity: 0, scale: 1.05, filter: 'blur(6px)', y: 0 });
     })
 
     /* 4. Step 2 materializes */
@@ -151,8 +144,8 @@
     /* 5. Restore card shadow */
     .to(card, {
       boxShadow: '0 48px 130px rgba(0,0,0,0.78), 0 0 0 1px rgba(192,154,69,0.06), 0 0 70px rgba(192,154,69,0.05)',
-      duration:  0.5,
-      ease:      'power2.out'
+      duration: 0.5,
+      ease: 'power2.out'
     }, '-=0.42')
 
     /* 6. Stagger headline lines */
@@ -164,7 +157,7 @@
     var errors = {};
     if (!name.trim())                  errors.name     = 'Please enter your name.';
     if (!business.trim())              errors.business = 'Please enter your business name.';
-    if (!contact.trim())               errors.contact  = 'Please enter your email or phone number.';
+    if (!contact.trim())               errors.contact  = 'Please enter your email or phone.';
     else if (!isValidContact(contact)) errors.contact  = 'Please enter a valid email or phone number.';
     return errors;
   }
@@ -198,10 +191,7 @@
 
     if (next)   next.addEventListener('click', showStep2);
     if (seeHow) seeHow.addEventListener('click', showStep2);
-
-    if (skip) {
-      skip.addEventListener('click', dismissModal);
-    }
+    if (skip)   skip.addEventListener('click', dismissModal);
 
     if (form) {
       form.addEventListener('submit', function (e) {
