@@ -1,0 +1,23 @@
+{
+  "name": "cinematic-website",
+  "version": "1.0.0",
+  "description": "Cinema - Cinematic Websites That Attract, Capture, and Convert",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mooneydzander-del/cinematic-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mooneydzander-del/cinematic-website/issues"
+  },
+  "homepage": "https://github.com/mooneydzander-del/cinematic-website#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
