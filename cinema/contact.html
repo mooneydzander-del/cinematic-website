@@ -80,6 +80,13 @@
         <div class="contact__form-wrap" data-reveal data-delay="2">
           <form class="contact__form" id="cinema-lead-form" novalidate>
 
+            <input type="hidden" name="business_type"   value="" />
+            <input type="hidden" name="website_url"     value="" />
+            <input type="hidden" name="ad_platform"     value="" />
+            <input type="hidden" name="target_audience" value="" />
+            <input type="hidden" name="project_price"   value="0" />
+            <input type="hidden" name="notes"           value="" />
+
             <div class="form-row">
               <div class="form-group">
                 <input type="text" name="full_name" placeholder="Full Name" required />
@@ -111,13 +118,7 @@
               </select>
             </div>
 
-            <div class="form-error" id="contact-error" style="display:none;"></div>
-
             <button type="submit" class="btn btn--primary btn--full" id="contact-submit">Request My Landing Page Plan &rarr;</button>
-
-            <div class="form-success" id="contact-success">
-              <p>Thank you — we'll be in touch within 24 hours.</p>
-            </div>
 
           </form>
           <p class="contact__microcopy">No pressure. We'll review your offer and let you know what type of landing page would make the most sense for your business.</p>
@@ -184,135 +185,6 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script src="src/js/main.js"></script>
   <script src="src/js/cinematic.js"></script>
-
-  <!-- ============================================================
-       CINEMA LEAD FORM — inline handler, no external dependency.
-       Runs on DOMContentLoaded after all scripts above have loaded.
-  ============================================================ -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-
-      var form      = document.getElementById('cinema-lead-form');
-      var successEl = document.getElementById('contact-success');
-      var errorEl   = document.getElementById('contact-error');
-
-      if (!form) {
-        console.error('[Cinema] cinema-lead-form element not found');
-        return;
-      }
-
-      console.log('[Cinema] cinema-lead-form found, attaching submit handler');
-
-      /* ── Helpers ── */
-      function getVal(name) {
-        var el = form.querySelector('[name="' + name + '"]');
-        return el ? el.value.trim() : '';
-      }
-
-      function isEmail(v) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-      }
-
-      function showError(msg) {
-        if (!errorEl) return;
-        errorEl.textContent = msg;
-        errorEl.style.display = 'block';
-      }
-
-      function hideError() {
-        if (!errorEl) return;
-        errorEl.style.display = 'none';
-        errorEl.textContent = '';
-      }
-
-      function setLoading(on) {
-        var btn = form.querySelector('[type="submit"]');
-        if (!btn) return;
-        btn.disabled = on;
-        btn.textContent = on ? 'Sending…' : 'Request My Landing Page Plan →';
-      }
-
-      function saveFallback(payload) {
-        try {
-          var key = 'cinema_contact_submissions';
-          var arr = JSON.parse(localStorage.getItem(key) || '[]');
-          arr.push({ ts: new Date().toISOString(), status: 'api-failed', payload: payload });
-          localStorage.setItem(key, JSON.stringify(arr));
-        } catch (e) {}
-      }
-
-      /* ── Submit handler ── */
-      form.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        hideError();
-
-        /* Read every form field */
-        var full_name     = getVal('full_name');
-        var business_name = getVal('business_name');
-        var email         = getVal('email');
-        var phone         = getVal('phone');
-        var offer         = getVal('offer');
-        var goal          = getVal('goal');
-
-        /* Validate required fields */
-        if (!full_name)      { showError('Please enter your full name.');          return; }
-        if (!business_name)  { showError('Please enter your business name.');      return; }
-        if (!email)          { showError('Please enter your email address.');       return; }
-        if (!isEmail(email)) { showError('Please enter a valid email address.');    return; }
-        if (!offer)          { showError('Please describe what you are advertising.'); return; }
-
-        /* Build the 12-field payload with exact API field names */
-        var payload = {
-          full_name:       full_name,
-          business_name:   business_name,
-          email:           email,
-          phone:           phone,
-          business_type:   '',
-          website_url:     '',
-          offer:           offer,
-          goal:            goal || 'not specified',
-          ad_platform:     '',
-          target_audience: '',
-          project_price:   0,
-          notes:           ''
-        };
-
-        setLoading(true);
-        console.log('Submitting Cinema lead', payload);
-
-        try {
-          var response = await fetch('/api/cinema-lead', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify(payload)
-          });
-
-          console.log('Cinema lead response status', response.status);
-
-          var result = await response.json();
-          console.log('Cinema lead response data', result);
-
-          if (response.ok) {
-            form.style.display = 'none';
-            if (successEl) {
-              successEl.style.display = 'block';
-              successEl.classList.add('is-visible');
-            }
-          } else {
-            showError(result.error || 'Something went wrong. Please try again.');
-            setLoading(false);
-            saveFallback(payload);
-          }
-
-        } catch (err) {
-          console.error('Cinema lead fetch error', err);
-          saveFallback(payload);
-          showError('Could not send your request right now. Please try again or email us directly.');
-          setLoading(false);
-        }
-      });
-
-    });
-  </script>
+  <script defer src="src/js/cinema-lead.js"></script>
 </body>
 </html>
