@@ -1,11 +1,8 @@
 /* ============================================================
    Cinema — Main Site JS
    Handles: navigation (mobile toggle, scroll state),
-            contact form (validation, storage),
-            scroll reveal (IntersectionObserver)
-
-   Contact submissions are stored as structured JSON in
-   localStorage, ready to swap for an API call.
+            contact form (validation, API submission),
+            localStorage used only as fallback when API fails.
    ============================================================ */
 
 (function () {
@@ -21,6 +18,11 @@
 
   function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  }
+
+  function getField(form, name) {
+    var el = form.querySelector('[name="' + name + '"]');
+    return el ? (el.value || '').trim() : '';
   }
 
   /* ── Navigation ─────────────────────────────────────────── */
@@ -52,82 +54,143 @@
     }
   }
 
-  /* ── Contact Form ───────────────────────────────────────── */
-  function storeContactSubmission(data) {
-    var submission = {
-      id:           generateId(),
-      timestamp:    new Date().toISOString(),
-      source:       window.location.href,
-      name:         data.name,
-      businessName: data.businessName,
-      email:        data.email.toLowerCase(),
-      phone:        data.phone,
-      offer:        data.offer,
-      runningAds:   data.runningAds,
-      status:       'new'
+  /* ── localStorage fallback (only used when API fails) ───── */
+  function storeContactFallback(payload) {
+    var record = {
+      id:        generateId(),
+      timestamp: new Date().toISOString(),
+      source:    window.location.href,
+      status:    'api-failed',
+      payload:   payload
     };
-
-    // Replace with API call when backend is ready:
-    // fetch('/api/contact', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(submission)
-    // });
     try {
       var existing = JSON.parse(localStorage.getItem(CONTACT_KEY) || '[]');
-      existing.push(submission);
+      existing.push(record);
       localStorage.setItem(CONTACT_KEY, JSON.stringify(existing));
-    } catch (e) {
-      // localStorage unavailable
-    }
-
-    return submission;
+    } catch (e) {}
   }
 
-  function getField(form, name) {
-    var el = form.querySelector('[name="' + name + '"]');
-    return el ? (el.value || '').trim() : '';
-  }
-
+  /* ── Contact Form ───────────────────────────────────────── */
   function initContactForm() {
     var form      = document.getElementById('contact-form');
     var successEl = document.getElementById('contact-success');
+    var errorEl   = document.getElementById('contact-error');
+    var submitBtn = document.getElementById('contact-submit');
 
     if (!form) return;
 
+    function showError(msg) {
+      if (!errorEl) return;
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+    }
+
+    function hideError() {
+      if (!errorEl) return;
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+    }
+
+    function setSubmitting(active) {
+      if (!submitBtn) return;
+      submitBtn.disabled = active;
+      submitBtn.textContent = active
+        ? 'Sending…'
+        : 'Request My Landing Page Plan →';
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      hideError();
 
-      var name  = getField(form, 'name');
-      var email = getField(form, 'email');
+      /* ── Read fields using API-expected names ── */
+      var full_name     = getField(form, 'full_name');
+      var business_name = getField(form, 'business_name');
+      var email         = getField(form, 'email');
+      var phone         = getField(form, 'phone');
+      var offer         = getField(form, 'offer');
+      var goal          = getField(form, 'goal');
 
-      if (!name || !email) {
-        alert('Please enter your name and email address.');
+      /* ── Validate ── */
+      if (!full_name) {
+        showError('Please enter your full name.');
         return;
       }
-
+      if (!business_name) {
+        showError('Please enter your business name.');
+        return;
+      }
+      if (!email) {
+        showError('Please enter your email address.');
+        return;
+      }
       if (!isValidEmail(email)) {
-        alert('Please enter a valid email address.');
+        showError('Please enter a valid email address.');
+        return;
+      }
+      if (!offer) {
+        showError('Please tell us what you are advertising.');
         return;
       }
 
-      storeContactSubmission({
-        name:         name,
-        businessName: getField(form, 'businessName'),
-        email:        email,
-        phone:        getField(form, 'phone'),
-        offer:        getField(form, 'offer'),
-        runningAds:   getField(form, 'runningAds')
-      });
+      /* ── Build payload matching API field names exactly ── */
+      var payload = {
+        full_name:       full_name,
+        business_name:   business_name,
+        email:           email,
+        phone:           phone,
+        business_type:   '',
+        website_url:     '',
+        offer:           offer,
+        goal:            goal || 'not specified',
+        ad_platform:     '',
+        target_audience: '',
+        project_price:   0,
+        notes:           ''
+      };
 
-      form.reset();
-      form.style.display = 'none';
-      if (successEl) successEl.classList.add('is-visible');
+      setSubmitting(true);
+      console.log('Submitting Cinema lead', payload);
+
+      fetch('/api/cinema-lead', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      })
+        .then(function (res) {
+          console.log('Cinema lead response status', res.status);
+          return res.json().then(function (data) {
+            return { status: res.status, data: data };
+          });
+        })
+        .then(function (result) {
+          console.log('Cinema lead response data', result.data);
+
+          if (result.status >= 200 && result.status < 300) {
+            /* Success */
+            form.style.display = 'none';
+            if (successEl) successEl.classList.add('is-visible');
+          } else {
+            /* API returned an error (4xx/5xx) */
+            var msg = (result.data && result.data.error)
+              ? result.data.error
+              : 'Something went wrong. Please try again.';
+            showError(msg);
+            setSubmitting(false);
+            storeContactFallback(payload);
+          }
+        })
+        .catch(function (err) {
+          /* Network failure — store locally and tell the user */
+          console.error('Cinema lead fetch error', err);
+          storeContactFallback(payload);
+          showError('Could not send your request right now. Please email us directly or try again in a moment.');
+          setSubmitting(false);
+        });
     });
   }
 
   /* ── Init ───────────────────────────────────────────────── */
-  /* Scroll reveals are handled by cinematic.js (GSAP + ScrollTrigger) */
   function init() {
     initNav();
     initContactForm();

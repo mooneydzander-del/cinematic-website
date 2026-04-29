@@ -27,23 +27,70 @@
 
   /* ── Lead Storage ───────────────────────────────────────── */
   function storeLead(data) {
+    /* Determine whether the contact field is an email or phone */
+    var contactVal = data.contact.trim().toLowerCase();
+    var emailVal   = isValidEmail(contactVal) ? contactVal : '';
+    var phoneVal   = isValidEmail(contactVal) ? '' : contactVal;
+
     var lead = {
       id:        generateId(),
       timestamp: new Date().toISOString(),
       source:    window.location.href,
       name:      data.name.trim(),
       business:  data.business.trim(),
-      contact:   data.contact.trim().toLowerCase(),
+      contact:   contactVal,
       status:    'new'
     };
-    // TODO: Replace with API call when backend is ready:
-    // fetch('/api/leads', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(lead) });
+
+    /* Build API payload using exact field names the route expects */
+    var payload = {
+      full_name:       data.name.trim(),
+      business_name:   data.business.trim(),
+      email:           emailVal,
+      phone:           phoneVal,
+      business_type:   '',
+      website_url:     '',
+      offer:           '',
+      goal:            'get landing page plan',
+      ad_platform:     '',
+      target_audience: '',
+      project_price:   0,
+      notes:           emailVal ? '' : ('contact: ' + contactVal)
+    };
+
+    console.log('Submitting Cinema lead', payload);
+
+    /* Fire-and-forget — gate dismissal never waits on this */
+    fetch('/api/cinema-lead', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload)
+    })
+      .then(function (res) {
+        console.log('Cinema lead response status', res.status);
+        return res.json();
+      })
+      .then(function (result) {
+        console.log('Cinema lead response data', result);
+        if (!result.success) {
+          /* API rejected — fall back to localStorage */
+          storeFallback(lead);
+        }
+      })
+      .catch(function (err) {
+        console.error('Cinema lead fetch error', err);
+        storeFallback(lead);
+      });
+
+    return lead;
+  }
+
+  function storeFallback(lead) {
     try {
       var existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
       existing.push(lead);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
     } catch (e) {}
-    return lead;
   }
 
   /* ── Dismiss Modal ──────────────────────────────────────── */
