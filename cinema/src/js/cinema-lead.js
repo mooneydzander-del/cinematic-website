@@ -1,7 +1,8 @@
-console.log("Cinema lead JS loaded");
-
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("cinema-lead-form");
+  console.log("Cinema lead JS loaded");
+
+  const form   = document.getElementById("cinema-lead-form");
+  const button = document.getElementById("cinema-lead-submit");
 
   if (!form) {
     console.error("Cinema lead form not found");
@@ -10,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   console.log("Cinema lead form found and submit handler attached");
 
-  form.addEventListener("submit", async function (event) {
-    event.preventDefault();
+  async function submitCinemaLead(event) {
+    if (event) event.preventDefault();
 
     console.log("Cinema lead form submitted");
 
@@ -34,24 +35,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Submitting Cinema lead", payload);
 
-    const response = await fetch("/api/cinema-lead", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
+    try {
+      const response = await fetch("/api/cinema-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
 
-    console.log("Cinema lead response status", response.status);
+      console.log("Cinema lead response status", response.status);
 
-    const result = await response.json();
-    console.log("Cinema lead response data", result);
+      const result = await response.json();
+      console.log("Cinema lead response data", result);
 
-    if (!response.ok) {
-      throw new Error(result.error || result.message || "Submission failed");
+      if (!response.ok) {
+        throw new Error(result.error || result.message || "Submission failed");
+      }
+
+      alert("Thank you! Your landing page request was received. We'll follow up shortly.");
+      form.reset();
+    } catch (error) {
+      console.error("Cinema lead submit failed", error);
+      alert("Something went wrong. Please try again or contact us directly.");
     }
+  }
 
-    alert("Thank you! Your landing page request was received. We'll follow up shortly.");
-    form.reset();
-  });
+  form.addEventListener("submit", submitCinemaLead);
+
+  if (button) {
+    button.addEventListener("click", submitCinemaLead);
+    console.log("Cinema lead button click fallback attached");
+  }
 });
