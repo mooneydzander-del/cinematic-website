@@ -4,17 +4,13 @@
    It Works" both trigger cinematic GSAP morph to Step 2.
    Step 2: Name / Business Name / Email or Phone form.
    "No pressure..." dismisses without requiring submission.
+   API submission is handled by cinema-lead-global.js.
    ============================================================ */
 
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'cinema_leads';
-
   /* ── Utilities ──────────────────────────────────────────── */
-  function generateId() {
-    return 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
-  }
   function isValidEmail(e) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
   }
@@ -23,74 +19,6 @@
   }
   function isValidContact(c) {
     return isValidEmail(c) || isValidPhone(c);
-  }
-
-  /* ── Lead Storage ───────────────────────────────────────── */
-  function storeLead(data) {
-    /* Determine whether the contact field is an email or phone */
-    var contactVal = data.contact.trim().toLowerCase();
-    var emailVal   = isValidEmail(contactVal) ? contactVal : '';
-    var phoneVal   = isValidEmail(contactVal) ? '' : contactVal;
-
-    var lead = {
-      id:        generateId(),
-      timestamp: new Date().toISOString(),
-      source:    window.location.href,
-      name:      data.name.trim(),
-      business:  data.business.trim(),
-      contact:   contactVal,
-      status:    'new'
-    };
-
-    /* Build API payload using exact field names the route expects */
-    var payload = {
-      full_name:       data.name.trim(),
-      business_name:   data.business.trim(),
-      email:           emailVal,
-      phone:           phoneVal,
-      business_type:   '',
-      website_url:     '',
-      offer:           '',
-      goal:            'get landing page plan',
-      ad_platform:     '',
-      target_audience: '',
-      project_price:   0,
-      notes:           emailVal ? '' : ('contact: ' + contactVal)
-    };
-
-    console.log('Submitting Cinema lead', payload);
-
-    /* Fire-and-forget — gate dismissal never waits on this */
-    fetch('/api/cinema-lead', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(payload)
-    })
-      .then(function (res) {
-        console.log('Cinema lead response status', res.status);
-        return res.json();
-      })
-      .then(function (result) {
-        console.log('Cinema lead response data', result);
-        if (!result.success) {
-          /* API rejected — fall back to localStorage */
-          storeFallback(lead);
-        }
-      })
-      .catch(function (err) {
-        console.error('Cinema lead fetch error', err);
-        storeFallback(lead);
-      });
-
-    return lead;
-  }
-
-  function storeFallback(lead) {
-    try {
-      var existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      existing.push(lead);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
-    } catch (e) {}
   }
 
   /* ── Dismiss Modal ──────────────────────────────────────── */
@@ -252,7 +180,7 @@
           return;
         }
         applyErrors({});
-        storeLead({ name: name, business: business, contact: contact });
+        /* API submission handled by cinema-lead-global.js */
         dismissModal();
       });
     }
