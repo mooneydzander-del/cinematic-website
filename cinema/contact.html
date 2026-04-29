@@ -186,5 +186,83 @@
   <script src="src/js/main.js"></script>
   <script src="src/js/cinematic.js"></script>
   <script defer src="src/js/cinema-lead.js"></script>
+
+  <!-- Inline lead form fallback — runs synchronously at parse time, no external deps -->
+  <script>
+    console.log("Cinema inline lead fallback loaded");
+
+    (function () {
+      var form   = document.getElementById("cinema-lead-form");
+      var button = document.getElementById("cinema-lead-submit");
+
+      if (!form) {
+        console.error("Cinema inline fallback: form not found");
+        return;
+      }
+
+      console.log("Cinema lead form found and fallback handler attached");
+
+      var submitted = false;
+
+      function submitLead(event) {
+        if (event) event.preventDefault();
+        if (submitted) return;
+        submitted = true;
+
+        console.log("Cinema lead form submitted");
+
+        var formData = new FormData(form);
+
+        var payload = {
+          full_name:       String(formData.get("full_name")       || "").trim(),
+          business_name:   String(formData.get("business_name")   || "").trim(),
+          email:           String(formData.get("email")           || "").trim(),
+          phone:           String(formData.get("phone")           || "").trim(),
+          business_type:   String(formData.get("business_type")   || "").trim(),
+          website_url:     String(formData.get("website_url")     || "").trim(),
+          offer:           String(formData.get("offer")           || "").trim(),
+          goal:            String(formData.get("goal")            || "").trim(),
+          ad_platform:     String(formData.get("ad_platform")     || "").trim(),
+          target_audience: String(formData.get("target_audience") || "").trim(),
+          project_price:   Number(formData.get("project_price")   || 0),
+          notes:           String(formData.get("notes")           || "").trim()
+        };
+
+        console.log("Submitting Cinema lead", payload);
+
+        fetch("/api/cinema-lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) {
+            console.log("Cinema lead response status", res.status);
+            var ok = res.ok;
+            return res.json().then(function (data) {
+              console.log("Cinema lead response data", data);
+              if (ok) {
+                alert("Thank you! Your landing page request was received. We’ll follow up shortly.");
+                form.reset();
+              } else {
+                submitted = false;
+                alert(data.error || "Something went wrong. Please try again.");
+              }
+            });
+          })
+          .catch(function (error) {
+            submitted = false;
+            console.error("Cinema lead submit failed", error);
+            alert("Something went wrong. Please try again or contact us directly.");
+          });
+      }
+
+      form.addEventListener("submit", submitLead);
+
+      if (button) {
+        button.addEventListener("click", submitLead);
+        console.log("Cinema lead button click fallback attached");
+      }
+    })();
+  </script>
 </body>
 </html>
