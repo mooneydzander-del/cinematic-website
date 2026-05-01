@@ -53,41 +53,6 @@
   }
 
   /* ── Contact Form ───────────────────────────────────────── */
-  function storeContactSubmission(data) {
-    var submission = {
-      id:           generateId(),
-      timestamp:    new Date().toISOString(),
-      source:       window.location.href,
-      name:         data.name,
-      businessName: data.businessName,
-      email:        data.email.toLowerCase(),
-      phone:        data.phone,
-      website:      data.website,
-      offer:        data.offer,
-      runningAds:   data.runningAds,
-      goal:         data.goal,
-      timeline:     data.timeline,
-      message:      data.message,
-      status:       'new'
-    };
-
-    // Replace with API call when backend is ready:
-    // fetch('/api/contact', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(submission)
-    // });
-    try {
-      var existing = JSON.parse(localStorage.getItem(CONTACT_KEY) || '[]');
-      existing.push(submission);
-      localStorage.setItem(CONTACT_KEY, JSON.stringify(existing));
-    } catch (e) {
-      // localStorage unavailable
-    }
-
-    return submission;
-  }
-
   function getField(form, name) {
     var el = form.querySelector('[name="' + name + '"]');
     return el ? (el.value || '').trim() : '';
@@ -99,8 +64,16 @@
 
     if (!form) return;
 
+    var sourceField = document.getElementById('field-source-page');
+    var timeField   = document.getElementById('field-submission-time');
+    if (sourceField) sourceField.value = window.location.href;
+    if (timeField)   timeField.value   = new Date().toISOString();
+
+    var submitted = false;
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (submitted) return;
 
       var name  = getField(form, 'name');
       var email = getField(form, 'email');
@@ -115,22 +88,48 @@
         return;
       }
 
-      storeContactSubmission({
-        name:         name,
-        businessName: getField(form, 'businessName'),
-        email:        email,
-        phone:        getField(form, 'phone'),
-        website:      getField(form, 'website'),
-        offer:        getField(form, 'offer'),
-        runningAds:   getField(form, 'runningAds'),
-        goal:         getField(form, 'goal'),
-        timeline:     getField(form, 'timeline'),
-        message:      getField(form, 'message')
-      });
+      submitted = true;
 
-      form.reset();
-      form.style.display = 'none';
-      if (successEl) successEl.classList.add('is-visible');
+      var payload = {
+        full_name:         name,
+        email:             email,
+        phone:             getField(form, 'phone'),
+        business_name:     getField(form, 'businessName'),
+        website_url:       getField(form, 'website'),
+        industry:          getField(form, 'industry'),
+        offer:             getField(form, 'offer'),
+        traffic_source:    getField(form, 'trafficSource'),
+        running_ads:       getField(form, 'runningAds'),
+        landing_page_goal: getField(form, 'goal'),
+        budget:            getField(form, 'budget'),
+        timeline:          getField(form, 'timeline'),
+        message:           getField(form, 'message'),
+        source_page:       getField(form, 'source_page') || window.location.href,
+        submission_time:   getField(form, 'submission_time') || new Date().toISOString()
+      };
+
+      fetch('/api/cinema-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) {
+          var ok = res.ok;
+          return res.json().then(function (data) {
+            if (ok) {
+              form.reset();
+              form.style.display = 'none';
+              if (successEl) successEl.classList.add('is-visible');
+            } else {
+              submitted = false;
+              alert(data.error || 'Something went wrong. Please try again.');
+            }
+          });
+        })
+        .catch(function () {
+          submitted = false;
+          alert('Something went wrong. Please try again or contact us directly.');
+        });
     });
   }
 
