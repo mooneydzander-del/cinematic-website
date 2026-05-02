@@ -278,7 +278,7 @@
           submission_time:    String(formData.get("submission_time")    || new Date().toISOString()).trim()
         };
 
-        fetch("https://n8n.srv1295800.hstgr.cloud/webhook/website-lead", {
+        fetch("/api/cinema-lead", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
