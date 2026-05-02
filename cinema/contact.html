@@ -238,9 +238,6 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script src="src/js/main.js"></script>
   <script src="src/js/cinematic.js"></script>
-  <script defer src="src/js/cinema-lead.js"></script>
-  <script defer src="src/js/cinema-lead-global.js"></script>
-
   <script>
     (function () {
       var form   = document.getElementById("cinema-lead-form");
@@ -281,7 +278,7 @@
           submission_time:    String(formData.get("submission_time")    || new Date().toISOString()).trim()
         };
 
-        fetch("/api/cinema-lead", {
+        fetch("https://n8n.srv1295800.hstgr.cloud/webhook/website-lead", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
