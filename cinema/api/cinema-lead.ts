@@ -1,17 +1,24 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+const N8N_WEBHOOK = 'https://n8n.srv1295800.hstgr.cloud/webhook/website-lead';
+
+// Deduplicate rapid duplicate POSTs (multiple JS handlers firing on the same submit)
+const seen = new Map<string, number>();
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const webhookUrl = process.env.N8N_CINEMA_LEAD_WEBHOOK_URL;
-  if (!webhookUrl) {
-    console.error('N8N_CINEMA_LEAD_WEBHOOK_URL is not set');
-    return res.status(500).json({ error: 'Webhook not configured' });
-  }
-
   const body = req.body ?? {};
+
+  const dedupeKey = `${String(body.email ?? '')}|${String(body.submission_time ?? '')}`;
+  const now = Date.now();
+  if (seen.has(dedupeKey) && now - (seen.get(dedupeKey) as number) < 6000) {
+    return res.status(200).json({ success: true });
+  }
+  seen.set(dedupeKey, now);
+  if (seen.size > 500) seen.delete([...seen.keys()][0]);
 
   const payload = {
     full_name:         String(body.full_name         || body.name     || '').trim(),
@@ -32,7 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   };
 
   try {
-    const response = await fetch(webhookUrl, {
+    const response = await fetch(N8N_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
