@@ -2735,3 +2735,148 @@ body.modal-open { overflow: hidden; }
   line-height: 1.7;
   letter-spacing: 0.01em;
 }
+
+
+/* ============================================================
+   PACKAGES — Two-card offer grid
+   ============================================================ */
+.packages {
+  background: var(--black-soft);
+  border-top: 1px solid rgba(192, 154, 69, 0.07);
+}
+
+.packages__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 940px;
+  margin-inline: auto;
+  align-items: start;
+}
+
+.pkg-card {
+  position: relative;
+  background: var(--charcoal);
+  border: 1px solid rgba(237, 233, 224, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: border-color var(--t-med), transform var(--t-med), box-shadow var(--t-med);
+  overflow: hidden;
+}
+.pkg-card:hover {
+  border-color: var(--gold-border);
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.pkg-card--premium {
+  border-color: var(--gold-border);
+  background: linear-gradient(148deg, var(--charcoal) 0%, rgba(192, 154, 69, 0.06) 100%);
+}
+.pkg-card--premium:hover {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 50px rgba(192, 154, 69, 0.14);
+}
+
+/* Radial glow on hover */
+.pkg-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at 50% 0%, rgba(192, 154, 69, 0.07) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity var(--t-med);
+  pointer-events: none;
+  z-index: 0;
+}
+.pkg-card:hover::after { opacity: 1; }
+.pkg-card > * { position: relative; z-index: 1; }
+
+.pkg-card__recommend {
+  position: absolute;
+  top: -1px;
+  right: 1.75rem;
+  background: var(--gold);
+  color: var(--black);
+  font-family: var(--font-head);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 2;
+}
+
+.pkg-card__accent {
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.pkg-card__name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--cream);
+  letter-spacing: -0.01em;
+}
+
+.pkg-card__pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.pkg-card__price {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+}
+
+.pkg-card__cycle {
+  font-family: var(--font-head);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream-muted);
+}
+
+.pkg-card__recurring {
+  font-size: 0.875rem;
+  color: var(--cream-muted);
+  margin-top: -0.5rem;
+}
+
+.pkg-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin-bottom: 0.75rem;
+  flex: 1;
+}
+.pkg-card__list li {
+  font-size: 0.9rem;
+  color: var(--cream-muted);
+  padding-left: 1.375rem;
+  position: relative;
+  line-height: 1.65;
+}
+.pkg-card__list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 700px) {
+  .packages__grid { grid-template-columns: 1fr; }
+}
