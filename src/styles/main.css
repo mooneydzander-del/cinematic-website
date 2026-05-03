@@ -2521,3 +2521,202 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 700px) {
   .packages__grid { grid-template-columns: 1fr; }
 }
+
+
+/* ============================================================
+   LEAD INTAKE FORM
+   ============================================================ */
+.lead-form-wrap {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+/* Card wrapper for each section */
+.lf-card {
+  background: var(--charcoal);
+  border: 1px solid rgba(237, 233, 224, 0.06);
+  border-radius: var(--radius-lg);
+  padding: 1.875rem 2rem;
+  margin-bottom: 0.875rem;
+}
+
+/* Section label inside card */
+.lf-label {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  margin-bottom: 1.25rem;
+}
+
+/* Field wrapper */
+.lf-field {
+  margin-bottom: 1rem;
+}
+.lf-field:last-child { margin-bottom: 0; }
+.lf-field--spaced    { margin-top: 1.25rem; }
+
+/* Field label */
+.lf-field-label {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--cream-muted);
+  margin-bottom: 0.4rem;
+  font-family: var(--font-body);
+}
+
+/* Select — custom arrow, consistent with inputs */
+.lf-card select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.875rem center;
+  padding-right: 2.25rem;
+  cursor: pointer;
+}
+.lf-card select option { background: var(--charcoal); color: var(--cream); }
+
+/* Package offer cards */
+.lf-offer-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.lf-offer-card {
+  background: var(--black-muted);
+  border: 1px solid rgba(237, 233, 224, 0.07);
+  border-radius: var(--radius);
+  padding: 1.125rem 1.25rem;
+  cursor: pointer;
+  transition: border-color var(--t), background var(--t);
+  position: relative;
+  display: block;
+}
+.lf-offer-card:hover { border-color: rgba(200, 169, 110, 0.3); }
+.lf-offer-card--selected {
+  border-color: var(--gold);
+  background: rgba(200, 169, 110, 0.04);
+}
+.lf-offer-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lf-offer-card__tag {
+  font-family: var(--font-head);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.35rem;
+}
+
+.lf-offer-card__title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin-bottom: 0.3rem;
+}
+
+.lf-offer-card__price {
+  font-size: 0.8125rem;
+  color: var(--cream-muted);
+  line-height: 1.6;
+}
+
+.lf-offer-card__badge {
+  display: inline-block;
+  margin-top: 0.6rem;
+  background: rgba(200, 169, 110, 0.12);
+  color: var(--gold);
+  font-family: var(--font-head);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius);
+}
+
+/* Checkbox groups */
+.lf-check-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.3rem;
+}
+
+.lf-check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  cursor: pointer;
+}
+.lf-check-item input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--gold);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.lf-check-item span {
+  font-size: 0.875rem;
+  color: var(--cream-muted);
+}
+
+/* Conditional visibility */
+.lf-hidden { display: none !important; }
+
+/* Submit row */
+.lf-submit-row {
+  margin-top: 1.25rem;
+}
+
+/* Success state */
+.lead-form-success {
+  display: none;
+  text-align: center;
+  padding: 5rem 2rem;
+  background: var(--charcoal);
+  border: 1px solid rgba(237, 233, 224, 0.06);
+  border-radius: var(--radius-lg);
+}
+.lead-form-success.is-visible { display: block; }
+
+.lead-form-success__mark {
+  font-family: var(--font-head);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.lead-form-success__headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 4.5vw, 3rem);
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.lead-form-success__body {
+  font-size: 0.9375rem;
+  color: var(--cream-muted);
+  line-height: 1.85;
+}
+
+@media (max-width: 580px) {
+  .lf-offer-cards { grid-template-columns: 1fr; }
+  .lf-card { padding: 1.375rem 1.25rem; }
+}

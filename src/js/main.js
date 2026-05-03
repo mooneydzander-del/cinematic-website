@@ -52,77 +52,28 @@
     }
   }
 
-  /* ── Contact Form ───────────────────────────────────────── */
-  function getField(form, name) {
-    var el = form.querySelector('[name="' + name + '"]');
-    return el ? (el.value || '').trim() : '';
-  }
+  /* ── Lead Intake Form ──────────────────────────────────── */
+  function initLeadForm() {
+    var telegramCb = document.getElementById('lf-notif-telegram');
+    var slackCb    = document.getElementById('lf-notif-slack');
 
-  function initContactForm() {
-    var form      = document.getElementById('contact-form');
-    var thankyouEl = document.getElementById('contact-thankyou');
-
-    if (!form) return;
-
-    var sourceField = document.getElementById('field-source-page');
-    var timeField   = document.getElementById('field-submission-time');
-    if (sourceField) sourceField.value = window.location.href;
-    if (timeField)   timeField.value   = new Date().toISOString();
-
-    var submitted = false;
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (submitted) return;
-
-      var name  = getField(form, 'name');
-      var email = getField(form, 'email');
-
-      if (!name || !email) {
-        alert('Please enter your name and email address.');
-        return;
-      }
-
-      if (!isValidEmail(email)) {
-        alert('Please enter a valid email address.');
-        return;
-      }
-
-      submitted = true;
-
-      var payload = {
-        full_name:         name,
-        email:             email,
-        phone:             getField(form, 'phone'),
-        business_name:     getField(form, 'businessName'),
-        website_url:       getField(form, 'website'),
-        industry:          getField(form, 'industry'),
-        offer:             getField(form, 'offer'),
-        traffic_source:    getField(form, 'trafficSource'),
-        running_ads:       getField(form, 'runningAds'),
-        landing_page_goal: getField(form, 'goal'),
-        budget:            getField(form, 'budget'),
-        timeline:          getField(form, 'timeline'),
-        message:           getField(form, 'message'),
-        source_page:       getField(form, 'source_page') || window.location.href,
-        submission_time:   getField(form, 'submission_time') || new Date().toISOString()
-      };
-
-      form.reset();
-      form.style.transition = 'opacity 0.5s ease';
-      form.style.opacity = '0';
-      setTimeout(function () {
-        form.style.display = 'none';
-        if (thankyouEl) thankyouEl.classList.add('is-visible');
-      }, 480);
-    });
+    if (telegramCb) {
+      telegramCb.addEventListener('change', function () {
+        document.getElementById('lf-telegram-field').classList.toggle('lf-hidden', !this.checked);
+      });
+    }
+    if (slackCb) {
+      slackCb.addEventListener('change', function () {
+        document.getElementById('lf-slack-field').classList.toggle('lf-hidden', !this.checked);
+      });
+    }
   }
 
   /* ── Init ───────────────────────────────────────────────── */
   /* Scroll reveals are handled by cinematic.js (GSAP + ScrollTrigger) */
   function init() {
     initNav();
-    initContactForm();
+    initLeadForm();
   }
 
   if (document.readyState === 'loading') {

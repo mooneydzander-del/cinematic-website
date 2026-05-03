@@ -505,78 +505,219 @@
         </div>
       </div>
       <div class="container">
-        <div class="contact__inner">
-          <div class="contact__copy" data-reveal>
-            <p class="section-label">Get Started</p>
-            <h2 class="section-title">Request Your Landing Page</h2>
-            <p class="section-sub">Tell us what you want to promote, where your traffic is coming from, and what action you want visitors to take.</p>
-            <ul class="contact__list">
-              <li>Landing pages built for paid ads</li>
-              <li>Focused on one offer and one action</li>
-              <li>Lead capture built into every page</li>
-              <li>We'll review your request and follow up with the next step.</li>
-            </ul>
-          </div>
-          <div class="contact__form-wrap" data-reveal data-delay="2">
-            <form class="contact__form" id="contact-form" novalidate>
-              <div class="form-row">
-                <div class="form-group">
-                  <input type="text" name="name" placeholder="Full Name" required />
-                </div>
-                <div class="form-group">
-                  <input type="text" name="businessName" placeholder="Business Name" />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <input type="email" name="email" placeholder="Email Address" required />
-                </div>
-                <div class="form-group">
-                  <input type="tel" name="phone" placeholder="Phone Number" />
-                </div>
-              </div>
-              <div class="form-group">
-                <input type="text" name="website" placeholder="Website or Social Media Link (optional)" />
-              </div>
-              <div class="form-group">
-                <textarea name="offer" placeholder="What service, product, or offer do you want to promote?" rows="3"></textarea>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <select name="runningAds">
-                    <option value="" disabled selected>Are you currently running ads?</option>
-                    <option value="yes">Yes, currently running ads</option>
-                    <option value="planning">Planning to run ads</option>
-                    <option value="no">Not running ads yet</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <select name="goal">
-                    <option value="" disabled selected>What should the page do?</option>
-                    <option value="calls">Get phone calls</option>
-                    <option value="quotes">Collect quote requests</option>
-                    <option value="bookings">Book appointments</option>
-                    <option value="leads">Collect emails / leads</option>
-                    <option value="sales">Sell a product or service</option>
-                    <option value="unsure">Not sure yet</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <input type="text" name="timeline" placeholder="Desired launch timeline (e.g. ASAP, within 2 weeks)" />
-              </div>
-              <div class="form-group">
-                <textarea name="message" placeholder="Anything else we should know about your business or campaign?" rows="4"></textarea>
-              </div>
-              <button type="submit" class="btn btn--primary btn--full">Request My Landing Page &rarr;</button>
-            </form>
-            <div class="form-thankyou" id="contact-thankyou" aria-live="polite">
-              <div class="form-thankyou__headline gold-shimmer">Thank You.</div>
-              <div class="form-thankyou__rule"></div>
-              <p class="form-thankyou__sub">Email follow up within 24 hours.</p>
-            </div>
-          </div>
+
+        <div class="section-header" data-reveal>
+          <p class="section-label">Get Started</p>
+          <h2 class="section-title">Request Your Landing Page</h2>
+          <p class="section-sub">Fill in the details below and we'll review your request and follow up with the next step.</p>
         </div>
+
+        <div class="lead-form-wrap" data-reveal data-delay="1">
+
+          <!-- ── FORM VIEW ── -->
+          <div id="lead-formView">
+
+            <!-- Package Selection -->
+            <div class="lf-card">
+              <span class="lf-label">Select your package</span>
+              <div class="lf-offer-cards">
+                <label class="lf-offer-card lf-offer-card--selected" id="lf-card1">
+                  <input type="radio" name="lf_offer" value="Offer 1 — Launch Package" checked onchange="lfSwitchOffer(1)">
+                  <div class="lf-offer-card__tag">Offer 1</div>
+                  <div class="lf-offer-card__title">Launch Package</div>
+                  <div class="lf-offer-card__price">$1,500–$3,000 setup<br>+ $350 / month</div>
+                </label>
+                <label class="lf-offer-card" id="lf-card2">
+                  <input type="radio" name="lf_offer" value="Offer 2 — Full Automation" onchange="lfSwitchOffer(2)">
+                  <div class="lf-offer-card__tag">Offer 2</div>
+                  <div class="lf-offer-card__title">Full Automation</div>
+                  <div class="lf-offer-card__price">$1,500–$3,000 setup<br>+ $500–$700 / month</div>
+                  <span class="lf-offer-card__badge">Recommended</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Section 1: Business Info -->
+            <div class="lf-card">
+              <span class="lf-label">Your business info</span>
+              <div class="form-row">
+                <div class="form-group lf-field">
+                  <label class="lf-field-label" for="lf-name">Full name</label>
+                  <input type="text" id="lf-name" name="lf_name" placeholder="John Smith" />
+                </div>
+                <div class="form-group lf-field">
+                  <label class="lf-field-label" for="lf-biz">Business name</label>
+                  <input type="text" id="lf-biz" name="lf_biz" placeholder="Acme Co." />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group lf-field">
+                  <label class="lf-field-label" for="lf-email">Email</label>
+                  <input type="email" id="lf-email" name="lf_email" placeholder="you@email.com" />
+                </div>
+                <div class="form-group lf-field">
+                  <label class="lf-field-label" for="lf-phone">Phone number</label>
+                  <input type="tel" id="lf-phone" name="lf_phone" placeholder="+1 (555) 000-0000" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group lf-field">
+                  <label class="lf-field-label" for="lf-industry">Industry / niche</label>
+                  <input type="text" id="lf-industry" name="lf_industry" placeholder="Auto detailing, Med spa…" />
+                </div>
+                <div class="form-group lf-field">
+                  <label class="lf-field-label" for="lf-website">Website (optional)</label>
+                  <input type="url" id="lf-website" name="lf_website" placeholder="https://" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 2: Ads and Traffic -->
+            <div class="lf-card">
+              <span class="lf-label">Your ads and traffic</span>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-ads">Are you currently running ads?</label>
+                <select id="lf-ads" name="lf_ads">
+                  <option value="" disabled selected>Select one</option>
+                  <option>Yes, currently running ads</option>
+                  <option>Planning to run ads soon</option>
+                  <option>Not running ads yet</option>
+                </select>
+              </div>
+              <div class="lf-field">
+                <label class="lf-field-label">Where are you running ads?</label>
+                <div class="lf-check-group">
+                  <label class="lf-check-item"><input type="checkbox" class="lf-ad-platform" value="Google"><span>Google</span></label>
+                  <label class="lf-check-item"><input type="checkbox" class="lf-ad-platform" value="Meta"><span>Meta (Facebook / Instagram)</span></label>
+                  <label class="lf-check-item"><input type="checkbox" class="lf-ad-platform" value="TikTok"><span>TikTok</span></label>
+                  <label class="lf-check-item"><input type="checkbox" class="lf-ad-platform" value="Other"><span>Other / Not sure</span></label>
+                </div>
+              </div>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-spend">Monthly ad spend range</label>
+                <select id="lf-spend" name="lf_spend">
+                  <option value="" disabled selected>Select one</option>
+                  <option>Under $500 / mo</option>
+                  <option>$500–$1,500 / mo</option>
+                  <option>$1,500–$5,000 / mo</option>
+                  <option>$5,000+ / mo</option>
+                  <option>Not spending on ads yet</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Section 3: Offer and Goal -->
+            <div class="lf-card">
+              <span class="lf-label">Your offer and goal</span>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-promoting">What are you promoting?</label>
+                <input type="text" id="lf-promoting" name="lf_promoting" placeholder="Service, product, promotion, campaign…" />
+              </div>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-action">What action do you want visitors to take?</label>
+                <select id="lf-action" name="lf_action">
+                  <option value="" disabled selected>Select one</option>
+                  <option>Get phone calls</option>
+                  <option>Collect quote requests</option>
+                  <option>Book appointments</option>
+                  <option>Collect emails / leads</option>
+                  <option>Sell a product or service</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-customer">Who is your target customer?</label>
+                <input type="text" id="lf-customer" name="lf_customer" placeholder="Homeowners in X area, business owners 30–55…" />
+              </div>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-goodlead">What does a good lead look like to you?</label>
+                <textarea id="lf-goodlead" name="lf_goodlead" rows="3" placeholder="e.g. Someone in my area ready to book within 2 weeks, budget of $X…"></textarea>
+              </div>
+            </div>
+
+            <!-- Section 4: Notification Preferences -->
+            <div class="lf-card">
+              <span class="lf-label">Notification preferences</span>
+              <div class="lf-field">
+                <label class="lf-field-label">Where do you want lead alerts sent?</label>
+                <div class="lf-check-group">
+                  <label class="lf-check-item"><input type="checkbox" id="lf-notif-email"><span>Email</span></label>
+                  <label class="lf-check-item"><input type="checkbox" id="lf-notif-telegram"><span>Telegram</span></label>
+                  <label class="lf-check-item"><input type="checkbox" id="lf-notif-slack"><span>Slack</span></label>
+                  <label class="lf-check-item"><input type="checkbox" id="lf-notif-other"><span>Other</span></label>
+                </div>
+              </div>
+              <div class="form-group lf-field lf-field--spaced">
+                <label class="lf-field-label" for="lf-alert-email">Email address for lead alerts</label>
+                <input type="email" id="lf-alert-email" name="lf_alert_email" placeholder="alerts@yourbusiness.com" />
+              </div>
+              <div class="form-group lf-field lf-conditional lf-hidden" id="lf-telegram-field">
+                <label class="lf-field-label" for="lf-telegram">Telegram handle</label>
+                <input type="text" id="lf-telegram" name="lf_telegram" placeholder="@yourhandle" />
+              </div>
+              <div class="form-group lf-field lf-conditional lf-hidden" id="lf-slack-field">
+                <label class="lf-field-label" for="lf-slack">Slack workspace or channel</label>
+                <input type="text" id="lf-slack" name="lf_slack" placeholder="#leads or workspace URL" />
+              </div>
+            </div>
+
+            <!-- Section 5: Booking & Automation (Offer 2 only) -->
+            <div class="lf-card lf-conditional lf-hidden" id="lf-offer2-fields">
+              <span class="lf-label">Booking and automation</span>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-booking-tool">Do you already use a booking tool?</label>
+                <select id="lf-booking-tool" name="lf_booking_tool">
+                  <option value="" disabled selected>Select one</option>
+                  <option>Calendly</option>
+                  <option>Cal.com</option>
+                  <option>Acuity Scheduling</option>
+                  <option>Other</option>
+                  <option>No booking tool yet</option>
+                </select>
+              </div>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-booking-desc">What does a confirmed booking look like for you?</label>
+                <textarea id="lf-booking-desc" name="lf_booking_desc" rows="3" placeholder="e.g. A 30-min discovery call on my calendar, a deposit paid, a signed intake form…"></textarea>
+              </div>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-confirm-email">Do you want automated confirmation emails sent to leads?</label>
+                <select id="lf-confirm-email" name="lf_confirm_email">
+                  <option value="" disabled selected>Select one</option>
+                  <option>Yes — confirmation email right after they book</option>
+                  <option>Yes — confirmation plus a follow-up sequence</option>
+                  <option>No — just notify me</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-email-copy">What should the confirmation email say?</label>
+                <textarea id="lf-email-copy" name="lf_email_copy" rows="3" placeholder="e.g. Thank them, confirm the time, include Zoom link, tell them what to expect…"></textarea>
+              </div>
+            </div>
+
+            <!-- Section 6: Notes + Submit -->
+            <div class="lf-card">
+              <span class="lf-label">Anything else</span>
+              <div class="form-group lf-field">
+                <label class="lf-field-label" for="lf-notes">Additional notes or context (optional)</label>
+                <textarea id="lf-notes" name="lf_notes" rows="3" placeholder="Anything else we should know before reaching out…"></textarea>
+              </div>
+              <div class="lf-submit-row">
+                <button type="button" class="btn btn--primary btn--full" id="lf-submit-btn" onclick="lfSubmit()">Submit My Request →</button>
+              </div>
+            </div>
+
+          </div><!-- /#lead-formView -->
+
+          <!-- ── SUCCESS STATE ── -->
+          <div class="lead-form-success" id="lead-successView" aria-live="polite">
+            <p class="lead-form-success__mark">✦ Cinema</p>
+            <h3 class="lead-form-success__headline">Request received.</h3>
+            <p class="lead-form-success__body">We'll review your details and follow up with the next step.<br>Check your email — we'll be in touch soon.</p>
+          </div>
+
+        </div><!-- /.lead-form-wrap -->
+
       </div>
     </section>
 
@@ -625,5 +766,99 @@
   <script src="src/js/gate.js"></script>
   <script src="src/js/main.js"></script>
   <script src="src/js/cinematic.js"></script>
+
+  <script>
+    /* ── Lead Form — global functions (called via onclick) ── */
+    var LF_WEBHOOK = 'YOUR_N8N_WEBHOOK_URL_HERE';
+
+    function lfSwitchOffer(n) {
+      document.getElementById('lf-card1').classList.toggle('lf-offer-card--selected', n === 1);
+      document.getElementById('lf-card2').classList.toggle('lf-offer-card--selected', n === 2);
+      document.getElementById('lf-offer2-fields').classList.toggle('lf-hidden', n !== 2);
+    }
+
+    function lfGetChecked(selector) {
+      return Array.from(document.querySelectorAll(selector + ':checked')).map(function(el){ return el.value; });
+    }
+
+    function lfGetNotifChannels() {
+      var ch = [];
+      if (document.getElementById('lf-notif-email').checked)    ch.push('Email');
+      if (document.getElementById('lf-notif-telegram').checked) ch.push('Telegram');
+      if (document.getElementById('lf-notif-slack').checked)    ch.push('Slack');
+      if (document.getElementById('lf-notif-other').checked)    ch.push('Other');
+      return ch;
+    }
+
+    function lfVal(id) {
+      var el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    }
+
+    async function lfSubmit() {
+      var name  = lfVal('lf-name');
+      var email = lfVal('lf-email');
+      if (!name || !email) {
+        alert('Please fill in at least your name and email before submitting.');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      var btn = document.getElementById('lf-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      var offerVal = document.querySelector('input[name="lf_offer"]:checked');
+
+      var payload = {
+        offer:                  offerVal ? offerVal.value : '',
+        name:                   name,
+        business:               lfVal('lf-biz'),
+        email:                  email,
+        phone:                  lfVal('lf-phone'),
+        industry:               lfVal('lf-industry'),
+        website:                lfVal('lf-website'),
+        running_ads:            lfVal('lf-ads'),
+        ad_platforms:           lfGetChecked('.lf-ad-platform'),
+        ad_spend:               lfVal('lf-spend'),
+        promoting:              lfVal('lf-promoting'),
+        visitor_action:         lfVal('lf-action'),
+        target_customer:        lfVal('lf-customer'),
+        good_lead:              lfVal('lf-goodlead'),
+        notification_channels:  lfGetNotifChannels(),
+        alert_email:            lfVal('lf-alert-email'),
+        telegram:               lfVal('lf-telegram'),
+        slack:                  lfVal('lf-slack'),
+        booking_tool:           lfVal('lf-booking-tool'),
+        booking_description:    lfVal('lf-booking-desc'),
+        confirmation_email:     lfVal('lf-confirm-email'),
+        email_copy:             lfVal('lf-email-copy'),
+        notes:                  lfVal('lf-notes'),
+        submitted_at:           new Date().toISOString()
+      };
+
+      try {
+        await fetch(LF_WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.error('Webhook error:', err);
+      }
+
+      var formView    = document.getElementById('lead-formView');
+      var successView = document.getElementById('lead-successView');
+      formView.style.transition = 'opacity 0.45s ease';
+      formView.style.opacity    = '0';
+      setTimeout(function () {
+        formView.style.display = 'none';
+        successView.classList.add('is-visible');
+      }, 430);
+    }
+  </script>
 </body>
 </html>
