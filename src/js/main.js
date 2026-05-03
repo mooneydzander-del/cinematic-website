@@ -108,28 +108,9 @@
         submission_time:   getField(form, 'submission_time') || new Date().toISOString()
       };
 
-      fetch('/api/cinema-lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(function (res) {
-          var ok = res.ok;
-          return res.json().then(function (data) {
-            if (ok) {
-              form.reset();
-              form.style.display = 'none';
-              if (successEl) successEl.classList.add('is-visible');
-            } else {
-              submitted = false;
-              alert(data.error || 'Something went wrong. Please try again.');
-            }
-          });
-        })
-        .catch(function () {
-          submitted = false;
-          alert('Something went wrong. Please try again or contact us directly.');
-        });
+      form.reset();
+      form.style.display = 'none';
+      if (successEl) successEl.classList.add('is-visible');
     });
   }
 
