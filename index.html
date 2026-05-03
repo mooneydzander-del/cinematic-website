@@ -396,42 +396,51 @@
     <section class="pricing section section--dark" id="pricing">
       <div class="container">
         <div class="section-header" data-reveal>
-          <p class="section-label">Pricing</p>
-          <h2 class="section-title">One Offer. Clear Pricing.</h2>
-          <p class="section-sub">A setup fee to build the page, and a flat monthly fee to keep it running. That is it.</p>
+          <p class="section-label">The Investment</p>
+          <h2 class="section-title">Two Ways to Launch With Cinema.</h2>
+          <p class="section-sub">Both options include a fully built, hosted, and maintained landing page. The difference is how far the automation goes.</p>
         </div>
-        <div class="pricing-cards" style="grid-template-columns:1fr;max-width:640px;margin-inline:auto;">
-          <div class="pricing-card pricing-card--featured" data-reveal data-delay="1">
-            <div class="pricing-card__accent"></div>
-            <p class="pricing-card__name">Cinema Landing Page</p>
-            <p class="pricing-card__price">$1,500 – $3,000 <span style="font-size:0.55em;opacity:0.75;display:block;margin-top:0.2rem;">setup fee</span></p>
-            <p class="pricing-care__price" style="margin-top:-0.5rem;margin-bottom:1.25rem;">+ $350 / month</p>
-            <p class="pricing-card__best">Setup fee depends on page complexity and scope. Monthly fee keeps the page live, maintained, and ready to convert.</p>
-            <ul class="pricing-card__list">
-              <li>Custom landing page design and build</li>
-              <li>Conversion copywriting</li>
-              <li>Mobile-first, ad-ready layout</li>
-              <li>Lead capture form setup</li>
-              <li>Click-to-call button</li>
-              <li>Trust sections and FAQ copy</li>
-              <li>Cinematic motion effects</li>
-              <li>Email notification setup</li>
-              <li>Page hosting and ongoing management</li>
-              <li>Copy and offer updates as needed</li>
-            </ul>
-            <a href="#contact" class="btn btn--primary btn--full">Request My Landing Page</a>
-          </div>
-        </div>
-        <div class="pricing-care" data-reveal>
-          <div class="pricing-care__inner">
-            <div class="pricing-care__copy">
-              <p class="section-label">How It Works</p>
-              <h3 class="pricing-care__title">Setup Once. Run Every Month.</h3>
-              <p class="pricing-care__price">$1,500 – $3,000 setup &nbsp;·&nbsp; $350 / month</p>
-              <p class="pricing-care__text">The setup fee covers the build. The $350/month keeps the page live and managed. Setup cost depends on the complexity of your offer, copy, and page structure.</p>
+        <div class="packages__grid" data-reveal data-delay="1">
+
+          <!-- OFFER 1 — LAUNCH PACKAGE -->
+          <div class="pkg-card">
+            <div class="pkg-card__accent"></div>
+            <p class="pkg-card__name">Launch Package</p>
+            <div class="pkg-card__pricing">
+              <span class="pkg-card__price">$1,500 – $3,000</span>
+              <span class="pkg-card__cycle">one-time setup</span>
             </div>
-            <a href="#contact" class="btn btn--gold btn--lg">Request My Landing Page</a>
+            <p class="pkg-card__recurring">+ $350 / month to keep it running</p>
+            <ul class="pkg-card__list">
+              <li>Custom cinematic landing page designed and built for your business</li>
+              <li>Hosted and maintained on Vercel — you never touch the tech</li>
+              <li>Lead capture connected to a live Google Spreadsheet</li>
+              <li>Instant alerts sent to Telegram, Email, or Slack every time a lead submits</li>
+              <li>You get notified the moment someone is interested — no leads fall through</li>
+            </ul>
+            <a href="#contact" class="btn btn--ghost btn--full">Get Started</a>
           </div>
+
+          <!-- OFFER 2 — FULL AUTOMATION PACKAGE -->
+          <div class="pkg-card pkg-card--premium">
+            <div class="pkg-card__recommend">Recommended</div>
+            <div class="pkg-card__accent"></div>
+            <p class="pkg-card__name">Full Automation Package</p>
+            <div class="pkg-card__pricing">
+              <span class="pkg-card__price">$1,500 – $3,000</span>
+              <span class="pkg-card__cycle">one-time setup</span>
+            </div>
+            <p class="pkg-card__recurring">+ $500 – $700 / month</p>
+            <ul class="pkg-card__list">
+              <li>Everything in the Launch Package</li>
+              <li>More advanced landing page with deeper automation</li>
+              <li>Bookings go straight to your calendar — no manual scheduling</li>
+              <li>Automated confirmation emails sent to every lead immediately after booking</li>
+              <li>The full system runs itself — capture, confirm, notify, schedule</li>
+            </ul>
+            <a href="#contact" class="btn btn--primary btn--full">Get Started</a>
+          </div>
+
         </div>
       </div>
     </section>
@@ -560,64 +569,13 @@
                 <textarea name="message" placeholder="Anything else we should know about your business or campaign?" rows="4"></textarea>
               </div>
               <button type="submit" class="btn btn--primary btn--full">Request My Landing Page &rarr;</button>
-              <div class="form-success" id="contact-success">
-                <p>Thank you — we'll review your request and follow up with the next step.</p>
-              </div>
             </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── PACKAGES ─────────────────────────────────────────────── -->
-    <section class="packages section" id="packages">
-      <div class="container">
-        <div class="section-header" data-reveal>
-          <p class="section-label">The Investment</p>
-          <h2 class="section-title">Two Ways to Launch With Cinema.</h2>
-          <p class="section-sub">Both options include a fully built, hosted, and maintained landing page. The difference is how far the automation goes.</p>
-        </div>
-        <div class="packages__grid" data-reveal data-delay="1">
-
-          <!-- OFFER 1 — LAUNCH PACKAGE -->
-          <div class="pkg-card">
-            <div class="pkg-card__accent"></div>
-            <p class="pkg-card__name">Launch Package</p>
-            <div class="pkg-card__pricing">
-              <span class="pkg-card__price">$1,500 – $3,000</span>
-              <span class="pkg-card__cycle">one-time setup</span>
+            <div class="form-thankyou" id="contact-thankyou" aria-live="polite">
+              <div class="form-thankyou__headline gold-shimmer">Thank You.</div>
+              <div class="form-thankyou__rule"></div>
+              <p class="form-thankyou__sub">Email follow up within 24 hours.</p>
             </div>
-            <p class="pkg-card__recurring">+ $350 / month to keep it running</p>
-            <ul class="pkg-card__list">
-              <li>Custom cinematic landing page designed and built for your business</li>
-              <li>Hosted and maintained on Vercel — you never touch the tech</li>
-              <li>Lead capture connected to a live Google Spreadsheet</li>
-              <li>Instant alerts sent to Telegram, Email, or Slack every time a lead submits</li>
-              <li>You get notified the moment someone is interested — no leads fall through</li>
-            </ul>
-            <a href="#contact" class="btn btn--ghost btn--full">Get Started</a>
           </div>
-
-          <!-- OFFER 2 — FULL AUTOMATION PACKAGE -->
-          <div class="pkg-card pkg-card--premium">
-            <div class="pkg-card__recommend">Recommended</div>
-            <div class="pkg-card__accent"></div>
-            <p class="pkg-card__name">Full Automation Package</p>
-            <div class="pkg-card__pricing">
-              <span class="pkg-card__price">$1,500 – $3,000</span>
-              <span class="pkg-card__cycle">one-time setup</span>
-            </div>
-            <p class="pkg-card__recurring">+ $500 – $700 / month</p>
-            <ul class="pkg-card__list">
-              <li>Everything in the Launch Package</li>
-              <li>More advanced landing page with deeper automation</li>
-              <li>Bookings go straight to your calendar — no manual scheduling</li>
-              <li>Automated confirmation emails sent to every lead immediately after booking</li>
-              <li>The full system runs itself — capture, confirm, notify, schedule</li>
-            </ul>
-            <a href="#contact" class="btn btn--primary btn--full">Get Started</a>
-          </div>
-
         </div>
       </div>
     </section>

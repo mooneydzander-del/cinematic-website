@@ -60,7 +60,7 @@
 
   function initContactForm() {
     var form      = document.getElementById('contact-form');
-    var successEl = document.getElementById('contact-success');
+    var thankyouEl = document.getElementById('contact-thankyou');
 
     if (!form) return;
 
@@ -109,8 +109,12 @@
       };
 
       form.reset();
-      form.style.display = 'none';
-      if (successEl) successEl.classList.add('is-visible');
+      form.style.transition = 'opacity 0.5s ease';
+      form.style.opacity = '0';
+      setTimeout(function () {
+        form.style.display = 'none';
+        if (thankyouEl) thankyouEl.classList.add('is-visible');
+      }, 480);
     });
   }
 
