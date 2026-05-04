@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cinema — Request Your Landing Page</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0A0A0A;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#F0EDE8;padding:2rem 1rem;min-height:100vh}
+  .wrap{max-width:640px;margin:0 auto}
+  .card{background:#111;border:0.5px solid #2a2a2a;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
+  .brand-dot{width:8px;height:8px;background:#C8A96E;border-radius:50%}
+  .brand-name{font-size:12px;letter-spacing:0.14em;color:#C8A96E;text-transform:uppercase;font-weight:500}
+  h2{font-size:22px;font-weight:500;color:#F0EDE8;margin-bottom:4px}
+  .sub{font-size:13px;color:#555;margin-bottom:1.5rem;line-height:1.6}
+  .offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+  .offer-card{border:0.5px solid #2a2a2a;border-radius:10px;padding:1rem;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:#0d0d0d;position:relative;display:block}
+  .offer-card:hover{border-color:#C8A96E44}
+  .offer-card.selected{border:1px solid #C8A96E;background:#111}
+  .offer-card input[type=radio]{position:absolute;opacity:0;pointer-events:none}
+  .offer-tag{font-size:11px;color:#C8A96E;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px}
+  .offer-title{font-size:14px;color:#F0EDE8;font-weight:500;margin-bottom:3px}
+  .offer-price{font-size:12px;color:#666;line-height:1.5}
+  .badge{background:#C8A96E1a;color:#C8A96E;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;font-weight:500;display:inline-block;margin-top:6px}
+  .section-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#444;margin-bottom:0.85rem;font-weight:500}
+  .field{margin-bottom:1rem}
+  .field:last-child{margin-bottom:0}
+  label.field-label{display:block;font-size:13px;color:#888;margin-bottom:5px}
+  input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{width:100%;background:#0d0d0d;border:0.5px solid #2a2a2a;border-radius:8px;padding:10px 12px;font-size:14px;color:#F0EDE8;font-family:inherit;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+  input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,input[type=url]:focus,select:focus,textarea:focus{border-color:#C8A96E88}
+  input::placeholder,textarea::placeholder{color:#333}
+  select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;background-color:#0d0d0d;cursor:pointer}
+  select option{background:#111;color:#F0EDE8}
+  textarea{resize:vertical;min-height:80px;line-height:1.6}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .check-group{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+  .check-item{display:flex;align-items:center;gap:10px;cursor:pointer}
+  .check-item input[type=checkbox]{width:16px;height:16px;accent-color:#C8A96E;cursor:pointer;flex-shrink:0}
+  .check-item span{font-size:13px;color:#bbb}
+  .divider{border:none;border-top:0.5px solid #1a1a1a;margin:1.25rem 0}
+  .conditional-section{transition:opacity 0.2s}
+  .hidden{display:none}
+  .submit-btn{width:100%;background:#C8A96E;color:#0A0A0A;border:none;border-radius:8px;padding:14px;font-size:14px;font-weight:500;letter-spacing:0.06em;cursor:pointer;font-family:inherit;margin-top:0.5rem;transition:opacity 0.2s}
+  .submit-btn:hover{opacity:0.85}
+  .submit-btn:active{opacity:0.7}
+  .note{font-size:11px;color:#333;text-align:center;margin-top:0.75rem;line-height:1.6}
+  .success{display:none;text-align:center;padding:3rem 1.5rem}
+  .success-mark{font-size:14px;letter-spacing:0.2em;color:#C8A96E;margin-bottom:1.25rem;text-transform:uppercase}
+  .success h3{font-size:20px;color:#F0EDE8;font-weight:500;margin-bottom:10px}
+  .success p{font-size:14px;color:#555;line-height:1.7}
+  @media(max-width:520px){
+    .offer-grid{grid-template-columns:1fr}
+    .grid2{grid-template-columns:1fr}
+    .card{padding:1.25rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="formView">
+
+    <!-- Header Card -->
+    <div class="card">
+      <div class="brand"><div class="brand-dot"></div><span class="brand-name">Cinema</span></div>
+      <h2>Request Your Landing Page</h2>
+      <p class="sub">Fill out the form below and we'll review your request and follow up with the next step.</p>
+
+      <div class="section-label">Select your package</div>
+      <div class="offer-grid">
+        <label class="offer-card selected" id="card1">
+          <input type="radio" name="offer" value="1" checked onchange="switchOffer(1)">
+          <div class="offer-tag">Offer 1</div>
+          <div class="offer-title">Launch Package</div>
+          <div class="offer-price">$1,500–$3,000 setup<br>+ $350/mo</div>
+        </label>
+        <label class="offer-card" id="card2">
+          <input type="radio" name="offer" value="2" onchange="switchOffer(2)">
+          <div class="offer-tag">Offer 2</div>
+          <div class="offer-title">Full Automation</div>
+          <div class="offer-price">$1,500–$3,000 setup<br>+ $500–$700/mo</div>
+          <div class="badge">Recommended</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Business Info -->
+    <div class="card">
+      <div class="section-label">Your business info</div>
+      <div class="grid2">
+        <div class="field"><label class="field-label">Full name</label><input type="text" id="name" placeholder="John Smith"></div>
+        <div class="field"><label class="field-label">Business name</label><input type="text" id="biz" placeholder="Acme Co."></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label class="field-label">Email</label><input type="email" id="email" placeholder="you@email.com"></div>
+        <div class="field"><label class="field-label">Phone number</label><input type="tel" id="phone" placeholder="+1 (555) 000-0000"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label class="field-label">Industry / niche</label><input type="text" id="industry" placeholder="Auto detailing, Med spa..."></div>
+        <div class="field"><label class="field-label">Website (if you have one)</label><input type="url" id="website" placeholder="https://"></div>
+      </div>
+    </div>
+
+    <!-- Ads & Traffic -->
+    <div class="card">
+      <div class="section-label">Your ads and traffic</div>
+      <div class="field">
+        <label class="field-label">Are you currently running ads?</label>
+        <select id="ads">
+          <option value="">Select one</option>
+          <option>Yes, currently running ads</option>
+          <option>Planning to run ads soon</option>
+          <option>Not running ads yet</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Where are you running ads?</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" class="ad-platform" value="Google"><span>Google</span></label>
+          <label class="check-item"><input type="checkbox" class="ad-platform" value="Meta"><span>Meta (Facebook / Instagram)</span></label>
+          <label class="check-item"><input type="checkbox" class="ad-platform" value="TikTok"><span>TikTok</span></label>
+          <label class="check-item"><input type="checkbox" class="ad-platform" value="Other"><span>Other / Not sure</span></label>
+        </div>
+      </div>
+      <div class="field" style="margin-top:1rem">
+        <label class="field-label">Monthly ad spend range</label>
+        <select id="spend">
+          <option value="">Select one</option>
+          <option>Under $500/mo</option>
+          <option>$500–$1,500/mo</option>
+          <option>$1,500–$5,000/mo</option>
+          <option>$5,000+/mo</option>
+          <option>Not spending on ads yet</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Offer & Goal -->
+    <div class="card">
+      <div class="section-label">Your offer and goal</div>
+      <div class="field"><label class="field-label">What are you promoting?</label><input type="text" id="promoting" placeholder="Service, product, promotion, campaign..."></div>
+      <div class="field">
+        <label class="field-label">What action do you want visitors to take?</label>
+        <select id="action">
+          <option value="">Select one</option>
+          <option>Get phone calls</option>
+          <option>Collect quote requests</option>
+          <option>Book appointments</option>
+          <option>Collect emails / leads</option>
+          <option>Sell a product or service</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+      <div class="field"><label class="field-label">Who is your target customer?</label><input type="text" id="customer" placeholder="Homeowners in X area, business owners 30–55..."></div>
+      <div class="field"><label class="field-label">What does a good lead look like to you?</label><textarea id="goodlead" placeholder="e.g. Someone in my area ready to book within 2 weeks, budget of $X..."></textarea></div>
+    </div>
+
+    <!-- Notification Preferences -->
+    <div class="card">
+      <div class="section-label">Notification preferences</div>
+      <div class="field">
+        <label class="field-label">Where do you want lead alerts sent?</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" id="notif-email"><span>Email</span></label>
+          <label class="check-item"><input type="checkbox" id="notif-telegram"><span>Telegram</span></label>
+          <label class="check-item"><input type="checkbox" id="notif-slack"><span>Slack</span></label>
+          <label class="check-item"><input type="checkbox" id="notif-other"><span>Other</span></label>
+        </div>
+      </div>
+      <div class="field" style="margin-top:1rem"><label class="field-label">Email address for lead alerts</label><input type="email" id="alert-email" placeholder="alerts@yourbusiness.com"></div>
+      <div class="field hidden" id="telegram-field"><label class="field-label">Telegram handle</label><input type="text" id="telegram" placeholder="@yourhandle"></div>
+      <div class="field hidden" id="slack-field"><label class="field-label">Slack workspace or channel</label><input type="text" id="slack" placeholder="#leads or workspace URL"></div>
+    </div>
+
+    <!-- Offer 2 Only — Booking & Automation -->
+    <div class="card conditional-section hidden" id="offer2-fields">
+      <div class="section-label">Booking and automation</div>
+      <div class="field">
+        <label class="field-label">Do you already use a booking tool?</label>
+        <select id="booking-tool">
+          <option value="">Select one</option>
+          <option>Calendly</option>
+          <option>Cal.com</option>
+          <option>Acuity Scheduling</option>
+          <option>Other</option>
+          <option>No booking tool yet</option>
+        </select>
+      </div>
+      <div class="field"><label class="field-label">What does a confirmed booking look like for you?</label><textarea id="booking-desc" placeholder="e.g. A 30-min discovery call on my calendar, a deposit paid, a signed intake form..."></textarea></div>
+      <div class="field">
+        <label class="field-label">Do you want automated follow-up confirmation emails sent to leads?</label>
+        <select id="confirm-email">
+          <option value="">Select one</option>
+          <option>Yes — send a confirmation email right after they book</option>
+          <option>Yes — send a confirmation plus a follow-up sequence</option>
+          <option>No — just notify me</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+      <div class="field"><label class="field-label">What should the confirmation email say?</label><textarea id="email-copy" placeholder="e.g. Thank them, confirm the time, include address or Zoom link, tell them what to expect..."></textarea></div>
+    </div>
+
+    <!-- Notes & Submit -->
+    <div class="card">
+      <div class="section-label">Anything else</div>
+      <div class="field"><label class="field-label">Additional notes or context (optional)</label><textarea id="notes" placeholder="Anything else we should know before reaching out..."></textarea></div>
+      <div style="margin-top:1.25rem">
+        <button class="submit-btn" onclick="submitForm()">Submit My Request →</button>
+        <p class="note">We'll review your request and follow up with the next step. No pressure.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Success State -->
+  <div class="card success" id="successView">
+    <div class="success-mark">✦ Cinema</div>
+    <h3>Request received.</h3>
+    <p>We'll review your details and follow up with the next step.<br>Check your email — we'll be in touch soon.</p>
+  </div>
+
+</div>
+
+<script>
+  function switchOffer(n) {
+    document.getElementById('card1').classList.toggle('selected', n === 1);
+    document.getElementById('card2').classList.toggle('selected', n === 2);
+    document.getElementById('offer2-fields').classList.toggle('hidden', n !== 2);
+  }
+
+  document.getElementById('notif-telegram').addEventListener('change', function () {
+    document.getElementById('telegram-field').classList.toggle('hidden', !this.checked);
+  });
+
+  document.getElementById('notif-slack').addEventListener('change', function () {
+    document.getElementById('slack-field').classList.toggle('hidden', !this.checked);
+  });
+
+  function getChecked(selector) {
+    return Array.from(document.querySelectorAll(selector + ':checked')).map(el => el.value);
+  }
+
+  function getNotifChannels() {
+    const channels = [];
+    if (document.getElementById('notif-email').checked) channels.push('Email');
+    if (document.getElementById('notif-telegram').checked) channels.push('Telegram');
+    if (document.getElementById('notif-slack').checked) channels.push('Slack');
+    if (document.getElementById('notif-other').checked) channels.push('Other');
+    return channels;
+  }
+
+  async function submitForm() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    if (!name || !email) {
+      alert('Please fill in at least your name and email before submitting.');
+      return;
+    }
+
+    const offerSelected = document.querySelector('input[name="offer"]:checked').value;
+
+    const payload = {
+      offer: offerSelected === '1' ? 'Offer 1 — Launch Package' : 'Offer 2 — Full Automation',
+      name: name,
+      business: document.getElementById('biz').value.trim(),
+      email: email,
+      phone: document.getElementById('phone').value.trim(),
+      industry: document.getElementById('industry').value.trim(),
+      website: document.getElementById('website').value.trim(),
+      running_ads: document.getElementById('ads').value,
+      ad_platforms: getChecked('.ad-platform'),
+      ad_spend: document.getElementById('spend').value,
+      promoting: document.getElementById('promoting').value.trim(),
+      visitor_action: document.getElementById('action').value,
+      target_customer: document.getElementById('customer').value.trim(),
+      good_lead: document.getElementById('goodlead').value.trim(),
+      notification_channels: getNotifChannels(),
+      alert_email: document.getElementById('alert-email').value.trim(),
+      telegram: document.getElementById('telegram').value.trim(),
+      slack: document.getElementById('slack').value.trim(),
+      booking_tool: document.getElementById('booking-tool').value,
+      booking_description: document.getElementById('booking-desc').value.trim(),
+      confirmation_email: document.getElementById('confirm-email').value,
+      email_copy: document.getElementById('email-copy').value.trim(),
+      notes: document.getElementById('notes').value.trim(),
+      submitted_at: new Date().toISOString()
+    };
+
+    const WEBHOOK_URL = 'https://n8n.srv1295800.hstgr.cloud/webhook/cinema-lead-intake';
+
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (err) {
+      console.error('Webhook error:', err);
+    }
+
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('successView').style.display = 'block';
+  }
+</script>
+</body>
+</html>

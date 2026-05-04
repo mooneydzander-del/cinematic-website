@@ -17,3 +17,6 @@ tools/
 
 # Claude local settings
 .claude/settings.local.json
+
+# Firecrawl cache
+.firecrawl/
