@@ -2880,3 +2880,175 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 700px) {
   .packages__grid { grid-template-columns: 1fr; }
 }
+
+
+/* ============================================================
+   LEAD INTAKE FORM — contact.html
+   ============================================================ */
+
+/* Centered wrapper */
+.intake-wrap {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+/* Card sections */
+.intake-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(237, 233, 224, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Section label inside cards */
+.form-section-label {
+  font-family: var(--font-head);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(200, 169, 110, 0.65);
+  margin-bottom: 1.25rem;
+}
+
+/* Field label (for checkboxes etc.) */
+.intake-field-label {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--cream-muted);
+  margin-bottom: 0.625rem;
+}
+
+/* Package selector grid */
+.intake-offer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.intake-offer-card {
+  border: 1px solid rgba(237, 233, 224, 0.1);
+  border-radius: var(--radius-lg);
+  padding: 1.125rem;
+  cursor: pointer;
+  transition: border-color var(--t), background var(--t);
+  background: rgba(255, 255, 255, 0.02);
+  position: relative;
+  display: block;
+}
+
+.intake-offer-card:hover { border-color: rgba(200, 169, 110, 0.3); }
+
+.intake-offer-card.is-selected {
+  border-color: var(--gold-border);
+  background: rgba(200, 169, 110, 0.06);
+}
+
+.intake-offer-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intake-offer-card__tag {
+  font-family: var(--font-head);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.375rem;
+}
+
+.intake-offer-card__title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin-bottom: 0.3rem;
+}
+
+.intake-offer-card__price {
+  font-size: 0.8125rem;
+  color: var(--cream-muted);
+  line-height: 1.55;
+}
+
+.intake-offer-card__badge {
+  display: inline-block;
+  background: rgba(200, 169, 110, 0.12);
+  color: var(--gold);
+  font-family: var(--font-head);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.625rem;
+  border-radius: 3px;
+  font-weight: 600;
+  margin-top: 0.625rem;
+}
+
+/* Checkbox groups */
+.check-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.check-item input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--gold);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.check-item span {
+  font-size: 0.9375rem;
+  color: var(--cream-muted);
+}
+
+/* Conditional section (offer 2 only) — hidden by default */
+.intake-conditional { display: none; }
+.intake-conditional.intake-conditional--visible { display: block; }
+
+/* Success state */
+.intake-success {
+  text-align: center;
+  padding: 5rem 2rem;
+}
+
+.intake-success__mark {
+  font-family: var(--font-head);
+  font-size: 0.8125rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.intake-success__headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 1rem;
+}
+
+.intake-success__sub {
+  font-size: 1rem;
+  color: var(--cream-muted);
+  line-height: 1.85;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .intake-offer-grid { grid-template-columns: 1fr; }
+  .intake-card { padding: 1.25rem; }
+}

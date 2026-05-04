@@ -46,7 +46,7 @@
     </div>
   </section>
 
-  <!-- CONTACT FORM SECTION -->
+  <!-- INTAKE FORM SECTION -->
   <section class="contact section contact--cinematic" id="contact">
 
     <div class="contact__video-bg" aria-hidden="true">
@@ -63,118 +63,189 @@
     </div>
 
     <div class="container">
-      <div class="contact__inner">
+      <div class="intake-wrap" data-reveal>
 
-        <div class="contact__copy" data-reveal>
-          <p class="section-label">What Happens Next</p>
-          <h2 class="section-title">We Review Your Offer</h2>
-          <p class="section-sub">Fill out the form and we will take a look at what you're promoting, how you're running ads, and what a focused landing page could do for your business.</p>
-          <ul class="contact__list">
-            <li>Landing pages built for paid ad traffic</li>
-            <li>Focused on one offer and one action</li>
-            <li>Lead capture built into every page</li>
-            <li>We'll follow up within 24 hours with next steps</li>
-          </ul>
+        <!-- FORM VIEW -->
+        <div id="intakeFormView">
+
+          <!-- Package Select -->
+          <div class="intake-card">
+            <p class="form-section-label">Select your package</p>
+            <div class="intake-offer-grid">
+              <label class="intake-offer-card is-selected" id="intake-card-1">
+                <input type="radio" name="intake_offer" value="Offer 1 — Launch Package" checked onchange="intakeSwitchOffer(1)" />
+                <div class="intake-offer-card__tag">Offer 1</div>
+                <div class="intake-offer-card__title">Launch Package</div>
+                <div class="intake-offer-card__price">$1,500–$3,000 setup<br />+ $350/mo</div>
+              </label>
+              <label class="intake-offer-card" id="intake-card-2">
+                <input type="radio" name="intake_offer" value="Offer 2 — Full Automation" onchange="intakeSwitchOffer(2)" />
+                <div class="intake-offer-card__tag">Offer 2</div>
+                <div class="intake-offer-card__title">Full Automation</div>
+                <div class="intake-offer-card__price">$1,500–$3,000 setup<br />+ $500–$700/mo</div>
+                <span class="intake-offer-card__badge">Recommended</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Business Info -->
+          <div class="intake-card">
+            <p class="form-section-label">Your business info</p>
+            <div class="form-row">
+              <div class="form-group">
+                <input type="text" id="intake-name" placeholder="Full Name" />
+              </div>
+              <div class="form-group">
+                <input type="text" id="intake-biz" placeholder="Business Name" />
+              </div>
+            </div>
+            <div class="form-row" style="margin-top:1rem">
+              <div class="form-group">
+                <input type="email" id="intake-email" placeholder="Email Address" />
+              </div>
+              <div class="form-group">
+                <input type="tel" id="intake-phone" placeholder="Phone Number" />
+              </div>
+            </div>
+            <div class="form-row" style="margin-top:1rem">
+              <div class="form-group">
+                <input type="text" id="intake-industry" placeholder="Industry / Niche (e.g. Auto Detailing, Med Spa)" />
+              </div>
+              <div class="form-group">
+                <input type="url" id="intake-website" placeholder="Website URL (if you have one)" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Ads & Traffic -->
+          <div class="intake-card">
+            <p class="form-section-label">Your ads and traffic</p>
+            <div class="form-group">
+              <select id="intake-ads">
+                <option value="">Are you currently running ads?</option>
+                <option>Yes, currently running ads</option>
+                <option>Planning to run ads soon</option>
+                <option>Not running ads yet</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-top:1.25rem">
+              <p class="intake-field-label">Where are you running ads?</p>
+              <div class="check-group">
+                <label class="check-item"><input type="checkbox" class="intake-ad-platform" value="Google" /><span>Google</span></label>
+                <label class="check-item"><input type="checkbox" class="intake-ad-platform" value="Meta" /><span>Meta (Facebook / Instagram)</span></label>
+                <label class="check-item"><input type="checkbox" class="intake-ad-platform" value="TikTok" /><span>TikTok</span></label>
+                <label class="check-item"><input type="checkbox" class="intake-ad-platform" value="Other" /><span>Other / Not sure</span></label>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:1.25rem">
+              <select id="intake-spend">
+                <option value="">Monthly ad spend range</option>
+                <option>Under $500/mo</option>
+                <option>$500–$1,500/mo</option>
+                <option>$1,500–$5,000/mo</option>
+                <option>$5,000+/mo</option>
+                <option>Not spending on ads yet</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Offer & Goal -->
+          <div class="intake-card">
+            <p class="form-section-label">Your offer and goal</p>
+            <div class="form-group">
+              <input type="text" id="intake-promoting" placeholder="What are you promoting? (service, product, promotion, campaign)" />
+            </div>
+            <div class="form-group" style="margin-top:1rem">
+              <select id="intake-action">
+                <option value="">What action do you want visitors to take?</option>
+                <option>Get phone calls</option>
+                <option>Collect quote requests</option>
+                <option>Book appointments</option>
+                <option>Collect emails / leads</option>
+                <option>Sell a product or service</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-top:1rem">
+              <input type="text" id="intake-customer" placeholder="Who is your target customer? (e.g. Homeowners in X area, business owners 30–55)" />
+            </div>
+            <div class="form-group" style="margin-top:1rem">
+              <textarea id="intake-goodlead" rows="3" placeholder="What does a good lead look like to you? (e.g. Someone in my area ready to book within 2 weeks, budget of $X)"></textarea>
+            </div>
+          </div>
+
+          <!-- Notification Preferences -->
+          <div class="intake-card">
+            <p class="form-section-label">Notification preferences</p>
+            <div class="form-group">
+              <p class="intake-field-label">Where do you want lead alerts sent?</p>
+              <div class="check-group">
+                <label class="check-item"><input type="checkbox" id="intake-notif-email" /><span>Email</span></label>
+                <label class="check-item"><input type="checkbox" id="intake-notif-telegram" /><span>Telegram</span></label>
+                <label class="check-item"><input type="checkbox" id="intake-notif-slack" /><span>Slack</span></label>
+                <label class="check-item"><input type="checkbox" id="intake-notif-other" /><span>Other</span></label>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:1.25rem">
+              <input type="email" id="intake-alert-email" placeholder="Email address for lead alerts" />
+            </div>
+            <div class="form-group hidden" id="intake-telegram-field" style="margin-top:0.75rem">
+              <input type="text" id="intake-telegram" placeholder="Telegram handle (e.g. @yourhandle)" />
+            </div>
+            <div class="form-group hidden" id="intake-slack-field" style="margin-top:0.75rem">
+              <input type="text" id="intake-slack" placeholder="Slack workspace or channel (e.g. #leads)" />
+            </div>
+          </div>
+
+          <!-- Offer 2 Only — Booking & Automation -->
+          <div class="intake-card intake-conditional" id="intake-offer2-fields">
+            <p class="form-section-label">Booking and automation</p>
+            <div class="form-group">
+              <select id="intake-booking-tool">
+                <option value="">Do you already use a booking tool?</option>
+                <option>Calendly</option>
+                <option>Cal.com</option>
+                <option>Acuity Scheduling</option>
+                <option>Other</option>
+                <option>No booking tool yet</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-top:1rem">
+              <textarea id="intake-booking-desc" rows="3" placeholder="What does a confirmed booking look like for you? (e.g. A 30-min discovery call on my calendar, a deposit paid)"></textarea>
+            </div>
+            <div class="form-group" style="margin-top:1rem">
+              <select id="intake-confirm-email">
+                <option value="">Do you want automated confirmation emails sent to leads?</option>
+                <option>Yes — send a confirmation email right after they book</option>
+                <option>Yes — send a confirmation plus a follow-up sequence</option>
+                <option>No — just notify me</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-top:1rem">
+              <textarea id="intake-email-copy" rows="3" placeholder="What should the confirmation email say? (e.g. Thank them, confirm the time, include address or Zoom link)"></textarea>
+            </div>
+          </div>
+
+          <!-- Notes & Submit -->
+          <div class="intake-card">
+            <p class="form-section-label">Anything else</p>
+            <div class="form-group">
+              <textarea id="intake-notes" rows="3" placeholder="Additional notes or context (optional) — anything else we should know before reaching out"></textarea>
+            </div>
+            <div style="margin-top:1.25rem">
+              <button type="button" class="btn btn--primary btn--full" id="intake-submit-btn" onclick="intakeSubmit()">Submit My Request &rarr;</button>
+            </div>
+            <p class="contact__microcopy">We'll review your request and follow up with the next step. No pressure.</p>
+          </div>
+
         </div>
 
-        <div class="contact__form-wrap" data-reveal data-delay="2">
-          <form class="contact__form" id="cinema-lead-form" novalidate>
-
-            <input type="hidden" name="source_page"     id="field-source-page" value="" />
-            <input type="hidden" name="submission_time" id="field-submission-time" value="" />
-
-            <div class="form-row">
-              <div class="form-group">
-                <input type="text" name="full_name" placeholder="Full Name" required />
-              </div>
-              <div class="form-group">
-                <input type="email" name="email" placeholder="Email Address" required />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <input type="tel" name="phone" placeholder="Phone Number" />
-              </div>
-              <div class="form-group">
-                <input type="text" name="business_name" placeholder="Business Name" required />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <input type="url" name="website_url" placeholder="Website URL (e.g. yoursite.com)" />
-              </div>
-              <div class="form-group">
-                <input type="text" name="industry" placeholder="Industry (e.g. Real Estate, Med Spa)" />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <textarea name="offer" placeholder="What are you promoting? (service, product, offer, promotion)" rows="3" required></textarea>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <select name="traffic_source">
-                  <option value="" disabled selected>Where is your traffic coming from?</option>
-                  <option value="google-ads">Google Ads</option>
-                  <option value="meta-ads">Meta Ads (Facebook / Instagram)</option>
-                  <option value="tiktok-ads">TikTok Ads</option>
-                  <option value="youtube-ads">YouTube Ads</option>
-                  <option value="linkedin-ads">LinkedIn Ads</option>
-                  <option value="organic-social">Organic Social</option>
-                  <option value="email">Email</option>
-                  <option value="seo">SEO / Organic Search</option>
-                  <option value="multiple">Multiple Channels</option>
-                  <option value="not-sure">Not Sure Yet</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <select name="running_ads">
-                  <option value="" disabled selected>Are you currently running ads?</option>
-                  <option value="yes-running-ads">Yes, currently running ads</option>
-                  <option value="planning-to-run-ads">Planning to start running ads</option>
-                  <option value="not-running-yet">Not running ads yet</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <textarea name="landing_page_goal" placeholder="What do you want the landing page to do? (e.g. collect quote requests, book calls, capture emails)" rows="2"></textarea>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <select name="budget">
-                  <option value="" disabled selected>What is your budget?</option>
-                  <option value="under-1500">Under $1,500</option>
-                  <option value="1500-3000">$1,500 – $3,000</option>
-                  <option value="3000-5000">$3,000 – $5,000</option>
-                  <option value="5000-plus">$5,000+</option>
-                  <option value="not-sure">Not sure yet</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <select name="timeline">
-                  <option value="" disabled selected>What is your timeline?</option>
-                  <option value="asap">ASAP</option>
-                  <option value="1-2-weeks">1–2 weeks</option>
-                  <option value="1-month">Within a month</option>
-                  <option value="1-3-months">1–3 months</option>
-                  <option value="flexible">Flexible</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <textarea name="message" placeholder="Anything else we should know? (optional)" rows="3"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn--primary btn--full" id="cinema-lead-submit">Request My Landing Page Plan &rarr;</button>
-
-          </form>
-          <p class="contact__microcopy">No pressure. We'll review your offer and let you know what type of landing page would make the most sense for your business.</p>
+        <!-- SUCCESS STATE -->
+        <div class="intake-success" id="intakeSuccessView" style="display:none">
+          <div class="intake-success__mark">&#10022; Cinema</div>
+          <h3 class="intake-success__headline">Request received.</h3>
+          <p class="intake-success__sub">We'll review your details and follow up with the next step.<br />Check your email — we'll be in touch soon.</p>
         </div>
 
       </div>
@@ -238,72 +309,97 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script src="src/js/main.js"></script>
   <script src="src/js/cinematic.js"></script>
+
   <script>
-    (function () {
-      var form   = document.getElementById("cinema-lead-form");
-      var button = document.getElementById("cinema-lead-submit");
+    function intakeSwitchOffer(n) {
+      document.getElementById('intake-card-1').classList.toggle('is-selected', n === 1);
+      document.getElementById('intake-card-2').classList.toggle('is-selected', n === 2);
+      var offer2 = document.getElementById('intake-offer2-fields');
+      if (n === 2) {
+        offer2.classList.add('intake-conditional--visible');
+      } else {
+        offer2.classList.remove('intake-conditional--visible');
+      }
+    }
 
-      if (!form) return;
+    document.getElementById('intake-notif-telegram').addEventListener('change', function () {
+      document.getElementById('intake-telegram-field').classList.toggle('hidden', !this.checked);
+    });
 
-      /* Auto-populate hidden fields */
-      var sourceField = document.getElementById("field-source-page");
-      var timeField   = document.getElementById("field-submission-time");
-      if (sourceField) sourceField.value = window.location.href;
-      if (timeField)   timeField.value   = new Date().toISOString();
+    document.getElementById('intake-notif-slack').addEventListener('change', function () {
+      document.getElementById('intake-slack-field').classList.toggle('hidden', !this.checked);
+    });
 
-      var submitted = false;
+    function intakeGetChecked(selector) {
+      return Array.from(document.querySelectorAll(selector + ':checked')).map(function (el) { return el.value; });
+    }
 
-      function submitLead(event) {
-        if (event) event.preventDefault();
-        if (submitted) return;
-        submitted = true;
+    function intakeGetNotifChannels() {
+      var channels = [];
+      if (document.getElementById('intake-notif-email').checked)    channels.push('Email');
+      if (document.getElementById('intake-notif-telegram').checked)  channels.push('Telegram');
+      if (document.getElementById('intake-notif-slack').checked)     channels.push('Slack');
+      if (document.getElementById('intake-notif-other').checked)     channels.push('Other');
+      return channels;
+    }
 
-        var formData = new FormData(form);
-
-        var payload = {
-          full_name:          String(formData.get("full_name")          || "").trim(),
-          email:              String(formData.get("email")              || "").trim(),
-          phone:              String(formData.get("phone")              || "").trim(),
-          business_name:      String(formData.get("business_name")      || "").trim(),
-          website_url:        String(formData.get("website_url")        || "").trim(),
-          industry:           String(formData.get("industry")           || "").trim(),
-          offer:              String(formData.get("offer")              || "").trim(),
-          traffic_source:     String(formData.get("traffic_source")     || "").trim(),
-          running_ads:        String(formData.get("running_ads")        || "").trim(),
-          landing_page_goal:  String(formData.get("landing_page_goal")  || "").trim(),
-          budget:             String(formData.get("budget")             || "").trim(),
-          timeline:           String(formData.get("timeline")           || "").trim(),
-          message:            String(formData.get("message")            || "").trim(),
-          source_page:        String(formData.get("source_page")        || window.location.href).trim(),
-          submission_time:    String(formData.get("submission_time")    || new Date().toISOString()).trim()
-        };
-
-        fetch("/api/cinema-lead", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        })
-          .then(function (res) {
-            var ok = res.ok;
-            return res.json().then(function (data) {
-              if (ok) {
-                alert("Thank you! Your landing page request was received. We’ll follow up within 24 hours.");
-                form.reset();
-              } else {
-                submitted = false;
-                alert(data.error || "Something went wrong. Please try again.");
-              }
-            });
-          })
-          .catch(function () {
-            submitted = false;
-            alert("Something went wrong. Please try again or contact us directly.");
-          });
+    async function intakeSubmit() {
+      var name  = document.getElementById('intake-name').value.trim();
+      var email = document.getElementById('intake-email').value.trim();
+      if (!name || !email) {
+        alert('Please fill in at least your name and email before submitting.');
+        return;
       }
 
-      form.addEventListener("submit", submitLead);
-      if (button) button.addEventListener("click", submitLead);
-    })();
+      var offerSelected = document.querySelector('input[name="intake_offer"]:checked').value;
+
+      var payload = {
+        offer:                 offerSelected,
+        name:                  name,
+        business:              document.getElementById('intake-biz').value.trim(),
+        email:                 email,
+        phone:                 document.getElementById('intake-phone').value.trim(),
+        industry:              document.getElementById('intake-industry').value.trim(),
+        website:               document.getElementById('intake-website').value.trim(),
+        running_ads:           document.getElementById('intake-ads').value,
+        ad_platforms:          intakeGetChecked('.intake-ad-platform'),
+        ad_spend:              document.getElementById('intake-spend').value,
+        promoting:             document.getElementById('intake-promoting').value.trim(),
+        visitor_action:        document.getElementById('intake-action').value,
+        target_customer:       document.getElementById('intake-customer').value.trim(),
+        good_lead:             document.getElementById('intake-goodlead').value.trim(),
+        notification_channels: intakeGetNotifChannels(),
+        alert_email:           document.getElementById('intake-alert-email').value.trim(),
+        telegram:              document.getElementById('intake-telegram').value.trim(),
+        slack:                 document.getElementById('intake-slack').value.trim(),
+        booking_tool:          document.getElementById('intake-booking-tool').value,
+        booking_description:   document.getElementById('intake-booking-desc').value.trim(),
+        confirmation_email:    document.getElementById('intake-confirm-email').value,
+        email_copy:            document.getElementById('intake-email-copy').value.trim(),
+        notes:                 document.getElementById('intake-notes').value.trim(),
+        source_page:           window.location.href,
+        submitted_at:          new Date().toISOString()
+      };
+
+      var btn = document.getElementById('intake-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      try {
+        await fetch('WEBHOOK_PLACEHOLDER', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.error('Webhook error:', err);
+      }
+
+      document.getElementById('intakeFormView').style.display = 'none';
+      document.getElementById('intakeSuccessView').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   </script>
+
 </body>
 </html>
