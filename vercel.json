@@ -1,0 +1,9 @@
+{
+  "outputDirectory": ".",
+  "public": true,
+  "functions": {
+    "api/cinema-lead.ts": {
+      "runtime": "@vercel/node@3"
+    }
+  }
+}

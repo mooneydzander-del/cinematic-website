@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LPR | Cinematic Landing Pages for Paid Traffic</title>
+  <meta name="description" content="LPR builds cinematic landing pages and lead-capture systems for businesses sending traffic from ads, social media, or campaigns." />
+  <meta property="og:title" content="LPR — Landing Page Rocket" />
+  <meta property="og:description" content="LPR builds cinematic landing pages and lead-capture systems for businesses sending traffic from ads, social media, or campaigns." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/styles/main.css" />
+</head>
+<body>
+
+  <!-- Global cinematic overlays -->
+  <div class="c-grain" aria-hidden="true"></div>
+  <div class="c-vignette" aria-hidden="true"></div>
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       LEAD CAPTURE GATE
+  ============================================================ -->
+  <div id="entry-gate" class="gate-modal" role="dialog" aria-modal="true" aria-label="Get started with LPR">
+    <div class="gate-modal__backdrop" aria-hidden="true"></div>
+    <div class="gate-modal__card" id="gate-card">
+      <div class="gate-modal__bar" aria-hidden="true"></div>
+      <div class="gate-modal__shimmer" id="gate-shimmer" aria-hidden="true"></div>
+
+      <div class="gate-step" id="gate-step-1">
+        <div class="gate-brand-mark" aria-hidden="true">LPR</div>
+        <h2 class="gate-modal__headline">Turn Paid Clicks Into<br /><em>Serious Inquiries.</em></h2>
+        <p class="gate-modal__sub">LPR builds cinematic landing pages for businesses sending traffic from ads, social media, or campaigns. One offer. One message. One clear next step.</p>
+        <button type="button" class="btn btn--cinema btn--full gate-modal__submit" id="gate-next">
+          Launch My Landing Page <span class="gate-modal__arrow" aria-hidden="true">→</span>
+        </button>
+        <button type="button" class="gate-modal__see-how" id="gate-see-how">See How LPR Works</button>
+      </div>
+
+      <div class="gate-step gate-step--form" id="gate-step-2" style="display:none;">
+        <div class="gate-headline-stack" id="gate-headline-stack">
+          <span class="gate-headline-line" id="gate-line-1">Launch.</span>
+          <span class="gate-headline-line gate-headline-line--accent" id="gate-line-2">Capture.</span>
+          <span class="gate-headline-line" id="gate-line-3">Convert.</span>
+        </div>
+        <form id="cinema-lead-form" class="cinema-lead-form gate-modal__form" onsubmit="window.submitCinemaLead(event)" novalidate>
+          <input type="hidden" name="offer" value="Launch My Landing Page" />
+          <input type="hidden" name="goal" value="LPR landing page inquiry" />
+          <div class="form-group">
+            <input type="text" id="gate-name" name="full_name" placeholder="Your Name" autocomplete="name" />
+            <span class="field-error" id="error-name"></span>
+          </div>
+          <div class="form-group">
+            <input type="text" id="gate-business" name="business_name" placeholder="Business Name" autocomplete="organization" />
+            <span class="field-error" id="error-business"></span>
+          </div>
+          <div class="form-group">
+            <input type="email" id="gate-contact" name="email" placeholder="Email Address" autocomplete="email" />
+            <span class="field-error" id="error-contact"></span>
+          </div>
+          <button type="submit" id="cinema-lead-submit" class="btn btn--cinema btn--full gate-modal__submit cinema-lead-submit">
+            Launch My Landing Page
+          </button>
+        </form>
+        <p class="gate-modal__dismiss" id="gate-skip">Just exploring for now.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       MAIN SITE
+  ============================================================ -->
+  <div id="main-site" class="site site--visible">
+
+    <!-- NAV -->
+    <header class="nav" id="nav">
+      <div class="container nav__inner">
+        <a href="#opening" class="nav__logo">LPR</a>
+        <button class="nav__toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="nav__links" id="nav-links" aria-label="Main navigation">
+          <a href="#process"   class="nav__link">How It Works</a>
+          <a href="#packages"  class="nav__link">Packages</a>
+          <a href="#request"   class="btn btn--cinema btn--sm">Launch My Page</a>
+        </nav>
+      </div>
+    </header>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 1 — LAUNCH SCENE / HERO
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-opening" id="opening">
+
+      <!-- Background video -->
+      <div class="s-opening__video-bg" aria-hidden="true">
+        <video class="s-opening__video" id="hero-video" autoplay muted loop playsinline preload="auto">
+          <source src="/videos/hf_20260508_235225_5c9d40e5-901b-4a3a-99c4-32e93b6ca3ec.mp4" type="video/mp4" />
+        </video>
+        <div class="s-opening__video-overlay"></div>
+      </div>
+
+      <!-- Starfield / atmospheric -->
+      <div class="s-opening__starfield" aria-hidden="true">
+        <div class="star-layer star-layer--1"></div>
+        <div class="star-layer star-layer--2"></div>
+        <div class="star-layer star-layer--3"></div>
+      </div>
+
+      <!-- Orbit lines -->
+      <div class="s-opening__orbits" aria-hidden="true">
+        <div class="orbit-ring orbit-ring--1"></div>
+        <div class="orbit-ring orbit-ring--2"></div>
+      </div>
+
+      <!-- Light rays -->
+      <div class="s-opening__rays" aria-hidden="true">
+        <span class="s-ray s-ray--1"></span>
+        <span class="s-ray s-ray--2"></span>
+        <span class="s-ray s-ray--3"></span>
+        <span class="s-ray s-ray--4"></span>
+      </div>
+      <div class="s-opening__glow" aria-hidden="true"></div>
+
+      <!-- Background wordmark -->
+      <div class="s-opening__wordmark" aria-hidden="true">LPR</div>
+
+      <!-- Main content -->
+      <div class="container s-opening__inner">
+        <p class="scene-eyebrow">Cinematic Landing Page Studio</p>
+
+        <!-- LPR brand rollout -->
+        <div class="lpr-brand-block">
+          <div class="lpr-primary">LPR</div>
+          <div class="lpr-rollout">Landing Page Rocket</div>
+        </div>
+
+        <h1 class="s-opening__headline">
+          Your Ads Paid for the Click.<br /><em>LPR Builds the Page That Captures the Lead.</em>
+        </h1>
+        <p class="s-opening__sub">LPR builds cinematic landing pages and lead-capture systems for businesses sending traffic from ads, social media, or campaigns. One offer. One message. One clear next step.</p>
+        <div class="s-opening__cta">
+          <a href="#request" class="btn btn--cinema btn--xl">Launch My Landing Page</a>
+          <a href="#process" class="btn btn--ghost btn--lg">See How LPR Works</a>
+        </div>
+      </div>
+
+      <!-- Floating UI panels — ad click → lead captured flow -->
+      <div class="s-opening__panels" aria-hidden="true">
+        <div class="ui-panel ui-panel--lead">
+          <span class="ui-panel__pulse"></span>
+          <div class="ui-panel__body">
+            <span class="ui-panel__label">New lead captured</span>
+            <span class="ui-panel__value">Marcus R. — Just now</span>
+          </div>
+          <span class="ui-panel__check">✓</span>
+        </div>
+        <div class="ui-panel ui-panel--metric">
+          <div class="ui-panel__body">
+            <span class="ui-panel__metric">4.2s</span>
+            <span class="ui-panel__label">Click → lead alert</span>
+          </div>
+        </div>
+        <div class="ui-panel ui-panel--status">
+          <span class="ui-panel__dot"></span>
+          <span class="ui-panel__label">Lead system active</span>
+        </div>
+      </div>
+
+      <!-- Scroll cue -->
+      <div class="s-opening__scroll" aria-hidden="true">
+        <span class="scroll-line"></span>
+      </div>
+
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 2 — THE PROBLEM
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-problem" id="problem">
+      <div class="container">
+        <div class="s-problem__inner">
+
+          <!-- Left: flat/distracting website mockup -->
+          <div class="s-problem__mockup">
+            <div class="flat-site">
+              <div class="flat-site__bar">
+                <span class="flat-dot"></span>
+                <span class="flat-dot"></span>
+                <span class="flat-dot"></span>
+                <span class="flat-url">yourbusiness.com</span>
+              </div>
+              <div class="flat-site__body">
+                <div class="flat-nav-row">
+                  <span class="flat-logo"></span>
+                  <span class="flat-nav-links"></span>
+                </div>
+                <div class="flat-hero-area">
+                  <div class="flat-h1"></div>
+                  <div class="flat-h2"></div>
+                  <div class="flat-btn-fake"></div>
+                </div>
+                <div class="flat-cards-row">
+                  <div class="flat-card"></div>
+                  <div class="flat-card"></div>
+                  <div class="flat-card"></div>
+                </div>
+              </div>
+              <!-- Warning overlays -->
+              <div class="flat-warn flat-warn--a">Too many exits</div>
+              <div class="flat-warn flat-warn--b">No clear offer</div>
+              <div class="flat-warn flat-warn--c">Weak CTA path</div>
+              <div class="flat-warn flat-warn--d">Built for everyone</div>
+            </div>
+          </div>
+
+          <!-- Right: copy -->
+          <div class="s-problem__copy">
+            <p class="scene-eyebrow">The Real Problem</p>
+            <h2 class="scene-title">Paid clicks are expensive.<br />The wrong page wastes<br />momentum.</h2>
+            <p class="scene-sub">Most businesses do not lose leads because the ad failed. They lose them because the page after the click is too distracting, too generic, or too hard to act on.</p>
+            <div class="problem-points">
+              <div class="prob-pt">
+                <span class="prob-pt__dash">—</span>
+                <p>A regular website gives visitors menus, galleries, and too many places to exit. Paid traffic needs a focused path.</p>
+              </div>
+              <div class="prob-pt">
+                <span class="prob-pt__dash">—</span>
+                <p>No clear offer means no clear action. Visitors with no direction leave without converting.</p>
+              </div>
+              <div class="prob-pt">
+                <span class="prob-pt__dash">—</span>
+                <p>A landing page built for paid traffic converts. A regular website built for everyone does not.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 3 — REGULAR WEBSITE VS LPR (PINNED SCROLL)
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-transform" id="transform">
+      <!-- GSAP pins this wrapper for 4x viewport scroll -->
+      <div class="s-transform__wrap" id="transform-wrap">
+
+        <!-- Vertical progress track -->
+        <div class="t-progress" aria-hidden="true">
+          <div class="t-progress__track">
+            <div class="t-progress__fill" id="t-progress-fill"></div>
+          </div>
+          <span class="t-progress__dot t-progress__dot--active" data-stage="0"></span>
+          <span class="t-progress__dot" data-stage="1"></span>
+          <span class="t-progress__dot" data-stage="2"></span>
+          <span class="t-progress__dot" data-stage="3"></span>
+        </div>
+
+        <!-- Stage content -->
+        <div class="t-stage" id="t-stage">
+
+          <!-- Copy column -->
+          <div class="t-copy-column">
+            <div class="t-copy t-copy--0 is-active" data-stage="0">
+              <p class="scene-eyebrow">Regular Website</p>
+              <h2 class="t-headline">Too many pages.<br />Too many exits.</h2>
+              <p class="t-sub">A regular website gives visitors menus, galleries, service pages, and every reason to leave. Paid traffic sent here drifts — and gets lost.</p>
+            </div>
+            <div class="t-copy t-copy--1" data-stage="1">
+              <p class="scene-eyebrow">LPR Landing Page</p>
+              <h2 class="t-headline">One offer.<br />One focused path.</h2>
+              <p class="t-sub">An LPR landing page is built around your specific campaign. One message. No navigation. No exits. Just the offer and the action.</p>
+            </div>
+            <div class="t-copy t-copy--2" data-stage="2">
+              <p class="scene-eyebrow">Lead System Connected</p>
+              <h2 class="t-headline">Every form submit<br />becomes a trackable inquiry.</h2>
+              <p class="t-sub">Form submissions fire instant alerts. Every contact is captured and routed to you within seconds — before they ever leave the page.</p>
+            </div>
+            <div class="t-copy t-copy--3" data-stage="3">
+              <p class="scene-eyebrow">Ready for Paid Traffic</p>
+              <h2 class="t-headline">Live in 1–2 days.<br />Built to capture leads.</h2>
+              <p class="t-sub">Your LPR landing page goes live — focused, cinematic, and built to give paid traffic a clear place to land and a reason to act.</p>
+            </div>
+          </div>
+
+          <!-- Visual column -->
+          <div class="t-visual-column">
+            <div class="t-mockup" id="t-mockup">
+
+              <!-- Layer 0: Regular website (flat/scattered) -->
+              <div class="t-layer t-layer--0 is-active" data-stage="0">
+                <div class="tsite tsite--flat">
+                  <div class="tsite__bar tsite__bar--light">
+                    <span class="td td--r"></span><span class="td td--y"></span><span class="td td--g"></span>
+                    <span class="tsite__url-light">yourwebsite.com</span>
+                  </div>
+                  <div class="tsite__body tsite__body--light">
+                    <div class="tsite__nav-light"></div>
+                    <div class="tsite__hero-light">
+                      <div class="tsite__h1-light"></div>
+                      <div class="tsite__btn-light"></div>
+                    </div>
+                    <div class="tsite__cards-light">
+                      <div class="tsite__card-light"></div>
+                      <div class="tsite__card-light"></div>
+                      <div class="tsite__card-light"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Layer 1: LPR landing page (focused) -->
+              <div class="t-layer t-layer--1" data-stage="1">
+                <div class="tsite tsite--dark">
+                  <div class="tsite__bar tsite__bar--dark">
+                    <span class="td td--r"></span><span class="td td--y"></span><span class="td td--g"></span>
+                    <span class="tsite__url-dark">yourlanding.page</span>
+                  </div>
+                  <div class="tsite__body tsite__body--dark">
+                    <div class="tsite__grain"></div>
+                    <div class="tsite__hero-dark">
+                      <div class="tsite__glow-spot"></div>
+                      <div class="tsite__h1-dark"></div>
+                      <div class="tsite__sub-dark"></div>
+                      <div class="tsite__btn-dark"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Layer 2: Lead system active -->
+              <div class="t-layer t-layer--2" data-stage="2">
+                <div class="tsite tsite--dark tsite--leads">
+                  <div class="tsite__bar tsite__bar--dark">
+                    <span class="td td--r"></span><span class="td td--y"></span><span class="td td--g"></span>
+                    <span class="tsite__url-dark">yourlanding.page</span>
+                  </div>
+                  <div class="tsite__body tsite__body--dark">
+                    <div class="tsite__grain"></div>
+                    <div class="tsite__hero-dark tsite__hero-sm">
+                      <div class="tsite__h1-dark tsite__h1-sm"></div>
+                    </div>
+                    <div class="tsite__lead-form">
+                      <div class="tlf__field"></div>
+                      <div class="tlf__field"></div>
+                      <div class="tlf__btn"></div>
+                    </div>
+                    <div class="tsite__lead-alert">
+                      <span class="tla__pulse"></span>
+                      <span class="tla__text">Lead captured — 0.3s</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Layer 3: Complete — live and capturing -->
+              <div class="t-layer t-layer--3" data-stage="3">
+                <div class="tsite tsite--complete">
+                  <div class="tsite__bar tsite__bar--dark">
+                    <span class="td td--r"></span><span class="td td--y"></span><span class="td td--g"></span>
+                    <span class="tsite__url-dark">yourlanding.page</span>
+                  </div>
+                  <div class="tsite__body tsite__body--complete">
+                    <div class="tsite__grain"></div>
+                    <div class="tsite__complete-glow"></div>
+                    <div class="tsite__hero-dark">
+                      <div class="tsite__h1-gold"></div>
+                      <div class="tsite__sub-dark"></div>
+                      <div class="tsite__btn-gold"></div>
+                    </div>
+                    <div class="tsite__complete-badge">✓ Live &amp; capturing leads</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 4 — WHAT LPR BUILDS
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-experience" id="experience">
+      <div class="container">
+        <div class="scene-header">
+          <p class="scene-eyebrow">What LPR Builds</p>
+          <h2 class="scene-title">A cinematic landing page<br />built for paid traffic.</h2>
+          <p class="scene-sub">Not a full website. Not a generic contact page. LPR builds a focused campaign page designed around one offer, one message, and one next step — built to guide paid traffic toward a quote, booking, or form submission.</p>
+        </div>
+      </div>
+
+      <!-- Full-bleed showcase -->
+      <div class="exp-showcase">
+        <div class="container exp-showcase__inner">
+
+          <!-- Browser frame mockup -->
+          <div class="browser-frame" id="exp-browser">
+            <div class="browser-bar">
+              <span class="bd bd--r"></span>
+              <span class="bd bd--y"></span>
+              <span class="bd bd--g"></span>
+              <span class="browser-url">yourlanding.page</span>
+            </div>
+            <div class="browser-content">
+              <div class="mock-site">
+                <div class="mock-site__nav">
+                  <span class="mock-logo"></span>
+                  <span class="mock-nav-btn"></span>
+                </div>
+                <div class="mock-site__hero">
+                  <div class="mock-site__grain"></div>
+                  <div class="mock-site__glow"></div>
+                  <div class="mock-eyebrow"></div>
+                  <div class="mock-h1 mock-h1--lg"></div>
+                  <div class="mock-h1 mock-h1--sm"></div>
+                  <div class="mock-cta-row">
+                    <div class="mock-cta mock-cta--primary"></div>
+                  </div>
+                  <!-- Floating lead card inside mockup -->
+                  <div class="mock-lead-card">
+                    <span class="mlc__dot"></span>
+                    <div>
+                      <span class="mlc__label">New lead</span>
+                      <span class="mlc__val">Sarah M.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="mock-site__body">
+                  <div class="mock-block mock-block--wide"></div>
+                  <div class="mock-blocks-row">
+                    <div class="mock-block"></div>
+                    <div class="mock-block"></div>
+                    <div class="mock-block"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Capability cards -->
+          <div class="cap-cards" aria-hidden="true">
+            <div class="cap-card cap-card--1">
+              <span class="cap-card__icon">◈</span>
+              <span class="cap-card__text">Cinematic Hero Section</span>
+            </div>
+            <div class="cap-card cap-card--2">
+              <span class="cap-card__icon">◎</span>
+              <span class="cap-card__text">Clear Offer Positioning</span>
+            </div>
+            <div class="cap-card cap-card--3">
+              <span class="cap-card__icon">⬡</span>
+              <span class="cap-card__text">Lead Capture Form</span>
+            </div>
+            <div class="cap-card cap-card--4">
+              <span class="cap-card__icon">⚡</span>
+              <span class="cap-card__text">Instant Alerts</span>
+            </div>
+            <div class="cap-card cap-card--5">
+              <span class="cap-card__icon">◼</span>
+              <span class="cap-card__text">Mobile-First Layout</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 4B — INSIDE AN LPR LANDING PAGE (HORIZONTAL REEL)
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-reel" id="reel">
+      <div class="reel__pin" id="reel-pin">
+        <div class="reel__hdr">
+          <p class="scene-eyebrow">Inside an LPR Landing Page</p>
+          <h2 class="reel__title">Every detail.<br />Built to convert.</h2>
+        </div>
+        <div class="reel__viewport">
+          <div class="reel__track" id="reel-track">
+
+            <div class="film-card">
+              <div class="film-card__num">01</div>
+              <div class="film-card__icon">▶</div>
+              <h3 class="film-card__title">Cinematic Hero</h3>
+              <p class="film-card__text">Full-screen video or animated background. Space-grade visuals and depth that capture attention in the first second and hold it through the offer.</p>
+            </div>
+
+            <div class="film-card">
+              <div class="film-card__num">02</div>
+              <div class="film-card__icon">◎</div>
+              <h3 class="film-card__title">Clear Offer Positioning</h3>
+              <p class="film-card__text">Every LPR page is built around one offer and one audience. The copy, layout, and CTA are aligned to what your paid traffic actually came for.</p>
+            </div>
+
+            <div class="film-card">
+              <div class="film-card__num">03</div>
+              <div class="film-card__icon">◈</div>
+              <h3 class="film-card__title">Lead Capture Form</h3>
+              <p class="film-card__text">A focused form built into the page experience — not bolted on at the bottom. Visitors move naturally toward action as part of the scroll flow.</p>
+            </div>
+
+            <div class="film-card">
+              <div class="film-card__num">04</div>
+              <div class="film-card__icon">⚡</div>
+              <h3 class="film-card__title">Instant Alerts</h3>
+              <p class="film-card__text">Every submission fires an instant notification — Telegram, email, or Slack — before the visitor ever leaves the page. No lead slips through.</p>
+            </div>
+
+            <div class="film-card">
+              <div class="film-card__num">05</div>
+              <div class="film-card__icon">⬡</div>
+              <h3 class="film-card__title">Mobile-First</h3>
+              <p class="film-card__text">The full LPR experience scales from phone to desktop without losing any of the visual impact, speed, or conversion focus.</p>
+            </div>
+
+            <div class="film-card">
+              <div class="film-card__num">06</div>
+              <div class="film-card__icon">◼</div>
+              <h3 class="film-card__title">Optional Automation</h3>
+              <p class="film-card__text">Book appointments, send confirmation emails, and route leads automatically with the Full Automation Launch package.</p>
+            </div>
+
+          </div>
+        </div>
+        <div class="reel__progress" aria-hidden="true">
+          <div class="reel__progress-fill" id="reel-progress"></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 5 — FROM CLICK TO FOLLOW-UP (LEAD PIPELINE)
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-pipeline" id="pipeline">
+      <div class="container">
+        <div class="scene-header">
+          <p class="scene-eyebrow">The Lead System</p>
+          <h2 class="scene-title">From Click to Follow-Up.</h2>
+          <p class="scene-sub">Every form submission becomes a trackable inquiry. Leads can be delivered via Email, Telegram, Slack, Google Sheet, or booking flow — depending on your setup and package.</p>
+        </div>
+
+        <!-- Animated pipeline -->
+        <div class="pipeline" id="pipeline-wrap">
+          <div class="pipeline__track">
+            <div class="pipeline__rail">
+              <div class="pipeline__fill" id="pipeline-fill"></div>
+            </div>
+            <div class="pipeline__nodes">
+              <div class="p-node" data-step="0">
+                <div class="p-node__orb"><span>⬡</span></div>
+                <span class="p-node__label">Ad Click</span>
+              </div>
+              <div class="p-node" data-step="1">
+                <div class="p-node__orb"><span>◎</span></div>
+                <span class="p-node__label">LPR Page</span>
+              </div>
+              <div class="p-node" data-step="2">
+                <div class="p-node__orb"><span>◈</span></div>
+                <span class="p-node__label">Form Submit</span>
+              </div>
+              <div class="p-node" data-step="3">
+                <div class="p-node__orb"><span>⚡</span></div>
+                <span class="p-node__label">Instant Alert</span>
+              </div>
+              <div class="p-node" data-step="4">
+                <div class="p-node__orb"><span>◼</span></div>
+                <span class="p-node__label">Lead Saved</span>
+              </div>
+              <div class="p-node" data-step="5">
+                <div class="p-node__orb"><span>✓</span></div>
+                <span class="p-node__label">Follow-Up Ready</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Popup cards -->
+          <div class="pipeline__cards">
+            <div class="pl-card pl-card--alert" id="pl-alert">
+              <span class="pl-card__pulse"></span>
+              <div class="pl-card__body">
+                <span class="pl-card__title">New Lead — Marcus R.</span>
+                <span class="pl-card__sub">Telegram · Just now</span>
+              </div>
+            </div>
+            <div class="pl-card pl-card--saved" id="pl-saved">
+              <span class="pl-saved__check">✓</span>
+              <div class="pl-card__body">
+                <span class="pl-card__title">Lead #0042 saved</span>
+                <span class="pl-card__sub">Processed in 0.3s</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 6 — THE LAUNCH SEQUENCE (PROCESS)
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-process" id="process">
+      <div class="container">
+        <div class="scene-header">
+          <p class="scene-eyebrow">The Launch Sequence</p>
+          <h2 class="scene-title">From offer to live<br />in 1 to 2 days.</h2>
+        </div>
+
+        <div class="process-timeline" id="process-timeline">
+          <div class="process-timeline__spine">
+            <div class="process-spine__fill" id="process-spine"></div>
+          </div>
+
+          <div class="pt-item" data-step="0">
+            <div class="pt-item__marker">
+              <span class="pt-item__num">01</span>
+            </div>
+            <div class="pt-item__body">
+              <h3 class="pt-item__title">Lock the Offer</h3>
+              <p class="pt-item__text">We clarify what the visitor should understand and what action they should take. One offer. One message. One clear next step.</p>
+            </div>
+          </div>
+
+          <div class="pt-item" data-step="1">
+            <div class="pt-item__marker">
+              <span class="pt-item__num">02</span>
+            </div>
+            <div class="pt-item__body">
+              <h3 class="pt-item__title">Map the Traffic Source</h3>
+              <p class="pt-item__text">We align the landing page with the traffic coming from your ads, social media, or campaigns so the message matches what brought visitors there.</p>
+            </div>
+          </div>
+
+          <div class="pt-item" data-step="2">
+            <div class="pt-item__marker">
+              <span class="pt-item__num">03</span>
+            </div>
+            <div class="pt-item__body">
+              <h3 class="pt-item__title">Build the Landing Page</h3>
+              <p class="pt-item__text">We create the page with clear copy, cinematic visuals, mobile-first layout, and one CTA path — coded for performance on every device.</p>
+            </div>
+          </div>
+
+          <div class="pt-item" data-step="3">
+            <div class="pt-item__marker">
+              <span class="pt-item__num">04</span>
+            </div>
+            <div class="pt-item__body">
+              <h3 class="pt-item__title">Connect the Lead System</h3>
+              <p class="pt-item__text">We connect the form, alerts, tracking, or automation based on the package. Every submission becomes a captured, routed inquiry.</p>
+            </div>
+          </div>
+
+          <div class="pt-item" data-step="4">
+            <div class="pt-item__marker">
+              <span class="pt-item__num">05</span>
+            </div>
+            <div class="pt-item__body">
+              <h3 class="pt-item__title">Launch and Improve</h3>
+              <p class="pt-item__text">The page goes live. Month 2 is free — no retainer — so you can send traffic, see inquiries come in, and confirm the system is working before continuing.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 7 — PACKAGES
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-packages" id="packages">
+      <div class="container">
+        <div class="scene-header">
+          <p class="scene-eyebrow">Transparent Pricing</p>
+          <h2 class="scene-title">Two ways to launch<br />your LPR landing page.</h2>
+          <p class="scene-sub">Both packages deliver a complete, live landing page in 1 to 2 days. Month 2 is always free — no retainer — so you can send traffic and see the system working before continuing.</p>
+        </div>
+
+        <div class="pkg-grid">
+
+          <!-- OFFER 1: Launch Your Landing Page -->
+          <div class="pkg pkg--standard">
+            <div class="pkg__inner">
+              <p class="pkg__eyebrow">Best for a focused launch</p>
+              <h3 class="pkg__name">Launch Your Landing Page</h3>
+              <div class="pkg__price-wrap">
+                <span class="pkg__price">$1,000</span>
+                <span class="pkg__cycle">to launch</span>
+              </div>
+              <p class="pkg__tagline">Completed and launched in 1 to 2 days.</p>
+              <div class="pkg__timeline">
+                <div class="pkg__month">
+                  <span class="pkg__month-name">Month 1</span>
+                  <span class="pkg__month-amt">$1,000 launch</span>
+                </div>
+                <div class="pkg__month pkg__month--free">
+                  <span class="pkg__month-name">Month 2</span>
+                  <span class="pkg__month-amt">Free — no retainer</span>
+                </div>
+                <div class="pkg__month">
+                  <span class="pkg__month-name">Month 3</span>
+                  <span class="pkg__month-amt">$2,000 continuation</span>
+                </div>
+                <div class="pkg__month">
+                  <span class="pkg__month-name">Month 4+</span>
+                  <span class="pkg__month-amt">$500/month retainer</span>
+                </div>
+              </div>
+              <ul class="pkg__features">
+                <li>Custom cinematic landing page</li>
+                <li>Mobile-first layout with one clear CTA</li>
+                <li>Lead capture form connected and ready on launch day</li>
+                <li>Google Sheet lead tracking if connected</li>
+                <li>Instant alerts — Telegram, Email, or Slack</li>
+                <li>Hosted, maintained, and supported on retainer</li>
+              </ul>
+              <a href="#request" class="btn btn--ghost btn--full">Launch My Landing Page</a>
+            </div>
+          </div>
+
+          <!-- OFFER 2: Full Automation Launch -->
+          <div class="pkg pkg--premium">
+            <div class="pkg__glow-border" aria-hidden="true"></div>
+            <div class="pkg__inner">
+              <p class="pkg__eyebrow pkg__eyebrow--gold">Best for automation</p>
+              <h3 class="pkg__name">Full Automation Launch</h3>
+              <div class="pkg__price-wrap">
+                <span class="pkg__price">$1,500</span>
+                <span class="pkg__cycle">to launch</span>
+              </div>
+              <p class="pkg__tagline">Completed and launched in 1 to 2 days.</p>
+              <div class="pkg__timeline">
+                <div class="pkg__month">
+                  <span class="pkg__month-name">Month 1</span>
+                  <span class="pkg__month-amt">$1,500 launch</span>
+                </div>
+                <div class="pkg__month pkg__month--free">
+                  <span class="pkg__month-name">Month 2</span>
+                  <span class="pkg__month-amt">Free — no retainer</span>
+                </div>
+                <div class="pkg__month">
+                  <span class="pkg__month-name">Month 3</span>
+                  <span class="pkg__month-amt">$2,500 continuation</span>
+                </div>
+                <div class="pkg__month">
+                  <span class="pkg__month-name">Month 4+</span>
+                  <span class="pkg__month-amt">$800/month retainer</span>
+                </div>
+              </div>
+              <ul class="pkg__features">
+                <li>Everything in Launch Your Landing Page</li>
+                <li>More advanced automation setup</li>
+                <li>Booking flow support</li>
+                <li>Automated confirmation emails</li>
+                <li>Stronger lead follow-up structure</li>
+                <li>Advanced notification and lead handling system</li>
+              </ul>
+              <a href="#request" class="btn btn--cinema btn--full">Start Full Automation Launch</a>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="pkg-note">Both packages include Month 2 free with no retainer — so you can run traffic, see inquiries come in, and confirm the system is working before the continuation phase begins.</p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 8 — FAQ
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-faq" id="faq">
+      <div class="container">
+        <div class="scene-header">
+          <p class="scene-eyebrow">Common Questions</p>
+          <h2 class="scene-title">What people ask<br />before launch.</h2>
+        </div>
+
+        <div class="faq-list" role="list">
+
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-1"
+              id="faq-btn-1"
+            >
+              <span>What exactly does LPR build?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-1"
+              role="region"
+              aria-labelledby="faq-btn-1"
+              hidden
+            >
+              <p>LPR builds cinematic landing pages and lead-capture experiences for businesses sending traffic from ads, social media, or campaigns. The goal is to give visitors one clear offer, one clear message, and one clear next step.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-2"
+              id="faq-btn-2"
+            >
+              <span>How is a landing page different from a regular website?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-2"
+              role="region"
+              aria-labelledby="faq-btn-2"
+              hidden
+            >
+              <p>A regular website usually has menus, multiple pages, galleries, service sections, and many places for visitors to click away. A landing page is focused on one specific offer and one action, such as requesting a quote, booking a call, or submitting a form. Paid traffic converts better on a page built for one purpose.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-3"
+              id="faq-btn-3"
+            >
+              <span>How long does it take to build?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-3"
+              role="region"
+              aria-labelledby="faq-btn-3"
+              hidden
+            >
+              <p>Most landing pages are expected to be completed and launched in 1 to 2 days after the needed business information, offer details, and assets are provided.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-4"
+              id="faq-btn-4"
+            >
+              <span>What is the "Month 2 free" included in pricing?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-4"
+              role="region"
+              aria-labelledby="faq-btn-4"
+              hidden
+            >
+              <p>Month 2 is free with no retainer so you can see how the landing page fits into your ad flow before deciding whether to continue with ongoing support. You run your traffic, see inquiries come in, and make that decision with real data.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-5"
+              id="faq-btn-5"
+            >
+              <span>What is the difference between the two packages?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-5"
+              role="region"
+              aria-labelledby="faq-btn-5"
+              hidden
+            >
+              <p>Launch Your Landing Page focuses on building and launching a cinematic landing page with lead capture. Full Automation Launch includes everything in the launch package, plus more advanced automation support such as booking flow support, confirmation emails, and stronger lead follow-up structure.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-6"
+              id="faq-btn-6"
+            >
+              <span>How do I receive leads from the landing page?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-6"
+              role="region"
+              aria-labelledby="faq-btn-6"
+              hidden
+            >
+              <p>Depending on the setup, leads can be sent through Email, Telegram, Slack, Google Sheet tracking, or booking flow support. The exact setup depends on the package and what is connected during the build.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 9 — REQUEST FORM
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-request" id="request">
+      <div class="s-request__bg" aria-hidden="true"></div>
+      <div class="container">
+        <div class="scene-header">
+          <p class="scene-eyebrow">Start Your LPR Landing Page</p>
+          <h2 class="scene-title">Launch Your<br />Landing Page</h2>
+          <p class="scene-sub">Tell us about your business, your offer, and where your traffic is coming from. We'll follow up within one business day to confirm the best landing page setup.</p>
+        </div>
+
+        <form id="contact-form" class="req-form" novalidate>
+          <div id="contact-error" class="c-form-error" style="display:none;"></div>
+          <div id="contact-success" class="c-form-success" style="display:none;">
+            <span class="c-form-success__icon">✓</span>
+            <strong>Request received.</strong> We'll follow up within one business day to begin your project.
+          </div>
+
+          <div class="req-group">
+            <div class="req-group__header">
+              <span class="req-group__num">01</span>
+              <h3 class="req-group__title">Select Your Package</h3>
+            </div>
+            <div class="form-group">
+              <label class="req-label">Package</label>
+              <select name="offer" class="req-select">
+                <option value="">— Choose a package —</option>
+                <option value="Launch Your Landing Page — $1,000 to launch">Launch Your Landing Page — $1,000 to launch</option>
+                <option value="Full Automation Launch — $1,500 to launch">Full Automation Launch — $1,500 to launch</option>
+                <option value="Not sure yet — advise me">Not sure yet — advise me</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="req-group">
+            <div class="req-group__header">
+              <span class="req-group__num">02</span>
+              <h3 class="req-group__title">Your Business</h3>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="req-label">Your Name</label>
+                <input type="text" name="full_name" placeholder="First and last name" autocomplete="name" />
+              </div>
+              <div class="form-group">
+                <label class="req-label">Business Name</label>
+                <input type="text" name="business_name" placeholder="Business name" autocomplete="organization" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="req-label">Email</label>
+                <input type="email" name="email" placeholder="you@business.com" autocomplete="email" />
+              </div>
+              <div class="form-group">
+                <label class="req-label">Phone <span class="req-opt">(optional)</span></label>
+                <input type="tel" name="phone" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="req-label">Current Website <span class="req-opt">(if any)</span></label>
+              <input type="text" name="website_url" placeholder="https://yourbusiness.com" />
+            </div>
+          </div>
+
+          <div class="req-group">
+            <div class="req-group__header">
+              <span class="req-group__num">03</span>
+              <h3 class="req-group__title">Your Offer</h3>
+            </div>
+            <div class="form-group">
+              <label class="req-label">What does your business do?</label>
+              <input type="text" name="offer_detail" placeholder="e.g. Roofing, med spa, coaching, auto detailing" />
+            </div>
+            <div class="form-group">
+              <label class="req-label">What action should the landing page drive?</label>
+              <select name="goal" class="req-select">
+                <option value="">— Primary goal —</option>
+                <option value="Call or text us">Call or text us</option>
+                <option value="Request a quote or estimate">Request a quote or estimate</option>
+                <option value="Book an appointment">Book an appointment</option>
+                <option value="Submit a contact form">Submit a contact form</option>
+                <option value="Free consultation">Free consultation</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="req-label">Target audience</label>
+              <input type="text" name="target_audience" placeholder="Who are your best customers?" />
+            </div>
+          </div>
+
+          <div class="req-group">
+            <div class="req-group__header">
+              <span class="req-group__num">04</span>
+              <h3 class="req-group__title">Traffic &amp; Advertising</h3>
+            </div>
+            <div class="form-group">
+              <label class="req-label">Where are you sending traffic from?</label>
+              <select name="ad_platform" class="req-select">
+                <option value="">— Select platform —</option>
+                <option value="Google Ads">Google Ads</option>
+                <option value="Facebook / Instagram Ads">Facebook / Instagram Ads</option>
+                <option value="TikTok Ads">TikTok Ads</option>
+                <option value="YouTube Ads">YouTube Ads</option>
+                <option value="Organic / Social">Organic social or referral</option>
+                <option value="Not yet — planning to run ads">Not yet — planning to run ads</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="req-group">
+            <div class="req-group__header">
+              <span class="req-group__num">05</span>
+              <h3 class="req-group__title">Anything Else</h3>
+            </div>
+            <div class="form-group">
+              <label class="req-label">Notes <span class="req-opt">(optional)</span></label>
+              <textarea name="notes" placeholder="Any context, preferences, or questions…" rows="4"></textarea>
+            </div>
+          </div>
+
+          <input type="hidden" name="project_price" value="0" />
+          <input type="hidden" name="business_type" value="" />
+
+          <div class="req-submit">
+            <button type="submit" id="contact-submit" class="btn btn--cinema btn--xl">
+              <span id="contact-submit-text">Launch My Landing Page</span>
+            </button>
+            <p class="req-note">We follow up within one business day. No pressure, no commitment.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCENE 10 — FINAL LAUNCH CTA
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="scene s-finale" id="finale">
+      <div class="s-finale__glow" aria-hidden="true"></div>
+      <div class="s-finale__beam" aria-hidden="true"></div>
+      <div class="s-finale__grain" aria-hidden="true"></div>
+      <div class="container s-finale__inner">
+        <p class="scene-eyebrow">Ready for Lift-Off</p>
+        <h2 class="s-finale__headline">
+          Your ads already<br />
+          earned the click.<br />
+          <em>Now send that click to a page<br />built to keep momentum.</em>
+        </h2>
+        <a href="#request" class="btn btn--cinema btn--xl s-finale__cta">Launch My Landing Page</a>
+      </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <div class="site-footer__brand">
+          <a href="#opening" class="site-footer__logo">LPR</a>
+          <p class="site-footer__tag">Landing Page Rocket</p>
+        </div>
+        <nav class="site-footer__nav" aria-label="Footer navigation">
+          <a href="#experience"  class="site-footer__link">What We Build</a>
+          <a href="#packages"    class="site-footer__link">Packages</a>
+          <a href="#request"     class="site-footer__link">Launch My Page</a>
+        </nav>
+        <p class="site-footer__copy">&copy; 2026 LPR — Landing Page Rocket. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <div class="c-particles" id="c-particles" aria-hidden="true"></div>
+
+  </div><!-- /#main-site -->
+
+  <div class="cursor-dot"  id="cursor-dot"  aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="src/js/gate.js"></script>
+  <script src="src/js/main.js"></script>
+  <script src="src/js/cinematic.js"></script>
+  <script defer src="src/js/cinema-lead-global.js"></script>
+
+  <script>
+  /* ── Hero video source ── */
+  var HERO_VIDEO_SRC = "/videos/hf_20260508_235225_5c9d40e5-901b-4a3a-99c4-32e93b6ca3ec.mp4";
+
+  /* ── Video fallback ── */
+  (function () {
+    var v = document.getElementById('hero-video');
+    if (!v) return;
+    v.addEventListener('error', function () {
+      var bg = document.querySelector('.s-opening__video-bg');
+      if (bg) bg.classList.add('s-opening__video-bg--fallback');
+    });
+    setTimeout(function () {
+      if (v.readyState === 0) {
+        var bg = document.querySelector('.s-opening__video-bg');
+        if (bg) bg.classList.add('s-opening__video-bg--fallback');
+      }
+    }, 3000);
+  })();
+  </script>
+
+  <script>
+  /* ── FAQ accordion ── */
+  (function () {
+    var items = document.querySelectorAll('.faq-question');
+    items.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        var answerId = btn.getAttribute('aria-controls');
+        var answer   = document.getElementById(answerId);
+
+        /* Close all others */
+        items.forEach(function (other) {
+          if (other !== btn) {
+            other.setAttribute('aria-expanded', 'false');
+            var otherId = other.getAttribute('aria-controls');
+            var otherAns = document.getElementById(otherId);
+            if (otherAns) otherAns.hidden = true;
+            var otherIcon = other.querySelector('.faq-icon');
+            if (otherIcon) otherIcon.textContent = '+';
+          }
+        });
+
+        /* Toggle this one */
+        var nowExpanded = !expanded;
+        btn.setAttribute('aria-expanded', String(nowExpanded));
+        if (answer) answer.hidden = !nowExpanded;
+        var icon = btn.querySelector('.faq-icon');
+        if (icon) icon.textContent = nowExpanded ? '−' : '+';
+      });
+    });
+  })();
+  </script>
+
+  <script>
+  console.log("LPR FORM v1");
+
+  window.submitCinemaLead = async function(event) {
+    event.preventDefault();
+
+    const form = document.getElementById("cinema-lead-form");
+    if (!form) { alert("Form error: lead form not found."); return; }
+
+    const formData = new FormData(form);
+
+    const payload = {
+      full_name:     String(formData.get("full_name")     || "").trim(),
+      business_name: String(formData.get("business_name") || "").trim(),
+      email:         String(formData.get("email")         || "").trim(),
+      phone:         String(formData.get("phone")         || "").trim(),
+      business_type: String(formData.get("business_type") || "").trim(),
+      website_url:   String(formData.get("website_url")   || "").trim(),
+      offer:         String(formData.get("offer")         || "").trim(),
+      goal:          String(formData.get("goal")          || "").trim(),
+      ad_platform:   String(formData.get("ad_platform")   || "").trim(),
+      target_audience: String(formData.get("target_audience") || "").trim(),
+      project_price: Number(formData.get("project_price") || 0),
+      notes:         String(formData.get("notes")         || "").trim()
+    };
+
+    try {
+      const response = await fetch("/api/cinema-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Submission failed");
+      alert("Thank you. Your request was received — we will follow up within one business day.");
+      form.reset();
+    } catch (error) {
+      alert("Something went wrong. Please try again or contact us directly.");
+    }
+  };
+  </script>
+
+</body>
+</html>
