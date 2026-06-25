@@ -1,7 +1,6 @@
 {
   "outputDirectory": ".",
-  "public": true,
-  "functions": {
+"functions": {
     "api/lpr-lead.js": {
       "memory": 128,
       "maxDuration": 10
