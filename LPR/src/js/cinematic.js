@@ -250,29 +250,15 @@
       });
     }
 
-    /* Problem points — each from a different Z-depth on desktop */
+    /* Problem blocks — translateY(50) opacity 0 → resting, 0.12 stagger, top 80% */
     if (pts.length) {
-      if (isDesktop) {
-        var zDepths = [-80, -50, -100];
-        var yOffs   = [60,  40,  80];
-        pts.forEach(function (pt, i) {
-          gsap.set(pt, { opacity: 0, y: yOffs[i], z: zDepths[i], transformPerspective: 1000 });
-        });
-        ScrollTrigger.create({
-          trigger: pts[0], start: 'top 84%', once: true,
-          onEnter: function () {
-            gsap.to(pts, {
-              opacity: 1, y: 0, z: 0,
-              duration: 0.85, ease: 'power3.out', stagger: 0.15
-            });
-          }
-        });
-      } else {
-        gsap.from(pts, {
-          opacity: 0, x: 20, duration: 0.6, ease: 'power3.out', stagger: 0.14,
-          scrollTrigger: { trigger: pts[0], start: 'top 84%', once: true }
-        });
-      }
+      gsap.set(pts, { opacity: 0, y: 50 });
+      ScrollTrigger.create({
+        trigger: pts[0], start: 'top 80%', once: true,
+        onEnter: function () {
+          gsap.to(pts, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12 });
+        }
+      });
     }
   }
 
@@ -295,24 +281,24 @@
     }
 
     if (isDesktop) {
-      /* Bad card: rotateY(-8) → 0 */
+      /* Left card: translateX(-50) rotateY(-6) opacity 0 → resting */
       if (badCard) {
-        gsap.set(badCard, { opacity: 0, rotateY: -8, transformPerspective: 1000 });
+        gsap.set(badCard, { opacity: 0, x: -50, rotateY: -6, transformPerspective: 1200 });
         ScrollTrigger.create({
-          trigger: badCard, start: 'top 82%', once: true,
+          trigger: section, start: 'top 75%', once: true,
           onEnter: function () {
-            gsap.to(badCard, { opacity: 1, rotateY: 0, duration: 0.95, ease: 'power3.out' });
+            gsap.to(badCard, { opacity: 1, x: 0, rotateY: 0, duration: 0.95, ease: 'power3.out' });
           }
         });
       }
-      /* Good card: rotateY(8) → 0, with gold glow intensify */
+      /* Right card: translateX(50) rotateY(6) opacity 0 → resting, with gold glow */
       if (goodCard) {
-        gsap.set(goodCard, { opacity: 0, rotateY: 8, transformPerspective: 1000 });
+        gsap.set(goodCard, { opacity: 0, x: 50, rotateY: 6, transformPerspective: 1200 });
         if (glow) gsap.set(glow, { opacity: 0.2 });
         ScrollTrigger.create({
-          trigger: goodCard, start: 'top 82%', once: true,
+          trigger: section, start: 'top 75%', once: true,
           onEnter: function () {
-            gsap.to(goodCard, { opacity: 1, rotateY: 0, duration: 0.95, ease: 'power3.out', delay: 0.12 });
+            gsap.to(goodCard, { opacity: 1, x: 0, rotateY: 0, duration: 0.95, ease: 'power3.out', delay: 0.12 });
             if (glow) gsap.to(glow, { opacity: 1, duration: 1.4, ease: 'power2.out', delay: 0.3 });
           }
         });
@@ -399,7 +385,6 @@
 
   /* ── 10. Process — 3D Z-depth step entries + num parallax ──── */
   function initProcessTimeline() {
-    var spine   = document.getElementById('process-spine');
     var items   = qsa('.pt-item');
     var section = qs('.s-process');
     if (!section) return;
@@ -412,55 +397,20 @@
       });
     }
 
-    if (R) {
-      if (spine) spine.style.height = '100%';
+    if (R || !items.length) {
       items.forEach(function (it) { it.classList.add('is-visible'); });
       return;
     }
 
-    if (spine) {
-      gsap.fromTo(spine, { height: '0%' }, {
-        height: '100%', duration: 1.8, ease: 'power2.inOut',
-        scrollTrigger: {
-          trigger: section.querySelector('.process-timeline') || section,
-          start: 'top 74%', once: true
-        }
-      });
-    }
-
-    items.forEach(function (item, idx) {
-      var numEl = item.querySelector('.pt-item__num');
-
-      if (isDesktop) {
-        /* Enter from translateZ(-120px) scale(0.92) with stagger */
-        gsap.set(item, { opacity: 0, z: -120, scale: 0.92, transformPerspective: 1000 });
-        ScrollTrigger.create({
-          trigger: item, start: 'top 82%', once: true,
-          onEnter: function () {
-            item.classList.add('is-visible');
-            gsap.to(item, {
-              opacity: 1, z: 0, scale: 1,
-              duration: 0.85, ease: 'power3.out',
-              delay: idx * 0.15
-            });
-          }
-        });
-        /* Num label floats upward at 0.3x scroll speed independently */
-        if (numEl) {
-          gsap.fromTo(numEl, { y: 0 }, {
-            y: -28, ease: 'none',
-            scrollTrigger: {
-              trigger: item, start: 'top bottom', end: 'bottom top', scrub: 0.9
-            }
-          });
-        }
-      } else {
-        ScrollTrigger.create({
-          trigger: item, start: 'top 82%', once: true,
-          onEnter: function () {
-            item.classList.add('is-visible');
-            gsap.from(item, { opacity: 0, x: 28, duration: 0.7, ease: 'power3.out' });
-          }
+    /* Steps enter translateY(60) scale(0.96) opacity 0 → resting, 0.15 stagger */
+    gsap.set(items, { opacity: 0, y: 60, scale: 0.96 });
+    ScrollTrigger.create({
+      trigger: items[0], start: 'top 82%', once: true,
+      onEnter: function () {
+        items.forEach(function (it) { it.classList.add('is-visible'); });
+        gsap.to(items, {
+          opacity: 1, y: 0, scale: 1,
+          duration: 0.85, ease: 'power3.out', stagger: 0.15
         });
       }
     });
@@ -475,15 +425,15 @@
 
     if (isDesktop) {
       cards.forEach(function (card, idx) {
-        var fromX = (idx % 2 === 0) ? -40 : 40;
-        gsap.set(card, { opacity: 0, x: fromX, z: -60, transformPerspective: 1000 });
+        var fromX = (idx % 2 === 0) ? -30 : 30;
+        gsap.set(card, { opacity: 0, x: fromX });
       });
       ScrollTrigger.batch(cards, {
         start: 'top 86%',
         once: true,
         onEnter: function (batch) {
           gsap.to(batch, {
-            opacity: 1, x: 0, z: 0,
+            opacity: 1, x: 0,
             duration: 0.75, ease: 'power3.out',
             stagger: 0.08
           });
@@ -522,13 +472,13 @@
       var cards = Array.from(section.querySelectorAll('.pkg'));
       if (cards.length) {
         if (isDesktop) {
-          gsap.set(cards, { opacity: 0, y: 80, rotateX: 6, transformPerspective: 1000 });
+          gsap.set(cards, { opacity: 0, y: 70, rotateX: 5, transformPerspective: 1200 });
           ScrollTrigger.create({
             trigger: cards[0], start: 'top 84%', once: true,
             onEnter: function () {
               gsap.to(cards, {
                 opacity: 1, y: 0, rotateX: 0,
-                duration: 0.9, ease: 'power3.out', stagger: 0.16,
+                duration: 0.9, ease: 'power3.out', stagger: 0.1,
                 onComplete: function () {
                   cards.forEach(function (c) { c.classList.add('has-entered'); });
                 }
@@ -640,9 +590,8 @@
     var eyebrow  = section.querySelector('.scene-eyebrow');
     var headline = section.querySelector('.s-request__headline');
     var sub      = section.querySelector('.s-request__sub');
-    var steps    = section.querySelector('.req-steps-grid');
     var form     = section.querySelector('.s-request__form');
-    var els      = [eyebrow, headline, sub, steps, form].filter(Boolean);
+    var els      = [eyebrow, headline, sub, form].filter(Boolean);
 
     gsap.set(els, { opacity: 0, y: 30 });
     ScrollTrigger.create({
@@ -651,6 +600,20 @@
         gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12 });
       }
     });
+
+    /* Six step cards enter in two waves (first row 40, lower rows 60), 0.1 stagger */
+    var cards = qsa('.req-card');
+    if (cards.length) {
+      cards.forEach(function (card, idx) {
+        gsap.set(card, { opacity: 0, y: (idx < 2 ? 40 : 60) });
+      });
+      ScrollTrigger.create({
+        trigger: section.querySelector('.req-steps-grid'), start: 'top 80%', once: true,
+        onEnter: function () {
+          gsap.to(cards, { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out', stagger: 0.1 });
+        }
+      });
+    }
   }
 
 
@@ -702,53 +665,31 @@
     var hero    = qs('.s-opening');
     var vidBg   = qs('.s-opening__video-bg');
     var h1      = qs('.s-opening__headline');
-    var eyebrow = qs('.s-opening .scene-eyebrow');
-    var sub     = qs('.s-opening__sub');
-    var support = qs('.s-opening__support');
     var cta     = qs('.s-opening__cta');
     var heroGl  = qs('.s-opening__glow');
-    var scrub   = 1.2;
     var heroEnd = 'bottom top';
 
-    /* Hero Layer 1 — video bg at 0.15 scroll speed */
+    /* Hero Layer 1 — video background scale 1 → 1.1, scrub 1 */
     if (vidBg && hero) {
-      gsap.to(vidBg, {
-        y: -60, ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: heroEnd, scrub: scrub }
+      gsap.fromTo(vidBg, { scale: 1 }, {
+        scale: 1.1, ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: heroEnd, scrub: 1 }
       });
     }
 
-    /* Hero Layer 2 — headline + eyebrow at 0.35 speed + subtle rotateX tilt */
+    /* Hero Layer 2 — headline translateY 0 → -60, scrub 1.2 */
     if (h1 && hero) {
       gsap.to(h1, {
-        y: -140, rotateX: 2, ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: heroEnd, scrub: scrub }
-      });
-    }
-    if (eyebrow && hero) {
-      gsap.to(eyebrow, {
-        y: -110, ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: heroEnd, scrub: scrub }
-      });
-    }
-    if (sub && hero) {
-      gsap.to(sub, {
-        y: -90, ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: heroEnd, scrub: scrub }
-      });
-    }
-    if (support && hero) {
-      gsap.to(support, {
-        y: -100, ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: heroEnd, scrub: scrub }
+        y: -60, ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: heroEnd, scrub: 1.2 }
       });
     }
 
-    /* Hero Layer 3 — CTA at 0.5 speed */
+    /* Hero Layer 3 — CTA translateY 0 → -30, scrub 0.8 */
     if (cta && hero) {
       gsap.to(cta, {
-        y: -200, ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: heroEnd, scrub: scrub }
+        y: -30, ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: heroEnd, scrub: 0.8 }
       });
     }
 
@@ -760,55 +701,22 @@
       });
     }
 
-    /* Problem — gold orb drifts diagonally at scrub 2.0 */
+    /* Problem — gold ambient orb drifts 40 → -40, scrub 1.5 */
     var probOrb = qs('.s-problem .parallax-bg');
     if (probOrb) {
-      gsap.fromTo(probOrb, { y: 90, x: -25 }, {
-        y: -90, x: 25, ease: 'none',
-        scrollTrigger: { trigger: '.s-problem', start: 'top bottom', end: 'bottom top', scrub: 2.0 }
-      });
-    }
-
-    /* Compare — x-axis depth diverge */
-    var badCard  = qs('.compare-card--bad');
-    var goodCard = qs('.compare-card--good');
-    if (badCard) {
-      gsap.fromTo(badCard, { x: 0 }, {
-        x: -28, ease: 'none',
-        scrollTrigger: { trigger: '.s-compare', start: 'top bottom', end: 'bottom top', scrub: 1.2 }
-      });
-    }
-    if (goodCard) {
-      gsap.fromTo(goodCard, { x: 0 }, {
-        x: 28, ease: 'none',
-        scrollTrigger: { trigger: '.s-compare', start: 'top bottom', end: 'bottom top', scrub: 1.2 }
-      });
-    }
-
-    /* Packages — cards counter-scroll */
-    var pkgL = qs('.pkg--standard .pkg__inner');
-    var pkgR = qs('.pkg--premium  .pkg__inner');
-    if (pkgL) {
-      gsap.fromTo(pkgL, { y: 24 }, {
-        y: -24, ease: 'none',
-        scrollTrigger: { trigger: '.s-packages', start: 'top bottom', end: 'bottom top', scrub: 1.4 }
-      });
-    }
-    if (pkgR) {
-      gsap.fromTo(pkgR, { y: -24 }, {
-        y: 24, ease: 'none',
-        scrollTrigger: { trigger: '.s-packages', start: 'top bottom', end: 'bottom top', scrub: 1.4 }
-      });
-    }
-
-    /* Problem eyebrow slow upward float at 0.2x */
-    var probEyebrow = qs('.s-problem .scene-eyebrow');
-    if (probEyebrow) {
-      gsap.fromTo(probEyebrow, { y: 0 }, {
+      gsap.fromTo(probOrb, { y: 40 }, {
         y: -40, ease: 'none',
         scrollTrigger: { trigger: '.s-problem', start: 'top bottom', end: 'bottom top', scrub: 1.5 }
       });
     }
+
+    /* Process — large numerals float independently, scrub 1 */
+    qsa('.pt-item__num').forEach(function (numEl) {
+      gsap.fromTo(numEl, { y: 0 }, {
+        y: -20, ease: 'none',
+        scrollTrigger: { trigger: numEl.closest('.pt-item'), start: 'top bottom', end: 'bottom top', scrub: 1 }
+      });
+    });
   }
 
 
@@ -884,9 +792,11 @@
     style.textContent = cssText;
     document.head.appendChild(style);
 
-    for (var i = 0; i < 20; i++) {
+    var host = document.getElementById('main-site') || document.body;
+
+    for (var i = 0; i < 16; i++) {
       var p   = document.createElement('span');
-      var dur = (12 + Math.random() * 12).toFixed(1);
+      var dur = (14 + Math.random() * 8).toFixed(1);   /* 14–22s */
       var del = -(Math.random() * parseFloat(dur)).toFixed(1);
       var op  = (0.3 + Math.random() * 0.3).toFixed(2);
       var an  = anims[Math.floor(Math.random() * anims.length)];
@@ -898,7 +808,7 @@
         '--op:'       + op + ';' +
         'opacity:'    + op + ';' +
         'animation:'  + an + ' ' + dur + 's ' + del + 's ease-in-out infinite;';
-      document.body.appendChild(p);
+      host.appendChild(p);
     }
   }
 
