@@ -43,7 +43,6 @@
         <nav class="nav__links" id="nav-links" aria-label="Main navigation">
           <a href="#packages" class="nav__link">Packages</a>
           <a href="#process"  class="nav__link">How It Works</a>
-          <a href="#faq"      class="nav__link">FAQ</a>
           <a href="#request"  class="btn btn--cinema btn--sm">Launch My Landing Page</a>
         </nav>
       </div>
@@ -57,8 +56,9 @@
 
       <!-- Background video -->
       <div class="s-opening__video-bg" aria-hidden="true">
-        <video class="s-opening__video" id="hero-video" autoplay muted loop playsinline preload="auto">
-          <source src="public/videos/hero-launch.mp4" type="video/mp4" />
+        <video class="s-opening__video" id="hero-video" autoplay muted loop playsinline preload="auto" poster="">
+          <source src="public/videos/hero-bg.webm" type="video/webm" />
+          <source src="public/videos/hero-bg.mp4"  type="video/mp4" />
         </video>
         <div class="s-opening__video-overlay"></div>
       </div>
@@ -481,81 +481,6 @@
     </section>
 
 
-    <!-- ═══════════════════════════════════════════════════════════
-         FAQ
-    ═══════════════════════════════════════════════════════════ -->
-    <section class="scene s-faq" id="faq">
-      <div class="container">
-        <div class="scene-header">
-          <p class="scene-eyebrow">Common Questions</p>
-          <h2 class="scene-title">What people ask<br />before they start.</h2>
-        </div>
-
-        <div class="faq-list">
-
-          <div class="faq-item">
-            <button type="button" class="faq-item__q" id="faq-btn-0" aria-expanded="false" aria-controls="faq-panel-0">
-              <span>What exactly does LPR build?</span>
-              <span class="faq-item__icon" aria-hidden="true">+</span>
-            </button>
-            <div class="faq-item__a" id="faq-panel-0" role="region" aria-labelledby="faq-btn-0">
-              <p>LPR builds cinematic landing pages for businesses sending traffic from ads, social media, or campaigns. The goal is one offer, one message, and one clear action. We do not build full multi-page websites.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button type="button" class="faq-item__q" id="faq-btn-1" aria-expanded="false" aria-controls="faq-panel-1">
-              <span>How is this different from a full website?</span>
-              <span class="faq-item__icon" aria-hidden="true">+</span>
-            </button>
-            <div class="faq-item__a" id="faq-panel-1" role="region" aria-labelledby="faq-btn-1">
-              <p>A full website gives visitors many pages, menus, and exits. An LPR landing page is focused on one offer and one conversion action — such as requesting a quote, booking a call, or submitting a form. No distracting navigation. One path, one next step.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button type="button" class="faq-item__q" id="faq-btn-2" aria-expanded="false" aria-controls="faq-panel-2">
-              <span>What is the difference between LPR Launch and LPR Pro?</span>
-              <span class="faq-item__icon" aria-hidden="true">+</span>
-            </button>
-            <div class="faq-item__a" id="faq-panel-2" role="region" aria-labelledby="faq-btn-2">
-              <p><strong>LPR Launch</strong> ($1,000) includes the custom landing page and core lead capture setup — form, click-to-call, click-to-text, SSL, hosting, and speed optimization. <strong>LPR Pro</strong> ($1,500) includes everything in Launch plus one simple conversion integration: Calendly booking, a deposit or payment link, or a quote request form. The client provides the account, and LPR embeds and styles it.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button type="button" class="faq-item__q" id="faq-btn-3" aria-expanded="false" aria-controls="faq-panel-3">
-              <span>Do you build custom automations?</span>
-              <span class="faq-item__icon" aria-hidden="true">+</span>
-            </button>
-            <div class="faq-item__a" id="faq-panel-3" role="region" aria-labelledby="faq-btn-3">
-              <p>No. LPR does not build custom business automation systems as part of the standard packages. We keep the system simple and reliable: landing page, lead capture, and one clear conversion path.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button type="button" class="faq-item__q" id="faq-btn-4" aria-expanded="false" aria-controls="faq-panel-4">
-              <span>What happens after the landing page is approved?</span>
-              <span class="faq-item__icon" aria-hidden="true">+</span>
-            </button>
-            <div class="faq-item__a" id="faq-panel-4" role="region" aria-labelledby="faq-btn-4">
-              <p>Once the landing page is approved, the project is locked for launch. Any added section, redesign, layout change, new integration, or extra content request requires a $200 change request fee paid before work begins.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button type="button" class="faq-item__q" id="faq-btn-5" aria-expanded="false" aria-controls="faq-panel-5">
-              <span>What does hosting and maintenance include?</span>
-              <span class="faq-item__icon" aria-hidden="true">+</span>
-            </button>
-            <div class="faq-item__a" id="faq-panel-5" role="region" aria-labelledby="faq-btn-5">
-              <p>Hosting and maintenance keeps the landing page online, secure, updated, and monitored. It includes hosting, SSL, backups, platform updates, security updates, and fixes if something breaks because of LPR's platform. It does not include new sections, redesigns, new integrations, or copy rewrites. Those require a $200 change request fee.</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
 
 
     <!-- ═══════════════════════════════════════════════════════════
@@ -725,7 +650,6 @@
         <nav class="site-footer__nav" aria-label="Footer navigation">
           <a href="#packages"       class="site-footer__link">Packages</a>
           <a href="#process"        class="site-footer__link">How It Works</a>
-          <a href="#faq"            class="site-footer__link">FAQ</a>
           <a href="#request"        class="site-footer__link">Start a Project</a>
         </nav>
         <p class="site-footer__copy">&copy; 2026 Landing Page Rocket. All rights reserved.</p>
@@ -744,7 +668,7 @@
 
   <script>
   /* ── Hero video source ── */
-  var HERO_VIDEO_SRC = "/public/videos/hero-launch.mp4";
+  var HERO_VIDEO_SRC = "/public/videos/hero-bg.mp4";
 
   /* ── Video fallback ── */
   (function () {

@@ -56,7 +56,12 @@
   function initCursor() {
     if (R || window.matchMedia('(pointer: coarse)').matches) return;
 
-    document.body.style.cursor = 'none';
+    /* Hide cursor on non-interactive surface; restore on clickables */
+    var styleEl = document.createElement('style');
+    styleEl.textContent =
+      'body{cursor:none!important}' +
+      'a,button,select,input,textarea,label,[role="button"],[tabindex]{cursor:pointer!important}';
+    document.head.appendChild(styleEl);
 
     /* Canvas for flame particles */
     var canvas = document.createElement('canvas');
@@ -71,19 +76,20 @@
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    /* Asteroid SVG element */
+    /* Asteroid SVG element — 44px, rocky polygon */
     var ast = document.createElement('div');
-    ast.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:99999;will-change:transform;';
+    ast.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:99999;will-change:transform;transition:opacity 0.15s;';
     ast.innerHTML =
-      '<svg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">' +
-        '<polygon points="19,2 24,8 32,6 30,15 36,20 28,25 26,34 18,30 10,34 12,24 4,19 13,14" ' +
-          'fill="#7a6240" stroke="#4e3d26" stroke-width="1.2"/>' +
-        '<polygon points="19,5 23,10 29,9 28,16 33,20 26,24 24,31 18,27 12,31 14,23 8,19 15,15" ' +
-          'fill="none" stroke="#c09a55" stroke-width="0.6" opacity="0.35"/>' +
-        '<circle cx="14" cy="13" r="2.8" fill="#4e3d26" opacity="0.75"/>' +
-        '<circle cx="23" cy="21" r="2"   fill="#3e2f1c" opacity="0.65"/>' +
-        '<circle cx="15" cy="23" r="1.4" fill="#5c4830" opacity="0.55"/>' +
-        '<circle cx="24" cy="12" r="1"   fill="#3e2f1c" opacity="0.5"/>' +
+      '<svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">' +
+        '<polygon points="22,2 28,9 37,7 35,17 42,23 33,29 31,39 21,35 12,39 14,28 5,22 15,16"' +
+          ' fill="#8a7050" stroke="#5a4530" stroke-width="1.4"/>' +
+        '<polygon points="22,6 27,12 34,10 32,18 38,23 30,28 28,36 21,32 14,36 16,27 9,22 18,17"' +
+          ' fill="none" stroke="#c8a86a" stroke-width="0.7" opacity="0.3"/>' +
+        '<circle cx="16" cy="15" r="3.2" fill="#5a4530" opacity="0.8"/>' +
+        '<circle cx="27" cy="24" r="2.2" fill="#453420" opacity="0.7"/>' +
+        '<circle cx="17" cy="27" r="1.6" fill="#6a5440" opacity="0.6"/>' +
+        '<circle cx="28" cy="14" r="1.2" fill="#453420" opacity="0.55"/>' +
+        '<circle cx="22" cy="20" r="1"   fill="#7a6450" opacity="0.4"/>' +
       '</svg>';
     document.body.appendChild(ast);
 
@@ -93,6 +99,7 @@
     var angle = 0;
     var particles = [];
     var hidden = false;
+    var onInteractive = false;
 
     document.addEventListener('mousemove', function (e) {
       prevMx = mx; prevMy = my;
@@ -100,8 +107,10 @@
       my = e.clientY;
       hidden = false;
 
+      if (onInteractive) return; /* no flame on interactive elements */
+
       var speed = Math.hypot(mx - prevMx, my - prevMy);
-      var count = Math.min(Math.ceil(speed * 0.5) + 2, 8);
+      var count = Math.min(Math.ceil(speed * 0.55) + 2, 9);
 
       for (var i = 0; i < count; i++) {
         var t  = count > 1 ? i / (count - 1) : 0;
@@ -110,11 +119,11 @@
         particles.push({
           x:    ex + (Math.random() - 0.5) * 5,
           y:    ey + (Math.random() - 0.5) * 5,
-          vx:   (Math.random() - 0.5) * 0.8,
-          vy:   (Math.random() - 0.5) * 0.8,
+          vx:   (Math.random() - 0.5) * 0.9,
+          vy:   (Math.random() - 0.5) * 0.9,
           life: 1,
-          size: Math.random() * 9 + 5,
-          hue:  Math.random() * 40 + 10
+          size: Math.random() * 10 + 5,
+          hue:  Math.random() * 40 + 10   /* 10–50: red → orange → yellow */
         });
       }
     });
@@ -122,41 +131,56 @@
     document.addEventListener('mouseleave', function () { hidden = true; });
     document.addEventListener('mouseenter', function () { hidden = false; });
 
+    /* Track interactive elements — hide asteroid, restore cursor */
+    var interactSel = 'a,button,select,input,textarea,label,[role="button"],[tabindex]';
+    document.addEventListener('mouseover', function (e) {
+      if (e.target.closest(interactSel)) {
+        onInteractive = true;
+        ast.style.opacity = '0';
+      }
+    });
+    document.addEventListener('mouseout', function (e) {
+      if (e.target.closest(interactSel)) {
+        onInteractive = false;
+        ast.style.opacity = hidden ? '0' : '1';
+      }
+    });
+
     function drawFrame() {
       requestAnimationFrame(drawFrame);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      /* Smooth asteroid follow */
-      cx += (mx - cx) * 0.13;
-      cy += (my - cy) * 0.13;
+      /* Smooth follow with slight lag for cinematic feel */
+      cx += (mx - cx) * 0.12;
+      cy += (my - cy) * 0.12;
 
-      /* Slow spin */
+      /* Continuous slow spin, faster when moving */
       var dx = mx - prevMx, dy = my - prevMy;
-      if (Math.abs(dx) + Math.abs(dy) > 0.3) angle += 0.018;
+      angle += 0.012 + Math.min(Math.hypot(dx, dy) * 0.001, 0.03);
 
-      if (!hidden) {
-        ast.style.transform = 'translate(' + (cx - 19) + 'px,' + (cy - 19) + 'px) rotate(' + angle + 'rad)';
+      if (!hidden && !onInteractive) {
+        ast.style.transform = 'translate(' + (cx - 22) + 'px,' + (cy - 22) + 'px) rotate(' + angle + 'rad)';
         ast.style.opacity = '1';
-      } else {
+      } else if (!onInteractive) {
         ast.style.opacity = '0';
       }
 
-      /* Draw flame particles */
+      /* Flame particles */
       for (var i = particles.length - 1; i >= 0; i--) {
         var p = particles[i];
         p.x    += p.vx;
         p.y    += p.vy;
-        p.life -= 0.033;
-        p.size *= 0.965;
+        p.life -= 0.030;
+        p.size *= 0.962;
 
         if (p.life <= 0 || p.size < 0.5) { particles.splice(i, 1); continue; }
 
-        var a = p.life * 0.88;
+        var alpha = p.life * 0.85;
         var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-        g.addColorStop(0,   'hsla(' + (p.hue + 25) + ',100%,92%,' + a + ')');
-        g.addColorStop(0.3, 'hsla(' + p.hue + ',100%,62%,' + (a * 0.85) + ')');
-        g.addColorStop(0.7, 'hsla(' + (p.hue - 8) + ',100%,42%,' + (a * 0.45) + ')');
-        g.addColorStop(1,   'hsla(' + p.hue + ',80%,28%,0)');
+        g.addColorStop(0,   'hsla(' + (p.hue + 30) + ',100%,95%,' + alpha + ')');
+        g.addColorStop(0.25,'hsla(' + (p.hue + 15) + ',100%,72%,' + (alpha * 0.9) + ')');
+        g.addColorStop(0.6, 'hsla(' + p.hue + ',100%,48%,' + (alpha * 0.5) + ')');
+        g.addColorStop(1,   'hsla(' + (p.hue - 5) + ',90%,28%,0)');
 
         ctx.fillStyle = g;
         ctx.beginPath();
