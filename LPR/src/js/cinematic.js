@@ -488,25 +488,44 @@
     }
   }
 
-  /* ── 13. Request form reveal ────────────────────────────────── */
+  /* ── 13. Request section — particles + reveal ───────────────── */
   function initRequest() {
-    if (R) return;
     var section = qs('.s-request');
     if (!section) return;
-    var hdr = section.querySelector('.scene-header');
-    if (hdr) {
-      gsap.from(hdr.querySelectorAll('*'), {
-        opacity: 0, y: 20, duration: 0.75, ease: 'power3.out', stagger: 0.09,
-        scrollTrigger: { trigger: hdr, start: 'top 82%', once: true }
-      });
+
+    /* Floating gold sparks */
+    for (var i = 0; i < 22; i++) {
+      var s = document.createElement('span');
+      s.className = 'req-spark';
+      s.setAttribute('aria-hidden', 'true');
+      s.style.cssText =
+        'left:'    + (Math.random() * 100) + '%;' +
+        'bottom:'  + (Math.random() * 100) + '%;' +
+        '--dur:'   + (4 + Math.random() * 6) + 's;' +
+        '--delay:-'+ (Math.random() * 8)    + 's;' +
+        'width:'   + (1 + Math.random() * 2.5) + 'px;' +
+        'height:'  + (1 + Math.random() * 2.5) + 'px;';
+      section.appendChild(s);
     }
-    var groups = section.querySelectorAll('.req-group');
-    if (groups.length) {
-      gsap.from(groups, {
-        opacity: 0, y: 26, duration: 0.65, ease: 'power3.out', stagger: 0.11,
-        scrollTrigger: { trigger: groups[0], start: 'top 84%', once: true }
-      });
-    }
+
+    if (R) return;
+
+    /* Scroll reveal */
+    var eyebrow  = section.querySelector('.scene-eyebrow');
+    var headline = section.querySelector('.s-request__headline');
+    var sub      = section.querySelector('.s-request__sub');
+    var form     = section.querySelector('.s-request__form');
+    var els      = [eyebrow, headline, sub, form].filter(Boolean);
+
+    gsap.set(els, { opacity: 0, y: 30 });
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 72%',
+      once: true,
+      onEnter: function () {
+        gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12 });
+      }
+    });
   }
 
   /* ── 14. Finale entrance ────────────────────────────────────── */

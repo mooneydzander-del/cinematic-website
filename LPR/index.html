@@ -484,138 +484,97 @@
 
 
     <!-- ═══════════════════════════════════════════════════════════
-         REQUEST FORM
+         CHOOSE YOUR LAUNCH
     ═══════════════════════════════════════════════════════════ -->
     <section class="scene s-request" id="request">
       <div class="s-request__bg" aria-hidden="true"></div>
-      <div class="container">
-        <div class="scene-header">
-          <p class="scene-eyebrow">Start a Project</p>
-          <h2 class="scene-title">Request Your<br />LPR Landing Page</h2>
-          <p class="scene-sub">Tell us about your business, your offer, and what you're running ads for. We'll follow up within one business day to confirm your package and get started.</p>
-        </div>
+      <div class="s-request__glow" aria-hidden="true"></div>
+      <!-- .req-spark elements injected by cinematic.js -->
 
-        <form id="contact-form" class="req-form" novalidate>
+      <div class="container s-request__inner">
+
+        <p class="scene-eyebrow">Start a Project</p>
+        <h2 class="s-request__headline">Choose Your <em>Launch.</em></h2>
+        <p class="s-request__sub">Select a package and enter your email. We reply within 24 hours and begin your build.</p>
+
+        <form id="contact-form" class="s-request__form" novalidate>
+
           <div id="contact-error" class="c-form-error" style="display:none;"></div>
           <div id="contact-success" class="c-form-success" style="display:none;">
             <span class="c-form-success__icon">✓</span>
-            <strong>Request received.</strong> We'll follow up within one business day to begin your project.
+            <div><strong>Request received.</strong> We'll be in touch within 24 hours to begin your build.</div>
           </div>
 
-          <div class="req-group">
-            <div class="req-group__header">
-              <span class="req-group__num">01</span>
-              <h3 class="req-group__title">Select Your Package</h3>
-            </div>
-            <div class="form-group">
-              <label class="req-label">Package</label>
-              <select name="offer" class="req-select">
-                <option value="">— Choose a package —</option>
-                <option value="LPR Launch — $1,000 to launch">LPR Launch — $1,000 to launch</option>
-                <option value="LPR Pro — $1,500 to launch">LPR Pro — $1,500 to launch</option>
-                <option value="Not sure yet — advise me">Not sure yet — advise me</option>
-              </select>
-            </div>
+          <!-- Package cards -->
+          <div class="pkg-selector" role="group" aria-label="Select a package">
+
+            <button type="button" class="pkg-opt" data-value="LPR Launch — $1,000 to launch">
+              <span class="pkg-opt__radio" aria-hidden="true"></span>
+              <span class="pkg-opt__body">
+                <span class="pkg-opt__name">LPR Launch</span>
+                <span class="pkg-opt__line">One focused page · Live in 1–2 days</span>
+              </span>
+              <span class="pkg-opt__price">$1,000</span>
+            </button>
+
+            <button type="button" class="pkg-opt pkg-opt--featured" data-value="LPR Pro — $1,500 to launch">
+              <span class="pkg-opt__pill">Most Popular</span>
+              <span class="pkg-opt__radio" aria-hidden="true"></span>
+              <span class="pkg-opt__body">
+                <span class="pkg-opt__name">LPR Pro</span>
+                <span class="pkg-opt__line">Launch + one booking or payment integration</span>
+              </span>
+              <span class="pkg-opt__price">$1,500</span>
+            </button>
+
+            <button type="button" class="pkg-opt" data-value="Not sure yet — advise me">
+              <span class="pkg-opt__radio" aria-hidden="true"></span>
+              <span class="pkg-opt__body">
+                <span class="pkg-opt__name">Not Sure Yet</span>
+                <span class="pkg-opt__line">Tell me which fits my situation</span>
+              </span>
+              <span class="pkg-opt__price">Advise me</span>
+            </button>
+
           </div>
 
-          <div class="req-group">
-            <div class="req-group__header">
-              <span class="req-group__num">02</span>
-              <h3 class="req-group__title">Your Business</h3>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label class="req-label">Your Name</label>
-                <input type="text" name="full_name" placeholder="First and last name" autocomplete="name" />
-              </div>
-              <div class="form-group">
-                <label class="req-label">Business Name</label>
-                <input type="text" name="business_name" placeholder="Business name" autocomplete="organization" />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label class="req-label">Email</label>
-                <input type="email" name="email" placeholder="you@business.com" autocomplete="email" />
-              </div>
-              <div class="form-group">
-                <label class="req-label">Phone <span class="req-opt">(optional)</span></label>
-                <input type="tel" name="phone" placeholder="+1 (555) 000-0000" autocomplete="tel" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="req-label">Current Website <span class="req-opt">(if any)</span></label>
-              <input type="text" name="website_url" placeholder="https://yourbusiness.com" />
-            </div>
+          <!-- Hidden offer value set by JS -->
+          <input type="hidden" name="offer" id="req-pkg-hidden" />
+
+          <!-- Email -->
+          <div class="s-request__contact-row">
+            <input
+              type="email"
+              name="email"
+              id="req-email"
+              placeholder="your@email.com"
+              autocomplete="email"
+              class="s-request__email"
+            />
           </div>
 
-          <div class="req-group">
-            <div class="req-group__header">
-              <span class="req-group__num">03</span>
-              <h3 class="req-group__title">Your Goals</h3>
-            </div>
-            <div class="form-group">
-              <label class="req-label">What does your business do?</label>
-              <input type="text" name="offer_detail" placeholder="e.g. Roofing, med spa, coaching, auto detailing" />
-            </div>
-            <div class="form-group">
-              <label class="req-label">What action should the landing page drive?</label>
-              <select name="goal" class="req-select">
-                <option value="">— Primary goal —</option>
-                <option value="Call or text us">Call or text us</option>
-                <option value="Request a quote or estimate">Request a quote or estimate</option>
-                <option value="Book an appointment">Book an appointment</option>
-                <option value="Submit a contact form">Submit a contact form</option>
-                <option value="Free consultation">Free consultation</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="req-label">Target audience</label>
-              <input type="text" name="target_audience" placeholder="Who are your best customers?" />
-            </div>
-          </div>
-
-          <div class="req-group">
-            <div class="req-group__header">
-              <span class="req-group__num">04</span>
-              <h3 class="req-group__title">Traffic &amp; Advertising</h3>
-            </div>
-            <div class="form-group">
-              <label class="req-label">Where are you sending traffic from?</label>
-              <select name="ad_platform" class="req-select">
-                <option value="">— Select platform —</option>
-                <option value="Google Ads">Google Ads</option>
-                <option value="Facebook / Instagram Ads">Facebook / Instagram Ads</option>
-                <option value="TikTok Ads">TikTok Ads</option>
-                <option value="YouTube Ads">YouTube Ads</option>
-                <option value="Organic / Social">Organic social or referral</option>
-                <option value="Not yet — planning to run ads">Not yet — planning to run ads</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="req-group">
-            <div class="req-group__header">
-              <span class="req-group__num">05</span>
-              <h3 class="req-group__title">Anything Else</h3>
-            </div>
-            <div class="form-group">
-              <label class="req-label">Notes <span class="req-opt">(optional)</span></label>
-              <textarea name="notes" placeholder="Any context, preferences, or questions…" rows="4"></textarea>
-            </div>
-          </div>
-
+          <!-- Hidden defaults for API -->
+          <input type="hidden" name="full_name"     value="Website Inquiry" />
+          <input type="hidden" name="business_name" value="" />
+          <input type="hidden" name="goal"          value="landing page inquiry" />
           <input type="hidden" name="project_price" value="0" />
           <input type="hidden" name="business_type" value="" />
 
-          <div class="req-submit">
-            <button type="submit" id="contact-submit" class="btn btn--cinema btn--xl">
-              <span id="contact-submit-text">Start My LPR Page</span>
-            </button>
-            <p class="req-note">We follow up within one business day. No pressure, no commitment.</p>
-          </div>
+          <!-- CTA -->
+          <button type="submit" id="contact-submit" class="btn btn--cinema btn--xl s-request__cta">
+            <span id="contact-submit-text">Request My LPR Page</span>
+            <span class="s-request__cta-arrow" aria-hidden="true">→</span>
+          </button>
+
+          <!-- Trust bar -->
+          <ul class="s-request__trust" aria-label="Trust signals">
+            <li><span class="trust-check">✓</span> Reply within 24 hours</li>
+            <li class="trust-sep" aria-hidden="true">·</li>
+            <li><span class="trust-check">✓</span> No commitment required</li>
+            <li class="trust-sep" aria-hidden="true">·</li>
+            <li><span class="trust-check">✓</span> Live in 1–2 days</li>
+          </ul>
+
         </form>
       </div>
     </section>

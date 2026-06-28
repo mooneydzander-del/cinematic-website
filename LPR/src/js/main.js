@@ -94,30 +94,20 @@
     function setSubmitting(active) {
       if (!submitBtn) return;
       submitBtn.disabled = active;
-      submitBtn.textContent = active
-        ? 'Sending…'
-        : 'Start My LPR Page';
+      var txt = document.getElementById('contact-submit-text');
+      if (txt) txt.textContent = active ? 'Sending…' : 'Request My LPR Page';
     }
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       hideError();
 
-      /* ── Read fields using API-expected names ── */
-      var full_name     = getField(form, 'full_name');
-      var business_name = getField(form, 'business_name');
-      var email         = getField(form, 'email');
-      var phone         = getField(form, 'phone');
-      var offer         = getField(form, 'offer');
-      var goal          = getField(form, 'goal');
+      var email = getField(form, 'email');
+      var offer = getField(form, 'offer');
 
       /* ── Validate ── */
-      if (!full_name) {
-        showError('Please enter your full name.');
-        return;
-      }
-      if (!business_name) {
-        showError('Please enter your business name.');
+      if (!offer) {
+        showError('Please select a package to continue.');
         return;
       }
       if (!email) {
@@ -128,30 +118,21 @@
         showError('Please enter a valid email address.');
         return;
       }
-      if (!offer && !getField(form, 'offer_detail')) {
-        showError('Please select a package or tell us what you are advertising.');
-        return;
-      }
 
-      /* ── Build payload matching API field names exactly ── */
+      /* ── Build payload ── */
       var payload = {
-        full_name:                full_name,
-        business_name:            business_name,
-        email:                    email,
-        phone:                    phone,
-        business_type:            getField(form, 'business_type'),
-        website_url:              getField(form, 'website_url'),
-        offer:                    getField(form, 'offer_detail') || offer,
-        goal:                     goal || 'not specified',
-        ad_platform:              getField(form, 'ad_platform'),
-        target_audience:          getField(form, 'target_audience'),
-        project_price:            0,
-        notes:                    [
-          getField(form, 'notes'),
-          getField(form, 'notification_preference') ? 'Notification preference: ' + getField(form, 'notification_preference') : '',
-          getField(form, 'booking_tool')            ? 'Booking tool: '            + getField(form, 'booking_tool')            : '',
-          getField(form, 'offer')                   ? 'Package selected: '        + getField(form, 'offer')                   : ''
-        ].filter(Boolean).join('\n')
+        full_name:       'Website Inquiry',
+        business_name:   '',
+        email:           email,
+        phone:           '',
+        business_type:   '',
+        website_url:     '',
+        offer:           offer,
+        goal:            'landing page inquiry',
+        ad_platform:     '',
+        target_audience: '',
+        project_price:   0,
+        notes:           'Package selection via simplified form'
       };
 
       setSubmitting(true);
@@ -174,7 +155,7 @@
           if (result.status >= 200 && result.status < 300) {
             /* Success */
             form.style.display = 'none';
-            if (successEl) successEl.classList.add('is-visible');
+            if (successEl) successEl.style.display = 'flex';
           } else {
             /* API returned an error (4xx/5xx) */
             var msg = (result.data && result.data.error)
@@ -195,9 +176,25 @@
     });
   }
 
+  /* ── Package card selector ─────────────────────────────── */
+  function initPkgSelector() {
+    var opts   = Array.from(document.querySelectorAll('.pkg-opt'));
+    var hidden = document.getElementById('req-pkg-hidden');
+    if (!opts.length || !hidden) return;
+
+    opts.forEach(function (opt) {
+      opt.addEventListener('click', function () {
+        opts.forEach(function (o) { o.classList.remove('is-selected'); });
+        opt.classList.add('is-selected');
+        hidden.value = opt.getAttribute('data-value') || '';
+      });
+    });
+  }
+
   /* ── Init ───────────────────────────────────────────────── */
   function init() {
     initNav();
+    initPkgSelector();
     initContactForm();
   }
 
