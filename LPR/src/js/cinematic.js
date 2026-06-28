@@ -544,9 +544,133 @@
     });
   }
 
+  /* ── 16. Parallax depth layers (desktop / fine pointer only) ── */
+  function initParallax() {
+    if (R || window.matchMedia('(pointer: coarse)').matches) return;
+
+    var hero   = qs('.s-opening');
+    var vidBg  = qs('.s-opening__video-bg');
+    var heroIn = qs('.s-opening__inner');
+    var heroGl = qs('.s-opening__glow');
+
+    /* Hero — video zooms gently as page scrolls past; content lifts */
+    if (vidBg && hero) {
+      gsap.to(vidBg, {
+        scale: 1.12, ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 1.3 }
+      });
+    }
+    if (heroIn && hero) {
+      gsap.to(heroIn, {
+        y: -70, ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.9 }
+      });
+    }
+    if (heroGl && hero) {
+      gsap.to(heroGl, {
+        y: -55, scale: 1.4, opacity: 0, ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: '65% top', scrub: 1 }
+      });
+    }
+
+    /* Problem — injected background orb drifts diagonally */
+    var probOrb = qs('.s-problem .parallax-bg');
+    if (probOrb) {
+      gsap.fromTo(probOrb, { y: 90, x: -25 }, {
+        y: -90, x: 25, ease: 'none',
+        scrollTrigger: { trigger: '.s-problem', start: 'top bottom', end: 'bottom top', scrub: 1.5 }
+      });
+    }
+
+    /* Compare — cards diverge on the x-axis for visual depth */
+    var badCard  = qs('.compare-card--bad');
+    var goodCard = qs('.compare-card--good');
+    if (badCard) {
+      gsap.fromTo(badCard, { x: 0 }, {
+        x: -32, ease: 'none',
+        scrollTrigger: { trigger: '.s-compare', start: 'top bottom', end: 'bottom top', scrub: 1.2 }
+      });
+    }
+    if (goodCard) {
+      gsap.fromTo(goodCard, { x: 0 }, {
+        x: 32, ease: 'none',
+        scrollTrigger: { trigger: '.s-compare', start: 'top bottom', end: 'bottom top', scrub: 1.2 }
+      });
+    }
+
+    /* Packages — card inner content counter-scrolls (opposite directions) */
+    var pkgL = qs('.pkg--standard .pkg__inner');
+    var pkgR = qs('.pkg--premium  .pkg__inner');
+    if (pkgL) {
+      gsap.fromTo(pkgL, { y: 24 }, {
+        y: -24, ease: 'none',
+        scrollTrigger: { trigger: '.s-packages', start: 'top bottom', end: 'bottom top', scrub: 1.4 }
+      });
+    }
+    if (pkgR) {
+      gsap.fromTo(pkgR, { y: -24 }, {
+        y: 24, ease: 'none',
+        scrollTrigger: { trigger: '.s-packages', start: 'top bottom', end: 'bottom top', scrub: 1.4 }
+      });
+    }
+  }
+
+  /* ── 17. CTA radial-pulse on viewport entry ──────────────────── */
+  function initCtaPulse() {
+    if (R || !('IntersectionObserver' in window)) return;
+    var btns = qsa('.btn--cinema');
+    if (!btns.length) return;
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var btn = entry.target;
+        btn.classList.remove('btn--pulse');
+        void btn.offsetWidth;         /* force reflow to restart animation */
+        btn.classList.add('btn--pulse');
+        io.unobserve(btn);
+      });
+    }, { threshold: 0.75 });
+
+    btns.forEach(function (btn) { io.observe(btn); });
+  }
+
+  /* ── 18. Ambient particles: hero sparks + problem orb ────────── */
+  function initAmbientParticles() {
+    /* Tiny cyan sparks drifting upward through the hero */
+    var hero = qs('.s-opening');
+    if (hero && !R) {
+      for (var i = 0; i < 14; i++) {
+        var sp = document.createElement('span');
+        sp.className = 'hero-spark';
+        sp.setAttribute('aria-hidden', 'true');
+        sp.style.cssText =
+          'left:'     + (4 + Math.random() * 92)   + '%;' +
+          'bottom:'   + (Math.random() * 78)        + '%;' +
+          '--dur:'    + (6 + Math.random() * 9)     + 's;' +
+          '--delay:-' + (Math.random() * 13)        + 's;' +
+          '--drift:'  + (Math.random() * 54 - 27)   + 'px;' +
+          'width:'    + (1 + Math.random() * 1.8)   + 'px;' +
+          'height:'   + (1 + Math.random() * 1.8)   + 'px;';
+        hero.appendChild(sp);
+      }
+    }
+
+    /* Blurred gold orb in problem section — moved by initParallax */
+    var prob = qs('.s-problem');
+    if (prob) {
+      var orb = document.createElement('div');
+      orb.className = 'parallax-bg';
+      orb.setAttribute('aria-hidden', 'true');
+      prob.prepend(orb);
+    }
+  }
+
   /* ── Init ───────────────────────────────────────────────────── */
   function init() {
     initCursor();
+    initCtaPulse();
+    initAmbientParticles();
     whenGSAP(function () {
       gsap.registerPlugin(ScrollTrigger);
       initLenis();
@@ -563,6 +687,7 @@
       initRequest();
       initFinale();
       initMagneticButtons();
+      initParallax();            /* must run after other inits, before refresh */
       ScrollTrigger.refresh();
     });
   }

@@ -2774,3 +2774,76 @@ body.modal-open { overflow: hidden; }
   .process-spine__fill { transition: none; }
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+
+/* ============================================================
+   CINEMATIC DEPTH — Parallax, Sparks, CTA Pulse
+   ============================================================ */
+
+/* ── Hero ambient sparks (cyan, injected by JS) ────────────── */
+.hero-spark {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0, 229, 255, 0.82);
+  box-shadow: 0 0 6px 1px rgba(0, 229, 255, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  animation: hero-spark-float var(--dur, 7s) var(--delay, 0s) ease-in-out infinite;
+}
+
+@keyframes hero-spark-float {
+  0%   { transform: translate(0, 0) scale(1);
+         opacity: 0; }
+  12%  { opacity: 0.72; }
+  55%  { transform: translate(var(--drift, 20px), -120px) scale(1.25);
+         opacity: 0.35; }
+  100% { transform: translate(calc(var(--drift, 20px) * 1.7), -220px) scale(0.3);
+         opacity: 0; }
+}
+
+/* ── Parallax background orb (problem section, injected by JS) ─ */
+.parallax-bg {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  width: 700px;
+  height: 700px;
+  top: -5%;
+  left: -18%;
+  background: radial-gradient(circle, rgba(200,168,75,0.08) 0%, transparent 65%);
+  filter: blur(90px);
+}
+
+/* ── Section layout fixes for parallax children ─────────────── */
+.s-problem   { position: relative; overflow: hidden; }
+.s-compare   { position: relative; }
+.s-packages  { overflow: visible; }
+
+/* ── CTA button: viewport-entry radial pulse ─────────────────── */
+@keyframes btn-entry-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(200,168,75,0.75),
+                     0 8px 32px rgba(200,168,75,0.28); }
+  55%  { box-shadow: 0 0 0 16px rgba(200,168,75,0),
+                     0 16px 52px rgba(200,168,75,0.55); }
+  100% { box-shadow: 0 0 0 0   rgba(200,168,75,0),
+                     0 8px 32px rgba(200,168,75,0.28); }
+}
+
+.btn--cinema.btn--pulse {
+  animation: btn-entry-pulse 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── Video parallax: ensure the bg container can scale cleanly ── */
+.s-opening__video-bg {
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Parallax reduced-motion guard */
+@media (prefers-reduced-motion: reduce) {
+  .hero-spark    { animation: none; opacity: 0; }
+  .parallax-bg   { display: none; }
+  .btn--cinema.btn--pulse { animation: none; }
+}
