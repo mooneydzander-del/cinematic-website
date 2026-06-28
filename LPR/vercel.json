@@ -1,6 +1,5 @@
 {
   "outputDirectory": ".",
-  "public": true,
   "functions": {
     "api/lpr-lead.js": {
       "memory": 128,
