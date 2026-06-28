@@ -29,55 +29,6 @@
   <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
   <!-- ============================================================
-       LEAD CAPTURE GATE
-  ============================================================ -->
-  <div id="entry-gate" class="gate-modal" role="dialog" aria-modal="true" aria-label="Get started with Landing Page Rocket">
-    <div class="gate-modal__backdrop" aria-hidden="true"></div>
-    <div class="gate-modal__card" id="gate-card">
-      <div class="gate-modal__bar" aria-hidden="true"></div>
-      <div class="gate-modal__shimmer" id="gate-shimmer" aria-hidden="true"></div>
-
-      <div class="gate-step" id="gate-step-1">
-        <h2 class="gate-modal__headline">Your Ads Deserve a Landing Page That<br /><em>Actually Converts.</em></h2>
-        <p class="gate-modal__sub">Landing Page Rocket builds cinematic landing pages for businesses sending traffic from ads, social media, or campaigns.</p>
-        <button type="button" class="btn btn--cinema btn--full gate-modal__submit" id="gate-next">
-          Launch My Landing Page <span class="gate-modal__arrow" aria-hidden="true">→</span>
-        </button>
-        <button type="button" class="gate-modal__see-how" id="gate-see-how">See the Experience</button>
-      </div>
-
-      <div class="gate-step gate-step--form" id="gate-step-2" style="display:none;">
-        <div class="gate-headline-stack" id="gate-headline-stack">
-          <span class="gate-headline-line" id="gate-line-1">Launch-Ready.</span>
-          <span class="gate-headline-line gate-headline-line--accent" id="gate-line-2">Conversion-Focused.</span>
-          <span class="gate-headline-line" id="gate-line-3">Built for Paid Traffic.</span>
-        </div>
-        <form id="lpr-lead-form" class="lpr-lead-form gate-modal__form" onsubmit="window.submitLPRLead(event)" novalidate>
-          <input type="hidden" name="offer" value="Launch My Landing Page" />
-          <input type="hidden" name="goal" value="landing page inquiry" />
-          <div class="form-group">
-            <input type="text" id="gate-name" name="full_name" placeholder="Your Name" autocomplete="name" />
-            <span class="field-error" id="error-name"></span>
-          </div>
-          <div class="form-group">
-            <input type="text" id="gate-business" name="business_name" placeholder="Business Name" autocomplete="organization" />
-            <span class="field-error" id="error-business"></span>
-          </div>
-          <div class="form-group">
-            <input type="email" id="gate-contact" name="email" placeholder="Email Address" autocomplete="email" />
-            <span class="field-error" id="error-contact"></span>
-          </div>
-          <button type="submit" id="lpr-lead-submit" class="btn btn--cinema btn--full gate-modal__submit lpr-lead-submit">
-            Launch My Landing Page
-          </button>
-        </form>
-        <p class="gate-modal__dismiss" id="gate-skip">Just exploring for now.</p>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ============================================================
        MAIN SITE
   ============================================================ -->
   <div id="main-site" class="site site--visible">
@@ -107,7 +58,7 @@
       <!-- Background video -->
       <div class="s-opening__video-bg" aria-hidden="true">
         <video class="s-opening__video" id="hero-video" autoplay muted loop playsinline preload="auto">
-          <source src="public/videos/cinema-hero.mp4" type="video/mp4" />
+          <source src="public/videos/hero-launch.mp4" type="video/mp4" />
         </video>
         <div class="s-opening__video-overlay"></div>
       </div>
@@ -120,9 +71,6 @@
         <span class="s-ray s-ray--4"></span>
       </div>
       <div class="s-opening__glow" aria-hidden="true"></div>
-
-      <!-- Large background wordmark -->
-      <div class="s-opening__wordmark" aria-hidden="true">LAUNCH</div>
 
       <!-- Main content -->
       <div class="container s-opening__inner">
@@ -788,20 +736,15 @@
 
   </div><!-- /#main-site -->
 
-  <div class="cursor-dot"  id="cursor-dot"  aria-hidden="true"></div>
-  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-  <script src="src/js/gate.js"></script>
   <script src="src/js/main.js"></script>
   <script src="src/js/cinematic.js"></script>
-  <script defer src="src/js/lpr-lead-global.js"></script>
 
   <script>
   /* ── Hero video source ── */
-  var HERO_VIDEO_SRC = "/public/videos/cinema-hero.mp4";
+  var HERO_VIDEO_SRC = "/public/videos/hero-launch.mp4";
 
   /* ── Video fallback ── */
   (function () {
@@ -820,45 +763,6 @@
   })();
   </script>
 
-  <script>
-  window.submitLPRLead = async function(event) {
-    event.preventDefault();
-
-    const form = document.getElementById("lpr-lead-form");
-    if (!form) { alert("Form error: lead form not found."); return; }
-
-    const formData = new FormData(form);
-
-    const payload = {
-      full_name:     String(formData.get("full_name")     || "").trim(),
-      business_name: String(formData.get("business_name") || "").trim(),
-      email:         String(formData.get("email")         || "").trim(),
-      phone:         String(formData.get("phone")         || "").trim(),
-      business_type: String(formData.get("business_type") || "").trim(),
-      website_url:   String(formData.get("website_url")   || "").trim(),
-      offer:         String(formData.get("offer")         || "").trim(),
-      goal:          String(formData.get("goal")          || "").trim(),
-      ad_platform:   String(formData.get("ad_platform")   || "").trim(),
-      target_audience: String(formData.get("target_audience") || "").trim(),
-      project_price: Number(formData.get("project_price") || 0),
-      notes:         String(formData.get("notes")         || "").trim()
-    };
-
-    try {
-      const response = await fetch("/api/lpr-lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Submission failed");
-      alert("Thank you. Your request was received — we will follow up within one business day.");
-      form.reset();
-    } catch (error) {
-      alert("Something went wrong. Please try again or contact us directly.");
-    }
-  };
-  </script>
 
 </body>
 </html>
