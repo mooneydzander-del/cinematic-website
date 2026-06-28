@@ -2042,6 +2042,140 @@ body.modal-open { overflow: hidden; }
 .trust-check { color: var(--success); }
 .trust-sep   { color: var(--gray); font-size: 1rem; }
 
+/* ── 6-step workflow ── */
+.req-workflow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.25rem;
+  width: 100%;
+  max-width: 680px;
+}
+
+.req-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 1rem 1.125rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(200,168,75,0.12);
+  border-radius: 10px;
+  text-align: left;
+  transition: border-color 0.25s;
+}
+
+.req-step:hover { border-color: rgba(200,168,75,0.28); }
+
+.req-step--final {
+  border-color: rgba(200,168,75,0.22);
+  background: rgba(200,168,75,0.04);
+}
+
+.req-step__num {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0;
+  margin-top: 1px;
+}
+
+.req-step--final .req-step__num {
+  background: var(--gold);
+  color: var(--bg-deep);
+}
+
+.req-step__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.req-step__title {
+  font-family: var(--font-head);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.req-step__text {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--silver);
+}
+
+/* ── Intake-form notice ── */
+.req-intake-notice {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: rgba(200,168,75,0.05);
+  border: 1px solid rgba(200,168,75,0.2);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+
+.req-intake-notice__icon {
+  color: var(--gold);
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+  opacity: 0.9;
+}
+
+.req-intake-notice p {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(240,237,230,0.8);
+  margin: 0;
+}
+
+.req-intake-notice p strong {
+  color: var(--cream);
+  font-weight: 600;
+}
+
+/* ── Clarity statement (replaces trust bar) ── */
+.s-request__clarity {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.s-request__clarity li {
+  font-family: var(--font-head);
+  font-size: 0.67rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--silver);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
 /* ── Form feedback ── */
 .c-form-error {
   width: 100%;
@@ -2081,6 +2215,9 @@ body.modal-open { overflow: hidden; }
   .pkg-opt__price { font-size: 1.1rem; }
   .pkg-opt__line { display: none; }
   .trust-sep { display: none; }
+  .req-workflow { grid-template-columns: 1fr; }
+  .req-intake-notice { padding: 0.875rem 1rem; }
+  .req-intake-notice p { font-size: 0.8125rem; }
 }
 
 
