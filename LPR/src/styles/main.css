@@ -2984,3 +2984,203 @@ body.modal-open { overflow: hidden; }
   .parallax-bg   { display: none; }
   .btn--cinema.btn--pulse { animation: none; }
 }
+
+
+/* ============================================================
+   3D PARALLAX SYSTEM + START A PROJECT REDESIGN
+   ============================================================ */
+
+/* Perspective root for all 3D transforms */
+#main-site {
+  perspective: 1000px;
+  perspective-origin: 50% 40%;
+}
+
+/* compare cards get preserve-3d for physical panel feel */
+.compare-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: none;
+}
+
+/* ── 20 CSS micro-particles (sitewide cyan dots) ─────────────── */
+.c-micro {
+  position: fixed;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(0,229,255,0.5);
+  box-shadow: 0 0 4px rgba(0,229,255,0.4);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform, opacity;
+}
+
+@keyframes micro-a { 0%,100%{transform:translateY(0) translateX(0)   opacity:1} 50%{transform:translateY(-110px) translateX(7px)  opacity:0} }
+@keyframes micro-b { 0%,100%{transform:translateY(0) translateX(0)   opacity:1} 50%{transform:translateY(-90px)  translateX(-5px) opacity:0} }
+@keyframes micro-c { 0%,100%{transform:translateY(0) translateX(0)   opacity:1} 50%{transform:translateY(-130px) translateX(9px)  opacity:0} }
+@keyframes micro-d { 0%,100%{transform:translateY(0) translateX(0)   opacity:1} 50%{transform:translateY(-80px)  translateX(-8px) opacity:0} }
+
+/* ── req-steps-grid: premium 6-card horizontal row ───────────── */
+.req-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 0 2rem;
+  padding: 0;
+}
+
+.req-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1.25rem 1.125rem 1.375rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(200,168,75,0.20);
+  border-radius: 12px;
+  text-align: left;
+  will-change: transform;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.req-card:hover {
+  border-color: rgba(200,168,75,0.40);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+.req-card__num {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 100;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+  opacity: 0.8;
+  display: block;
+}
+
+.req-card__title {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--cream);
+  line-height: 1.4;
+}
+
+.req-card__desc {
+  font-family: var(--font-body);
+  font-size: 0.795rem;
+  line-height: 1.55;
+  color: var(--silver);
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .req-steps-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 400px) {
+  .req-steps-grid { grid-template-columns: 1fr; }
+}
+
+/* ── req-intake-notice: premium standalone block ─────────────── */
+.req-intake-notice {
+  width: 100%;
+  display: block;
+  text-align: center;
+  padding: 1.5rem 2rem;
+  background: rgba(5,5,8,0.9);
+  border: 1px solid rgba(200,168,75,0.25);
+  border-radius: var(--radius-lg);
+  margin-bottom: 0.5rem;
+}
+
+.req-intake-notice p {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.72;
+  color: rgba(240,237,230,0.8);
+  margin: 0;
+}
+
+.req-intake-notice p strong {
+  color: var(--cream);
+  font-weight: 600;
+}
+
+/* Kill the old icon if it survives */
+.req-intake-notice__icon { display: none !important; }
+
+/* ── Trust row: horizontal with vertical dividers ────────────── */
+.s-request__trust-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.s-request__trust-row > span:not(.trust-div) {
+  font-family: var(--font-head);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--silver);
+}
+
+.trust-div {
+  display: block;
+  width: 1px;
+  height: 12px;
+  background: rgba(154,151,170,0.28);
+  flex-shrink: 0;
+}
+
+/* Hide old clarity list (in case it persists in DOM) */
+.s-request__clarity { display: none !important; }
+
+@media (max-width: 640px) {
+  .trust-div { display: none; }
+  .s-request__trust-row { flex-direction: column; gap: 0.35rem; }
+}
+
+/* ── Pricing cards: persistent float after scroll entry ──────── */
+@keyframes pkg-float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-2px); }
+}
+
+.pkg--standard.has-entered .pkg__inner {
+  animation: pkg-float 4s ease-in-out infinite;
+}
+.pkg--premium.has-entered .pkg__inner {
+  animation: pkg-float 4s ease-in-out 0.65s infinite;
+}
+
+/* LPR Pro gold border: pulse opacity 0.4 → 1.0 on 3s loop */
+@keyframes gold-border-pulse {
+  0%,100% { opacity: 0.4; }
+  50%      { opacity: 1.0; }
+}
+.pkg--premium .pkg__glow-border {
+  animation: gold-border-pulse 3s ease-in-out infinite !important;
+}
+
+/* ── FAQ: scaleY expand from origin top ──────────────────────── */
+.faq-item__a {
+  transform-origin: top;
+}
+
+/* ── Reduced-motion guard for new additions ──────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .c-micro { display: none; }
+  .pkg--standard.has-entered .pkg__inner,
+  .pkg--premium.has-entered .pkg__inner { animation: none; }
+}

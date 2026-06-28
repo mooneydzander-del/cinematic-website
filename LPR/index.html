@@ -497,58 +497,46 @@
         <h2 class="s-request__headline">Choose Your <em>Launch.</em></h2>
         <p class="s-request__sub">Select a package and submit your email. Here's exactly what happens after you do.</p>
 
-        <!-- ── 6-step project workflow ───────────────────────── -->
-        <ol class="req-workflow" aria-label="What happens after you submit">
+        <!-- ── 6-step project workflow cards ─────────────────── -->
+        <div class="req-steps-grid" aria-label="What happens after you submit">
 
-          <li class="req-step">
-            <span class="req-step__num" aria-hidden="true">1</span>
-            <div class="req-step__body">
-              <strong class="req-step__title">Select &amp; Submit</strong>
-              <span class="req-step__text">Choose your package and enter your email below.</span>
-            </div>
-          </li>
+          <div class="req-card">
+            <span class="req-card__num">01</span>
+            <strong class="req-card__title">Select &amp; Submit</strong>
+            <p class="req-card__desc">Choose your package and enter your email below.</p>
+          </div>
 
-          <li class="req-step">
-            <span class="req-step__num" aria-hidden="true">2</span>
-            <div class="req-step__body">
-              <strong class="req-step__title">Payment Confirmation</strong>
-              <span class="req-step__text">A payment confirmation is sent directly to your email.</span>
-            </div>
-          </li>
+          <div class="req-card">
+            <span class="req-card__num">02</span>
+            <strong class="req-card__title">Payment Confirmation</strong>
+            <p class="req-card__desc">A payment confirmation is sent directly to your email.</p>
+          </div>
 
-          <li class="req-step">
-            <span class="req-step__num" aria-hidden="true">3</span>
-            <div class="req-step__body">
-              <strong class="req-step__title">Intake Form Arrives</strong>
-              <span class="req-step__text">Your confirmation includes an intake form. Fill it out with your business details, assets, goals, and preferences.</span>
-            </div>
-          </li>
+          <div class="req-card">
+            <span class="req-card__num">03</span>
+            <strong class="req-card__title">Intake Form Arrives</strong>
+            <p class="req-card__desc">Fill it out with your business details, assets, goals, and preferences.</p>
+          </div>
 
-          <li class="req-step">
-            <span class="req-step__num" aria-hidden="true">4</span>
-            <div class="req-step__body">
-              <strong class="req-step__title">We Build Your Page</strong>
-              <span class="req-step__text">We build your landing page based entirely on your intake form answers.</span>
-            </div>
-          </li>
+          <div class="req-card">
+            <span class="req-card__num">04</span>
+            <strong class="req-card__title">We Build Your Page</strong>
+            <p class="req-card__desc">We build your landing page based entirely on your intake form answers.</p>
+          </div>
 
-          <li class="req-step">
-            <span class="req-step__num" aria-hidden="true">5</span>
-            <div class="req-step__body">
-              <strong class="req-step__title">You Review &amp; Approve</strong>
-              <span class="req-step__text">You review the finished page and give written approval before anything goes live.</span>
-            </div>
-          </li>
+          <div class="req-card">
+            <span class="req-card__num">05</span>
+            <strong class="req-card__title">You Review &amp; Approve</strong>
+            <p class="req-card__desc">You review the finished page and give written approval before anything goes live.</p>
+          </div>
 
-          <li class="req-step req-step--final">
-            <span class="req-step__num" aria-hidden="true">6</span>
-            <div class="req-step__body">
-              <strong class="req-step__title">Page Goes Live</strong>
-              <span class="req-step__text">Your page launches only with your approval. Not before.</span>
-            </div>
-          </li>
+          <div class="req-card">
+            <span class="req-card__num">06</span>
+            <strong class="req-card__title">Page Goes Live</strong>
+            <p class="req-card__desc">Your page launches only with your approval. Not before.</p>
+          </div>
 
-        </ol>
+        </div>
 
         <!-- ── Form ────────────────────────────────────────────── -->
         <form id="contact-form" class="s-request__form" novalidate>
@@ -561,7 +549,6 @@
 
           <!-- Prominent intake-form notice -->
           <div class="req-intake-notice">
-            <span class="req-intake-notice__icon" aria-hidden="true">◈</span>
             <p>After payment, an intake form will be emailed to you. Complete the form to provide your landing page details. <strong>Your page launches only with your written approval.</strong></p>
           </div>
 
@@ -626,12 +613,14 @@
             <span class="s-request__cta-arrow" aria-hidden="true">→</span>
           </button>
 
-          <!-- Clarity statement -->
-          <ul class="s-request__clarity" aria-label="Process guarantees">
-            <li><span class="trust-check">✓</span> Intake form sent via email with confirmation</li>
-            <li><span class="trust-check">✓</span> You control the final approval</li>
-            <li><span class="trust-check">✓</span> Page launches only when you say so</li>
-          </ul>
+          <!-- Trust signals row -->
+          <div class="s-request__trust-row" aria-label="Process guarantees">
+            <span>Intake form sent with confirmation</span>
+            <span class="trust-div" aria-hidden="true"></span>
+            <span>You control final approval</span>
+            <span class="trust-div" aria-hidden="true"></span>
+            <span>Page launches only on your command</span>
+          </div>
 
         </form>
       </div>
