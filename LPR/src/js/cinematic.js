@@ -52,51 +52,39 @@
     });
   }
 
-  /* ── 3. Asteroid cursor with flame trail ───────────────────── */
+  /* ── 3. Gold swipe cursor ───────────────────────────────────── */
   function initCursor() {
     if (R || window.matchMedia('(pointer: coarse)').matches) return;
 
-    /* Hide cursor on non-interactive surface; restore on clickables */
+    /* Hide native cursor; restore pointer on clickables */
     var styleEl = document.createElement('style');
     styleEl.textContent =
       'body{cursor:none!important}' +
       'a,button,select,input,textarea,label,[role="button"],[tabindex]{cursor:pointer!important}';
     document.head.appendChild(styleEl);
 
-    /* Canvas for flame particles */
+    /* Canvas for swipe trail */
     var canvas = document.createElement('canvas');
     canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99998;';
     document.body.appendChild(canvas);
     var ctx = canvas.getContext('2d');
 
-    function resizeCanvas() {
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    /* Asteroid SVG element — 44px, rocky polygon */
-    var ast = document.createElement('div');
-    ast.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:99999;will-change:transform;transition:opacity 0.15s;';
-    ast.innerHTML =
-      '<svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">' +
-        '<polygon points="22,2 28,9 37,7 35,17 42,23 33,29 31,39 21,35 12,39 14,28 5,22 15,16"' +
-          ' fill="#8a7050" stroke="#5a4530" stroke-width="1.4"/>' +
-        '<polygon points="22,6 27,12 34,10 32,18 38,23 30,28 28,36 21,32 14,36 16,27 9,22 18,17"' +
-          ' fill="none" stroke="#c8a86a" stroke-width="0.7" opacity="0.3"/>' +
-        '<circle cx="16" cy="15" r="3.2" fill="#5a4530" opacity="0.8"/>' +
-        '<circle cx="27" cy="24" r="2.2" fill="#453420" opacity="0.7"/>' +
-        '<circle cx="17" cy="27" r="1.6" fill="#6a5440" opacity="0.6"/>' +
-        '<circle cx="28" cy="14" r="1.2" fill="#453420" opacity="0.55"/>' +
-        '<circle cx="22" cy="20" r="1"   fill="#7a6450" opacity="0.4"/>' +
-      '</svg>';
-    document.body.appendChild(ast);
+    /* Small gold dot as the cursor point */
+    var dot = document.createElement('div');
+    dot.style.cssText =
+      'position:fixed;top:0;left:0;width:12px;height:12px;border-radius:50%;' +
+      'background:radial-gradient(circle,#fff5cc 0%,#E2C870 45%,#C8A84B 100%);' +
+      'pointer-events:none;z-index:99999;will-change:transform;transition:opacity 0.15s;' +
+      'box-shadow:0 0 6px 2px rgba(200,168,75,0.7),0 0 18px 4px rgba(200,168,75,0.28);';
+    document.body.appendChild(dot);
 
     var mx = -400, my = -400;
-    var cx = mx, cy = my;
+    var cx = mx,   cy = my;
     var prevMx = mx, prevMy = my;
-    var angle = 0;
     var particles = [];
     var hidden = false;
     var onInteractive = false;
@@ -107,23 +95,25 @@
       my = e.clientY;
       hidden = false;
 
-      if (onInteractive) return; /* no flame on interactive elements */
+      if (onInteractive) return;
 
-      var speed = Math.hypot(mx - prevMx, my - prevMy);
-      var count = Math.min(Math.ceil(speed * 0.55) + 2, 9);
+      var dx = mx - prevMx, dy = my - prevMy;
+      var speed = Math.hypot(dx, dy);
+      if (speed < 0.5) return;
+
+      var moveAngle = Math.atan2(dy, dx);
+      var count = Math.min(Math.ceil(speed * 0.5) + 1, 8);
 
       for (var i = 0; i < count; i++) {
-        var t  = count > 1 ? i / (count - 1) : 0;
-        var ex = prevMx + (mx - prevMx) * t;
-        var ey = prevMy + (my - prevMy) * t;
+        var t = count > 1 ? i / (count - 1) : 0;
         particles.push({
-          x:    ex + (Math.random() - 0.5) * 5,
-          y:    ey + (Math.random() - 0.5) * 5,
-          vx:   (Math.random() - 0.5) * 0.9,
-          vy:   (Math.random() - 0.5) * 0.9,
-          life: 1,
-          size: Math.random() * 10 + 5,
-          hue:  Math.random() * 40 + 10   /* 10–50: red → orange → yellow */
+          x:      prevMx + dx * t,
+          y:      prevMy + dy * t,
+          angle:  moveAngle,
+          life:   1,
+          length: Math.min(speed * 2.2 + 10, 52),
+          width:  Math.random() * 2.5 + 1.2,
+          bright: Math.random() > 0.4
         });
       }
     });
@@ -131,61 +121,59 @@
     document.addEventListener('mouseleave', function () { hidden = true; });
     document.addEventListener('mouseenter', function () { hidden = false; });
 
-    /* Track interactive elements — hide asteroid, restore cursor */
     var interactSel = 'a,button,select,input,textarea,label,[role="button"],[tabindex]';
     document.addEventListener('mouseover', function (e) {
-      if (e.target.closest(interactSel)) {
-        onInteractive = true;
-        ast.style.opacity = '0';
-      }
+      if (e.target.closest(interactSel)) { onInteractive = true;  dot.style.opacity = '0'; }
     });
-    document.addEventListener('mouseout', function (e) {
-      if (e.target.closest(interactSel)) {
-        onInteractive = false;
-        ast.style.opacity = hidden ? '0' : '1';
-      }
+    document.addEventListener('mouseout',  function (e) {
+      if (e.target.closest(interactSel)) { onInteractive = false; dot.style.opacity = hidden ? '0' : '1'; }
     });
 
     function drawFrame() {
       requestAnimationFrame(drawFrame);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      /* Smooth follow with slight lag for cinematic feel */
-      cx += (mx - cx) * 0.12;
-      cy += (my - cy) * 0.12;
-
-      /* Continuous slow spin, faster when moving */
-      var dx = mx - prevMx, dy = my - prevMy;
-      angle += 0.012 + Math.min(Math.hypot(dx, dy) * 0.001, 0.03);
+      cx += (mx - cx) * 0.16;
+      cy += (my - cy) * 0.16;
 
       if (!hidden && !onInteractive) {
-        ast.style.transform = 'translate(' + (cx - 22) + 'px,' + (cy - 22) + 'px) rotate(' + angle + 'rad)';
-        ast.style.opacity = '1';
+        dot.style.transform = 'translate(' + (cx - 6) + 'px,' + (cy - 6) + 'px)';
+        dot.style.opacity   = '1';
       } else if (!onInteractive) {
-        ast.style.opacity = '0';
+        dot.style.opacity = '0';
       }
 
-      /* Flame particles */
       for (var i = particles.length - 1; i >= 0; i--) {
         var p = particles[i];
-        p.x    += p.vx;
-        p.y    += p.vy;
-        p.life -= 0.030;
-        p.size *= 0.962;
+        p.life -= 0.048;
+        if (p.life <= 0) { particles.splice(i, 1); continue; }
 
-        if (p.life <= 0 || p.size < 0.5) { particles.splice(i, 1); continue; }
+        var a = p.life;
+        var len = p.length * Math.pow(p.life, 0.6);
+        var wid = p.width * p.life;
 
-        var alpha = p.life * 0.85;
-        var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-        g.addColorStop(0,   'hsla(' + (p.hue + 30) + ',100%,95%,' + alpha + ')');
-        g.addColorStop(0.25,'hsla(' + (p.hue + 15) + ',100%,72%,' + (alpha * 0.9) + ')');
-        g.addColorStop(0.6, 'hsla(' + p.hue + ',100%,48%,' + (alpha * 0.5) + ')');
-        g.addColorStop(1,   'hsla(' + (p.hue - 5) + ',90%,28%,0)');
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+
+        /* Elongated gold swipe stroke — bright tip fades to nothing behind */
+        var g = ctx.createLinearGradient(-len * 0.15, 0, -len, 0);
+        if (p.bright) {
+          g.addColorStop(0,    'rgba(255,248,200,' + (a * 0.95) + ')');
+          g.addColorStop(0.18, 'rgba(226,200,112,' + (a * 0.85) + ')');
+          g.addColorStop(0.55, 'rgba(200,168,75,'  + (a * 0.5)  + ')');
+          g.addColorStop(1,    'rgba(150,120,40,0)');
+        } else {
+          g.addColorStop(0,    'rgba(226,200,112,' + (a * 0.8)  + ')');
+          g.addColorStop(0.4,  'rgba(200,168,75,'  + (a * 0.45) + ')');
+          g.addColorStop(1,    'rgba(130,100,30,0)');
+        }
 
         ctx.fillStyle = g;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.ellipse(-len * 0.5, 0, len * 0.5, wid, 0, 0, Math.PI * 2);
         ctx.fill();
+        ctx.restore();
       }
     }
 
