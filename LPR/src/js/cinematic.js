@@ -52,128 +52,117 @@
     });
   }
 
-  /* ── 3. Gold swipe cursor ───────────────────────────────────── */
+  /* ── 3. Cyan orb cursor with comet tail ────────────────────── */
   function initCursor() {
     if (R || window.matchMedia('(pointer: coarse)').matches) return;
 
-    /* Hide native cursor; restore pointer on clickables */
+    /* Suppress native cursor globally; restore pointer on clickables */
     var styleEl = document.createElement('style');
     styleEl.textContent =
       'body{cursor:none!important}' +
       'a,button,select,input,textarea,label,[role="button"],[tabindex]{cursor:pointer!important}';
     document.head.appendChild(styleEl);
 
-    /* Canvas for swipe trail */
+    /* Full-viewport canvas — fades in on first mouse move */
     var canvas = document.createElement('canvas');
-    canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99998;';
+    canvas.style.cssText =
+      'position:fixed;top:0;left:0;width:100%;height:100%;' +
+      'pointer-events:none;z-index:99999;opacity:0;transition:opacity 0.55s ease;';
     document.body.appendChild(canvas);
     var ctx = canvas.getContext('2d');
 
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
 
-    /* Small gold dot as the cursor point */
-    var dot = document.createElement('div');
-    dot.style.cssText =
-      'position:fixed;top:0;left:0;width:12px;height:12px;border-radius:50%;' +
-      'background:radial-gradient(circle,#fff5cc 0%,#E2C870 45%,#C8A84B 100%);' +
-      'pointer-events:none;z-index:99999;will-change:transform;transition:opacity 0.15s;' +
-      'box-shadow:0 0 6px 2px rgba(200,168,75,0.7),0 0 18px 4px rgba(200,168,75,0.28);';
-    document.body.appendChild(dot);
+    /* 6-node comet chain — node[0] tracks closest to mouse, node[5] lags most */
+    var N     = 6;
+    var nodes = [];
+    var eases = [0.20, 0.155, 0.12, 0.09, 0.068, 0.050];
+    for (var k = 0; k < N; k++) nodes.push({ x: -800, y: -800 });
 
-    var mx = -400, my = -400;
-    var cx = mx,   cy = my;
-    var prevMx = mx, prevMy = my;
-    var particles = [];
+    var mx = -800, my = -800;
     var hidden = false;
     var onInteractive = false;
+    var faded = false;
 
     document.addEventListener('mousemove', function (e) {
-      prevMx = mx; prevMy = my;
-      mx = e.clientX;
-      my = e.clientY;
+      mx = e.clientX; my = e.clientY;
       hidden = false;
-
-      if (onInteractive) return;
-
-      var dx = mx - prevMx, dy = my - prevMy;
-      var speed = Math.hypot(dx, dy);
-      if (speed < 0.5) return;
-
-      var moveAngle = Math.atan2(dy, dx);
-      var count = Math.min(Math.ceil(speed * 0.5) + 1, 8);
-
-      for (var i = 0; i < count; i++) {
-        var t = count > 1 ? i / (count - 1) : 0;
-        particles.push({
-          x:      prevMx + dx * t,
-          y:      prevMy + dy * t,
-          angle:  moveAngle,
-          life:   1,
-          length: Math.min(speed * 2.2 + 10, 52),
-          width:  Math.random() * 2.5 + 1.2,
-          bright: Math.random() > 0.4
-        });
-      }
-    });
+      if (!faded) { faded = true; canvas.style.opacity = '1'; }
+    }, { passive: true });
 
     document.addEventListener('mouseleave', function () { hidden = true; });
     document.addEventListener('mouseenter', function () { hidden = false; });
 
-    var interactSel = 'a,button,select,input,textarea,label,[role="button"],[tabindex]';
+    var iSel = 'a,button,select,input,textarea,label,[role="button"],[tabindex]';
     document.addEventListener('mouseover', function (e) {
-      if (e.target.closest(interactSel)) { onInteractive = true;  dot.style.opacity = '0'; }
+      if (e.target.closest(iSel)) onInteractive = true;
     });
-    document.addEventListener('mouseout',  function (e) {
-      if (e.target.closest(interactSel)) { onInteractive = false; dot.style.opacity = hidden ? '0' : '1'; }
+    document.addEventListener('mouseout', function (e) {
+      if (e.target.closest(iSel)) onInteractive = false;
     });
+
+    /* Draw one orb node at (x,y) with given radius and opacity */
+    function drawNode(x, y, radius, alpha) {
+      /* Soft aura bloom */
+      var aura = ctx.createRadialGradient(x, y, 0, x, y, radius * 3.4);
+      aura.addColorStop(0,   'rgba(0,229,255,'  + (alpha * 0.20) + ')');
+      aura.addColorStop(0.45,'rgba(14,165,233,' + (alpha * 0.07) + ')');
+      aura.addColorStop(1,   'rgba(0,60,140,0)');
+      ctx.fillStyle = aura;
+      ctx.beginPath();
+      ctx.arc(x, y, radius * 3.4, 0, Math.PI * 2);
+      ctx.fill();
+
+      /* Core orb — off-centre highlight for 3-D gloss */
+      var core = ctx.createRadialGradient(
+        x - radius * 0.28, y - radius * 0.28, 0,
+        x, y, radius
+      );
+      core.addColorStop(0,    'rgba(255,255,255,' + (alpha * 0.98) + ')');
+      core.addColorStop(0.25, 'rgba(200,245,255,' + (alpha * 0.88) + ')');
+      core.addColorStop(0.55, 'rgba(0,229,255,'   + (alpha * 0.72) + ')');
+      core.addColorStop(0.82, 'rgba(14,165,233,'  + (alpha * 0.42) + ')');
+      core.addColorStop(1,    'rgba(0,80,200,0)');
+      ctx.fillStyle = core;
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     function drawFrame() {
       requestAnimationFrame(drawFrame);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (hidden) return;
 
-      cx += (mx - cx) * 0.16;
-      cy += (my - cy) * 0.16;
-
-      if (!hidden && !onInteractive) {
-        dot.style.transform = 'translate(' + (cx - 6) + 'px,' + (cy - 6) + 'px)';
-        dot.style.opacity   = '1';
-      } else if (!onInteractive) {
-        dot.style.opacity = '0';
+      /* Ease each node toward its target */
+      nodes[0].x += (mx - nodes[0].x) * eases[0];
+      nodes[0].y += (my - nodes[0].y) * eases[0];
+      for (var i = 1; i < N; i++) {
+        nodes[i].x += (nodes[i - 1].x - nodes[i].x) * eases[i];
+        nodes[i].y += (nodes[i - 1].y - nodes[i].y) * eases[i];
       }
 
-      for (var i = particles.length - 1; i >= 0; i--) {
-        var p = particles[i];
-        p.life -= 0.048;
-        if (p.life <= 0) { particles.splice(i, 1); continue; }
+      /* Draw tail → head so head paints on top */
+      for (var i = N - 1; i >= 1; i--) {
+        var t      = 1 - i / (N - 1);          /* 0 = tail end, 1 = just behind head */
+        var alpha  = Math.pow(t, 1.4) * 0.72;
+        var radius = 3 + t * 5.5;
+        drawNode(nodes[i].x, nodes[i].y, radius, alpha);
+      }
 
-        var a = p.life;
-        var len = p.length * Math.pow(p.life, 0.6);
-        var wid = p.width * p.life;
+      /* Head orb */
+      var scale = onInteractive ? 1.22 : 1;
+      drawNode(nodes[0].x, nodes[0].y, 15 * scale, onInteractive ? 0.80 : 1);
 
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-
-        /* Elongated gold swipe stroke — bright tip fades to nothing behind */
-        var g = ctx.createLinearGradient(-len * 0.15, 0, -len, 0);
-        if (p.bright) {
-          g.addColorStop(0,    'rgba(255,248,200,' + (a * 0.95) + ')');
-          g.addColorStop(0.18, 'rgba(226,200,112,' + (a * 0.85) + ')');
-          g.addColorStop(0.55, 'rgba(200,168,75,'  + (a * 0.5)  + ')');
-          g.addColorStop(1,    'rgba(150,120,40,0)');
-        } else {
-          g.addColorStop(0,    'rgba(226,200,112,' + (a * 0.8)  + ')');
-          g.addColorStop(0.4,  'rgba(200,168,75,'  + (a * 0.45) + ')');
-          g.addColorStop(1,    'rgba(130,100,30,0)');
-        }
-
-        ctx.fillStyle = g;
+      /* Interactive ring — subtle pulse ring on hover */
+      if (onInteractive) {
         ctx.beginPath();
-        ctx.ellipse(-len * 0.5, 0, len * 0.5, wid, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
+        ctx.arc(nodes[0].x, nodes[0].y, 21, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(0,229,255,0.38)';
+        ctx.lineWidth   = 1.2;
+        ctx.stroke();
       }
     }
 
