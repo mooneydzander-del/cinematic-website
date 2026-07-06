@@ -1565,31 +1565,28 @@ body.modal-open { overflow: hidden; }
   z-index: 1;
   background: rgba(16,14,12,0.92);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(200,168,75,0.25);
+  border: 1px solid rgba(212,175,55,0.35);
   border-radius: var(--radius-xl);
   padding: 2.5rem 2rem;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  box-shadow: 0 0 40px rgba(212,175,55,0.12);
   transition: transform var(--t-med), box-shadow var(--t-med);
+}
+
+/* Pro CTA — slightly more prominent than the Launch button */
+.pkg__cta--pro {
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+  box-shadow: 0 0 24px rgba(212,175,55,0.3);
 }
 
 .pkg--premium:hover .pkg__inner {
   transform: translateY(-6px);
   box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 50px rgba(200,168,75,0.1);
 }
-
-.pkg__eyebrow {
-  font-family: var(--font-head);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--silver);
-}
-
-.pkg__eyebrow--gold { color: var(--gold); }
 
 .pkg__name {
   font-family: var(--font-display);
@@ -1604,62 +1601,78 @@ body.modal-open { overflow: hidden; }
 
 .pkg__price {
   font-family: var(--font-display);
-  font-size: 3rem;
-  font-weight: 400;
+  font-size: 52px;
+  font-weight: 700;
   color: var(--gold);
   letter-spacing: -0.02em;
 }
 
 .pkg__cycle {
   font-family: var(--font-head);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--silver);
 }
 
-.pkg__tagline { font-size: 0.875rem; color: var(--silver); }
+.pkg__tagline {
+  font-size: 14px;
+  color: var(--silver);
+  line-height: 1.6;
+}
 
-.pkg__timeline {
+/* "Best Value" badge (matches request-selector pill style) */
+.pkg__badge {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  font-family: var(--font-head);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(200,168,75,0.1);
+  border: 1px solid rgba(200,168,75,0.22);
+  border-radius: 20px;
+  padding: 0.22rem 0.6rem;
+}
+
+/* Optional monthly support block */
+.pkg__support {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  border: 1px solid rgba(200,168,75,0.1);
-  border-radius: var(--radius);
-  overflow: hidden;
+  gap: 0.25rem;
+  text-align: left;
 }
 
-.pkg__month {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.625rem 1rem;
-  border-bottom: 1px solid rgba(200,168,75,0.07);
-}
-
-.pkg__month:last-child { border-bottom: none; }
-
-.pkg__month--free {
-  background: rgba(200,168,75,0.06);
-}
-
-.pkg__month-name {
+.pkg__support-label {
   font-family: var(--font-head);
-  font-size: 0.62rem;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--gray);
+  color: rgba(212,175,55,0.6);
+  margin-bottom: 6px;
 }
 
-.pkg__month-amt {
-  font-size: 0.875rem;
-  color: var(--cream-dim);
+.pkg__support-price {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
   font-weight: 500;
+  color: var(--gold);
+  line-height: 1;
 }
 
-.pkg__month--free .pkg__month-amt { color: var(--gold); }
+.pkg__support-desc {
+  font-size: 12px;
+  color: var(--silver);
+  line-height: 1.6;
+  margin: 0;
+}
 
 .pkg__features {
   display: flex;
@@ -1677,21 +1690,20 @@ body.modal-open { overflow: hidden; }
 }
 
 .pkg__features li::before {
-  content: '—';
+  content: '✓';
   position: absolute;
   left: 0;
   color: var(--gold);
 }
 
-.pkg-note {
+/* Pricing intro line under the section heading */
+.pkg-intro {
+  font-size: 15px;
+  color: rgba(255,255,255,0.55);
   text-align: center;
-  font-size: 0.875rem;
-  color: var(--gray);
-  margin-top: 2rem;
   max-width: 600px;
-  margin-inline: auto;
-  line-height: 1.75;
-  margin-top: var(--space-md);
+  margin: 0 auto 48px;
+  line-height: 1.7;
 }
 
 
@@ -2796,22 +2808,6 @@ body.modal-open { overflow: hidden; }
 }
 
 
-/* ============================================================
-   PACKAGE FEATURE SUB-ITEM
-   ============================================================ */
-.pkg__feature--sub {
-  padding-left: 2.5rem !important;
-  font-size: 0.8125rem !important;
-  color: rgba(154, 151, 170, 0.75) !important;
-}
-
-.pkg__feature--sub::before {
-  content: '·' !important;
-  color: var(--gold-dark) !important;
-  left: 1.25rem !important;
-}
-
-
 /* Prefers reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .c-grain { animation: none; }
@@ -3107,6 +3103,7 @@ body.modal-open { overflow: hidden; }
 
   /* Pricing — stack vertically, 20px gap */
   .pkg-grid { grid-template-columns: 1fr; gap: 20px; max-width: 480px; perspective: none; }
+  .pkg__price { font-size: clamp(36px, 8vw, 52px); }
 
   /* Process steps — stack, 24px gap */
   .process-timeline { gap: 24px; }
