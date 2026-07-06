@@ -102,7 +102,6 @@
       e.preventDefault();
       hideError();
 
-      var email = getField(form, 'email');
       var offer = getField(form, 'offer');
 
       /* ── Validate ── */
@@ -110,20 +109,12 @@
         showError('Please select a package to continue.');
         return;
       }
-      if (!email) {
-        showError('Please enter your email address.');
-        return;
-      }
-      if (!isValidEmail(email)) {
-        showError('Please enter a valid email address.');
-        return;
-      }
 
       /* ── Build payload ── */
       var payload = {
         full_name:       'Website Inquiry',
         business_name:   '',
-        email:           email,
+        email:           getField(form, 'email'),
         phone:           '',
         business_type:   '',
         website_url:     '',
