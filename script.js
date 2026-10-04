@@ -1,10 +1,14 @@
-/* Landing Page Rocket — scroll-driven depth, star layers, reveals, and the mailto intake. */
+/* Landing Page Rocket — pinned launch, scroll-driven depth, star layers, reel HUD, reveals, and the mailto intake. */
 (function () {
   'use strict';
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var vw = window.innerWidth;
   var vh = window.innerHeight;
+
+  function clamp(n, lo, hi) { return n < lo ? lo : n > hi ? hi : n; }
+  function mod(n, m) { return ((n % m) + m) % m; }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
 
   /* ---------- Star layers (fixed canvases, wrapped vertically) ---------- */
 
@@ -76,20 +80,31 @@
     });
   }
 
-  /* ---------- Scene parallax ---------- */
+  /* ---------- Scroll-driven scenes ---------- */
 
+  var hero = document.querySelector('.hero');
   var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
   var visible = new Set();
-  var altFill = document.querySelector('.alt-fill');
+  var heroVisible = true;
+
+  var hudFill = document.querySelector('.hud-fill');
+  var hudSc = document.querySelector('.hud-sc');
+  var hudTc = document.querySelector('.hud-tc');
+  var lastSc = '';
+  var lastTc = '';
+  var RUNTIME = 96;   // the whole page plays as a 1:36 reel
+  var FPS = 24;
 
   if ('IntersectionObserver' in window) {
     var sceneObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) visible.add(e.target);
+        if (e.target === hero) heroVisible = e.isIntersecting;
+        else if (e.isIntersecting) visible.add(e.target);
         else visible.delete(e.target);
       });
       requestFrame();
     }, { rootMargin: '30% 0px 30% 0px' });
+    if (hero) sceneObserver.observe(hero);
     scenes.forEach(function (s) { sceneObserver.observe(s); });
   } else {
     scenes.forEach(function (s) { visible.add(s); });
@@ -107,32 +122,56 @@
     pending = false;
     var still = reduceMotion.matches;
     var sy = window.scrollY || window.pageYOffset || 0;
+    var max = document.documentElement.scrollHeight - vh;
+    var mid = vh / 2;
 
-    // Read phase: measure every visible scene before writing any styles.
+    // Read phase: measure everything before writing any styles.
+    var hp = 0;
+    var travel = 0;
+    var current = 1; // the hero is scene 01; the scene crossing the viewport centre overrides it
+    if (hero) {
+      var hr = hero.getBoundingClientRect();
+      travel = hero.offsetHeight - vh;
+      if (travel > 0) hp = clamp(-hr.top / travel, 0, 1);
+    }
+
     var updates = [];
     visible.forEach(function (scene) {
       var r = scene.getBoundingClientRect();
       // p = 0 when the scene's centre sits at the viewport centre; ±1 per viewport height away.
-      var p = (vh / 2 - (r.top + r.height / 2)) / vh;
-      if (scene.classList.contains('hero')) p = -r.top / vh; // hero starts at rest at the top
-      updates.push([scene, p]);
+      updates.push([scene, (mid - (r.top + r.height / 2)) / vh]);
+      if (r.top <= mid && r.bottom > mid) current = scenes.indexOf(scene) + 2;
     });
-    var max = document.documentElement.scrollHeight - vh;
 
     // Write phase.
+    if (hero) hero.style.setProperty('--hp', still ? '0' : hp.toFixed(4));
+
     updates.forEach(function (u) {
       var p = still ? 0 : u[1];
       u[0].style.setProperty('--p', p.toFixed(4));
       u[0].style.setProperty('--y', (p * vh).toFixed(1));
     });
 
+    // While the hero is pinned the camera climbs, so the stars sink with the ground.
+    // Once the launch is over they resume drifting up behind the scrolling scenes.
+    var pinned = still ? 0 : hp * Math.max(travel, 0);
+    var starScroll = sy - 2 * pinned;
     starLayers.forEach(function (layer) {
-      var offset = still ? 0 : (sy * layer.factor) % layer.tile;
+      var offset = still ? 0 : mod(starScroll * layer.factor, layer.tile);
       layer.canvas.style.transform = 'translate3d(0,' + (-offset).toFixed(1) + 'px,0)';
     });
 
-    if (altFill) {
-      altFill.style.transform = 'scaleY(' + (max > 0 ? Math.min(sy / max, 1) : 0).toFixed(4) + ')';
+    var progress = max > 0 ? clamp(sy / max, 0, 1) : 0;
+    if (hudFill) hudFill.style.transform = 'scaleY(' + progress.toFixed(4) + ')';
+
+    if (hudSc) {
+      var sc = 'SC ' + pad2(current);
+      if (sc !== lastSc) { hudSc.textContent = sc; lastSc = sc; }
+    }
+    if (hudTc) {
+      var f = Math.round(progress * RUNTIME * FPS);
+      var tc = '00:' + pad2(Math.floor(f / (FPS * 60)) % 60) + ':' + pad2(Math.floor(f / FPS) % 60) + ':' + pad2(f % FPS);
+      if (tc !== lastTc) { hudTc.textContent = tc; lastTc = tc; }
     }
   }
 
@@ -158,7 +197,6 @@
 
   /* ---------- Pointer depth on the hero (fine pointers only) ---------- */
 
-  var hero = document.querySelector('.hero');
   if (hero && window.matchMedia('(pointer: fine)').matches) {
     var tx = 0, ty = 0, cx = 0, cy = 0, running = false;
 
@@ -175,7 +213,7 @@
     };
 
     window.addEventListener('pointermove', function (e) {
-      if (reduceMotion.matches) return;
+      if (reduceMotion.matches || !heroVisible) return;
       tx = (e.clientX / vw) * 2 - 1;
       ty = (e.clientY / vh) * 2 - 1;
       if (!running) {
@@ -196,31 +234,48 @@
           revealObserver.unobserve(e.target);
         }
       });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: .15 });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: .15 });
     Array.prototype.forEach.call(reveals, function (el) { revealObserver.observe(el); });
   } else {
     Array.prototype.forEach.call(reveals, function (el) { el.classList.add('in'); });
   }
 
-  /* ---------- Intake form → mailto ---------- */
+  /* ---------- Intake form → mailto (no backend, nothing stored) ---------- */
 
   var form = document.getElementById('intake-form');
   if (form) {
     var status = document.getElementById('intake-status');
-    var fields = ['name', 'email', 'business', 'domain', 'goal'].map(function (n) {
-      return form.elements[n];
-    });
+    var spec = [
+      ['name', 'Please add your name.'],
+      ['email', 'Please add your email.'],
+      ['business', 'Please add your business name.'],
+      ['domain', 'Please add the domain you own, like yourbusiness.com.'],
+      ['goal', 'Please say what the page should do.']
+    ];
+    var fields = spec.map(function (s) { return form.elements[s[0]]; });
 
     form.addEventListener('input', function (e) {
-      if (e.target && e.target.setCustomValidity) e.target.setCustomValidity('');
+      var t = e.target;
+      if (t && t.setCustomValidity) {
+        t.setCustomValidity('');
+        t.removeAttribute('aria-invalid');
+      }
     });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (status) status.textContent = '';
 
-      // `required` lets whitespace through; treat blank-after-trim as empty.
-      fields.forEach(function (f) {
-        f.setCustomValidity(f.value.trim() ? '' : 'Please fill this in.');
+      // "required" lets whitespace through, so check the trimmed values ourselves.
+      fields.forEach(function (f, i) {
+        var v = f.value.trim();
+        var msg = v ? '' : spec[i][1];
+        if (!msg && f.name === 'domain' && (v.indexOf('.') < 1 || /\s/.test(v))) {
+          msg = 'That does not look like a domain. Try something like yourbusiness.com.';
+        }
+        f.setCustomValidity(msg);
+        if (msg || !f.checkValidity()) f.setAttribute('aria-invalid', 'true');
+        else f.removeAttribute('aria-invalid');
       });
       if (!form.checkValidity()) {
         form.reportValidity();
@@ -228,7 +283,7 @@
       }
 
       var v = fields.map(function (f) { return f.value.trim(); });
-      var subject = 'Landing page intake: ' + v[2];
+      var subject = 'Landing page intake: ' + v[2] + ' (' + v[3] + ')';
       var body = [
         'Name: ' + v[0],
         'Email: ' + v[1],
@@ -246,7 +301,7 @@
       window.location.href = href;
 
       if (status) {
-        status.textContent = 'Your email app should open now with a message to mooneydzander@gmail.com and your answers filled in. Give it a look and press send. If nothing opened, you can email that address directly.';
+        status.textContent = 'Your email app should open now with a message to mooneydzander@gmail.com and your answers filled in. Press send there to reach us. Nothing is stored on this page. If nothing opened, email that address directly.';
       }
     });
   }

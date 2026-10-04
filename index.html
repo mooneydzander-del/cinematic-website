@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Landing Page Rocket — Cinematic landing pages on the domain you own</title>
-  <meta name="description" content="We build a cinematic one-page site on the domain you already own. You get seven days to keep it or drop it. No setup fee.">
+  <title>Landing Page Rocket — A cinematic landing page on the domain you own</title>
+  <meta name="description" content="We build a cinematic landing page on the domain you own. You get seven days to keep it or drop it. Then a monthly subscription for anything still running. No setup fee.">
   <meta name="theme-color" content="#05060a">
   <link rel="canonical" href="https://landingpagerocket.com/">
   <meta property="og:type" content="website">
@@ -19,15 +19,20 @@
 <body>
   <a class="skip" href="#intake">Skip to the intake form</a>
 
-  <!-- Fixed deep-space backdrop: three star layers drift at different speeds -->
+  <!-- Fixed deep-space backdrop: four star layers, each drifting at its own depth -->
   <div class="sky" aria-hidden="true">
-    <canvas class="stars" data-f="0.03" data-n="260" data-r="0.9" data-seed="11"></canvas>
-    <canvas class="stars" data-f="0.09" data-n="120" data-r="1.3" data-seed="23"></canvas>
-    <canvas class="stars" data-f="0.2" data-n="40" data-r="1.9" data-seed="37"></canvas>
+    <canvas class="stars" data-f="0.02" data-n="300" data-r="0.8" data-seed="11"></canvas>
+    <canvas class="stars" data-f="0.06" data-n="160" data-r="1.1" data-seed="23"></canvas>
+    <canvas class="stars" data-f="0.14" data-n="70" data-r="1.5" data-seed="37"></canvas>
+    <canvas class="stars" data-f="0.3" data-n="22" data-r="2.1" data-seed="53"></canvas>
   </div>
   <div class="grain" aria-hidden="true"></div>
   <div class="letterbox" aria-hidden="true"><span></span><span></span></div>
-  <div class="altimeter" aria-hidden="true"><span class="alt-track"><span class="alt-fill"></span></span><span class="alt-label">Alt</span></div>
+  <div class="hud" aria-hidden="true">
+    <span class="hud-track"><span class="hud-fill"></span></span>
+    <span class="hud-sc">SC 01</span>
+    <span class="hud-tc">00:00:00:00</span>
+  </div>
 
   <header class="bar">
     <a class="mark" href="#top" aria-label="Landing Page Rocket, back to top">
@@ -38,94 +43,115 @@
   </header>
 
   <main>
-    <!-- HERO -->
-    <section class="scene hero" id="top" aria-labelledby="hero-title">
-      <div class="glow glow-hero px" style="--d:.55;--m:6" aria-hidden="true"></div>
-      <div class="horizon px" style="--d:.42;--m:10" aria-hidden="true"></div>
-      <svg class="ridge ridge-back px" style="--d:.26;--m:18" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 210 L90 170 L170 196 L260 120 L350 182 L430 150 L520 196 L610 110 L700 170 L790 138 L880 190 L980 96 L1070 166 L1160 140 L1250 186 L1340 128 L1440 170 L1440 320 L0 320 Z"/>
-      </svg>
-      <svg class="ridge ridge-front px" style="--d:.1;--m:32" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 250 L120 214 L230 246 L360 190 L470 238 L600 206 L720 252 L850 200 L960 240 L1090 186 L1210 236 L1330 210 L1440 236 L1440 320 L0 320 Z"/>
-      </svg>
-
-      <div class="rocket" aria-hidden="true">
-        <span class="trail"></span>
-        <svg viewBox="0 0 120 300" class="rocket-body">
-          <defs>
-            <linearGradient id="hull" x1="0" x2="1">
-              <stop offset="0" stop-color="#7d8394"/>
-              <stop offset=".45" stop-color="#f4f2ee"/>
-              <stop offset=".7" stop-color="#c9ccd4"/>
-              <stop offset="1" stop-color="#5d6372"/>
-            </linearGradient>
-            <linearGradient id="fin" x1="0" x2="1">
-              <stop offset="0" stop-color="#ff7a3d"/>
-              <stop offset="1" stop-color="#b8431a"/>
-            </linearGradient>
-            <radialGradient id="flame" cx=".5" cy="0" r="1">
-              <stop offset="0" stop-color="#fff6dc"/>
-              <stop offset=".25" stop-color="#ffc46b"/>
-              <stop offset=".6" stop-color="#ff7a3d" stop-opacity=".7"/>
-              <stop offset="1" stop-color="#ff7a3d" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <g class="flame"><path d="M42 226 Q60 300 78 226 Z" fill="url(#flame)"/></g>
-          <path d="M34 168 L8 232 L36 222 Z" fill="url(#fin)"/>
-          <path d="M86 168 L112 232 L84 222 Z" fill="url(#fin)"/>
-          <path d="M60 6 C82 30 92 70 92 120 L88 214 L32 214 L28 120 C28 70 38 30 60 6 Z" fill="url(#hull)"/>
-          <path d="M60 6 C70 17 78 32 83 50 L37 50 C42 32 50 17 60 6 Z" fill="#ff7a3d"/>
-          <circle cx="60" cy="104" r="15" fill="#0b0d18" stroke="#c9ccd4" stroke-width="4"/>
-          <circle cx="55" cy="99" r="4" fill="#7c95ff" opacity=".7"/>
-          <rect x="42" y="212" width="36" height="14" rx="3" fill="#3a3f4c"/>
-          <path d="M57 168 L63 168 L63 222 L57 222 Z" fill="#0b0d18" opacity=".35"/>
+    <!-- HERO: a pinned launch shot. Scrolling lifts the rocket while the ground falls away. -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="stage">
+        <div class="nebula hl" style="--hy:5;--hs:.12;--m:3" aria-hidden="true"></div>
+        <div class="moon hl" style="--hy:12;--hs:-.1;--m:5" aria-hidden="true"></div>
+        <div class="horizon hl" style="--hy:40;--m:7" aria-hidden="true"></div>
+        <svg class="ridge r4 hl" style="--hy:22;--m:10" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 170 L80 120 L150 150 L240 70 L330 140 L420 100 L520 150 L620 60 L720 130 L820 90 L920 150 L1020 80 L1120 140 L1220 100 L1330 150 L1440 110 L1440 320 L0 320 Z"/>
         </svg>
-      </div>
+        <svg class="ridge r3 hl" style="--hy:36;--m:15" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 210 L90 170 L170 196 L260 120 L350 182 L430 150 L520 196 L610 110 L700 170 L790 138 L880 190 L980 96 L1070 166 L1160 140 L1250 186 L1340 128 L1440 170 L1440 320 L0 320 Z"/>
+        </svg>
+        <div class="haze hl" style="--hy:48;--m:18" aria-hidden="true"></div>
+        <svg class="ridge r2 hl" style="--hy:58;--m:22" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 230 L100 196 L210 222 L320 168 L420 214 L540 180 L660 226 L780 176 L900 220 L1010 170 L1130 214 L1250 186 L1360 222 L1440 200 L1440 320 L0 320 Z"/>
+        </svg>
 
-      <div class="hero-copy px" style="--d:-.3;--m:-10">
-        <p class="kicker"><span class="dot"></span>landingpagerocket.com</p>
-        <h1 id="hero-title">
-          <span class="line"><span>Your business,</span></span>
-          <span class="line"><span>on the <em>big screen.</em></span></span>
-        </h1>
-        <p class="lede">We build a cinematic one-page site for your business and put it on the domain you already own. One story, told with depth, motion, and a single clear next step.</p>
-        <a class="btn" href="#intake">Start the intake <span aria-hidden="true">↓</span></a>
-      </div>
+        <div class="pad" aria-hidden="true">
+          <span class="plume hl" style="--hy:76;--hs:1.4;--m:26"></span>
+          <svg class="gantry hl" style="--hy:76;--m:26" viewBox="0 0 40 200" preserveAspectRatio="none">
+            <path d="M6 200V10M30 200V10M6 10h24M6 58h24M6 106h24M6 154h24M6 10l24 48M30 10L6 58M6 58l24 48M30 58L6 106M6 106l24 48M30 106L6 154M6 154l24 46M30 154L6 200M30 80h12M30 140h12"/>
+            <circle cx="18" cy="6" r="3" class="beacon"/>
+          </svg>
+          <div class="rocket">
+            <span class="trail"></span>
+            <svg viewBox="0 0 120 300" class="rocket-body">
+              <defs>
+                <linearGradient id="hull" x1="0" x2="1">
+                  <stop offset="0" stop-color="#7d8394"/>
+                  <stop offset=".45" stop-color="#f4f2ee"/>
+                  <stop offset=".7" stop-color="#c9ccd4"/>
+                  <stop offset="1" stop-color="#5d6372"/>
+                </linearGradient>
+                <linearGradient id="fin" x1="0" x2="1">
+                  <stop offset="0" stop-color="#ff7a3d"/>
+                  <stop offset="1" stop-color="#b8431a"/>
+                </linearGradient>
+                <radialGradient id="flame" cx=".5" cy="0" r="1">
+                  <stop offset="0" stop-color="#fff6dc"/>
+                  <stop offset=".25" stop-color="#ffc46b"/>
+                  <stop offset=".6" stop-color="#ff7a3d" stop-opacity=".7"/>
+                  <stop offset="1" stop-color="#ff7a3d" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <g class="burn"><g class="flame"><path d="M42 226 Q60 300 78 226 Z" fill="url(#flame)"/></g></g>
+              <path d="M34 168 L8 232 L36 222 Z" fill="url(#fin)"/>
+              <path d="M86 168 L112 232 L84 222 Z" fill="url(#fin)"/>
+              <path d="M60 6 C82 30 92 70 92 120 L88 214 L32 214 L28 120 C28 70 38 30 60 6 Z" fill="url(#hull)"/>
+              <path d="M60 6 C70 17 78 32 83 50 L37 50 C42 32 50 17 60 6 Z" fill="#ff7a3d"/>
+              <circle cx="60" cy="104" r="15" fill="#0b0d18" stroke="#c9ccd4" stroke-width="4"/>
+              <circle cx="55" cy="99" r="4" fill="#7c95ff" opacity=".7"/>
+              <rect x="42" y="212" width="36" height="14" rx="3" fill="#3a3f4c"/>
+              <path d="M57 168 L63 168 L63 222 L57 222 Z" fill="#0b0d18" opacity=".35"/>
+            </svg>
+          </div>
+        </div>
 
-      <p class="scroll-cue" aria-hidden="true"><span>Scroll to launch</span><i></i></p>
+        <svg class="ridge r1 hl" style="--hy:92;--m:32" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 250 L120 214 L230 246 L360 190 L470 238 L600 206 L720 252 L850 200 L960 240 L1090 186 L1210 236 L1330 210 L1440 236 L1440 320 L0 320 Z"/>
+        </svg>
+        <div class="dust hl" style="--hy:130;--m:46" aria-hidden="true"></div>
+
+        <div class="hero-copy hl" style="--hy:-34;--hs:.08;--m:-8">
+          <p class="kicker"><span class="dot"></span>landingpagerocket.com</p>
+          <h1 id="hero-title">
+            <span class="line"><span>Your business,</span></span>
+            <span class="line"><span>on the <em>big screen.</em></span></span>
+          </h1>
+          <p class="lede">We build a cinematic landing page. It goes live on the domain you already own: one story, told in one scroll, with depth, motion, and a single clear next step.</p>
+          <a class="btn" href="#intake">Start the intake <span aria-hidden="true">↓</span></a>
+        </div>
+
+        <p class="scroll-cue" aria-hidden="true"><span>Scroll to launch</span><i></i></p>
+      </div>
     </section>
 
     <!-- 01 BUILD -->
     <section class="scene build" id="build" aria-labelledby="build-title">
-      <p class="ghost-word px drift" style="--d:.5" aria-hidden="true">Premiere</p>
-      <div class="glow glow-ice px" style="--d:.45" aria-hidden="true"></div>
+      <div class="glow glow-ice px" style="--d:.6;--s:.2" aria-hidden="true"></div>
+      <p class="ghost-word px" style="--d:.45;--x:-.7" aria-hidden="true">Premiere</p>
+      <div class="leak px" style="--d:.2;--x:.9" aria-hidden="true"></div>
       <div class="scene-grid">
         <div class="copy">
           <p class="chapter reveal"><span>01</span>The build</p>
-          <h2 id="build-title" class="reveal">We build it like <em>an opening scene.</em></h2>
-          <p class="reveal">Not a template with your logo dropped in. We shape one page around what your business does best: oversized type, layered scenes that move as people scroll, and a path that walks every visitor toward a single action.</p>
-          <p class="reveal muted">Built lean and static, so it loads fast and holds up on a phone as well as it does on a big monitor.</p>
+          <h2 id="build-title" class="reveal">Built like <em>an opening scene.</em></h2>
+          <p class="reveal">Not a template with your logo dropped in. We shape one page around what your business does best: oversized type, layered scenes that move as people scroll, and one path to one action.</p>
+          <p class="reveal muted">Static and lean, so it loads fast on a phone and holds up on a big monitor.</p>
         </div>
         <div class="visual frames" aria-hidden="true">
-          <div class="frame f3 px" style="--d:.42;--r:7deg">
+          <div class="frame f3 px" style="--d:.5;--x:.12;--r:7deg;--t:-6;--s:-.06">
             <div class="frame-top"><i></i><i></i><i></i></div>
             <div class="frame-body alt"><span class="fb-sky"></span><span class="fb-h"></span><span class="fb-h short"></span></div>
           </div>
-          <div class="frame f2 px" style="--d:.2;--r:-6deg">
+          <div class="frame f2 px" style="--d:.24;--x:-.06;--r:-6deg;--t:5">
             <div class="frame-top"><i></i><i></i><i></i></div>
             <div class="frame-body"><span class="fb-sky"></span><span class="fb-h"></span><span class="fb-h short"></span><span class="fb-btn"></span></div>
           </div>
-          <div class="frame f1 px" style="--d:-.16;--r:2deg">
+          <div class="frame f1 px" style="--d:-.22;--r:2deg;--t:-3;--s:.06">
             <div class="frame-top"><i></i><i></i><i></i></div>
             <div class="frame-body hero-frame"><span class="fb-sky"></span><span class="fb-planet"></span><span class="fb-h"></span><span class="fb-h short"></span><span class="fb-btn"></span></div>
           </div>
         </div>
       </div>
+      <div class="dust dust-near px" style="--d:-.5" aria-hidden="true"></div>
     </section>
 
     <!-- 02 OWN -->
     <section class="scene own" id="own" aria-labelledby="own-title">
-      <div class="glow glow-ember px" style="--d:.5" aria-hidden="true"></div>
+      <div class="glow glow-ember px" style="--d:.55;--x:.2" aria-hidden="true"></div>
       <div class="scene-grid flip">
         <div class="copy">
           <p class="chapter reveal"><span>02</span>Who holds what</p>
@@ -133,21 +159,21 @@
           <div class="split">
             <article class="card reveal">
               <p class="card-k">Yours</p>
-              <h3>The domain</h3>
+              <h3>The client owns the domain.</h3>
               <p>It stays in your name and under your control, start to finish. We only need it pointed at the page.</p>
             </article>
             <article class="card reveal">
               <p class="card-k">Ours</p>
-              <h3>The page</h3>
-              <p>The page stays with us. We build it, we keep it, and we keep it running, so there is no hosting for you to manage.</p>
+              <h3>We keep the page.</h3>
+              <p>We build it, host it, and keep it running. There is no hosting for you to manage.</p>
             </article>
           </div>
         </div>
         <div class="visual orbit" aria-hidden="true">
-          <span class="ring r1 px" style="--d:.5"></span>
-          <span class="ring r2 px" style="--d:.3"></span>
-          <span class="ring r3 px" style="--d:.12"></span>
-          <div class="address px" style="--d:-.14">
+          <span class="ring ring-1 px" style="--d:.6;--s:.3"></span>
+          <span class="ring ring-2 px" style="--d:.38;--s:.16"></span>
+          <span class="ring ring-3 px" style="--d:.16;--s:.06"></span>
+          <div class="address px" style="--d:-.18;--x:-.05">
             <svg viewBox="0 0 24 24" width="16" height="16"><path d="M7 10V8a5 5 0 0 1 10 0v2h1.5v11h-13V10H7zm2 0h6V8a3 3 0 0 0-6 0v2z" fill="currentColor"/></svg>
             <span class="scheme">https://</span><strong>yourbusiness.com</strong><i class="caret"></i>
           </div>
@@ -157,13 +183,13 @@
 
     <!-- 03 DECIDE -->
     <section class="scene decide" id="decide" aria-labelledby="decide-title">
-      <p class="seven px" style="--d:.45" aria-hidden="true">7</p>
-      <div class="glow glow-gold px" style="--d:.35" aria-hidden="true"></div>
+      <p class="seven px" style="--d:.55;--s:.22" aria-hidden="true">7</p>
+      <div class="glow glow-gold px" style="--d:.4" aria-hidden="true"></div>
       <div class="scene-narrow">
         <p class="chapter reveal"><span>03</span>The decision</p>
-        <h2 id="decide-title" class="reveal">Seven days to <em>keep it</em> or <em>drop it.</em></h2>
-        <p class="reveal">Once your page is live, you get a full week with it. Share it, send people to it, see how it lands. When the week is up, the call is yours.</p>
-        <ol class="days reveal" aria-label="Seven-day decision window">
+        <h2 id="decide-title" class="reveal"><em>Keep it</em> or <em>drop it.</em></h2>
+        <p class="reveal">You get seven days to keep it or drop it. Once your page is live, use the full week: share it, send people to it, see how it lands. Then the call is yours.</p>
+        <ol class="days reveal" aria-label="The 7 days to decide">
           <li style="--i:0"><span>Day 1</span></li>
           <li style="--i:1"><span>Day 2</span></li>
           <li style="--i:2"><span>Day 3</span></li>
@@ -177,66 +203,81 @@
           <div class="reveal"><h3>Drop it</h3><p>Walk away. The domain was always yours.</p></div>
         </div>
       </div>
+      <div class="dust dust-near px" style="--d:-.45" aria-hidden="true"></div>
     </section>
 
     <!-- 04 RUN -->
     <section class="scene run" id="run" aria-labelledby="run-title">
       <div class="streaks" aria-hidden="true">
-        <span class="streak" style="--d:.5;--x:-.6;top:14%"></span>
-        <span class="streak" style="--d:.3;--x:.9;top:28%"></span>
-        <span class="streak" style="--d:.15;--x:-1.3;top:46%"></span>
-        <span class="streak" style="--d:.4;--x:.5;top:61%"></span>
-        <span class="streak" style="--d:.05;--x:-1.8;top:74%"></span>
-        <span class="streak" style="--d:.25;--x:1.4;top:88%"></span>
+        <span class="streak px" style="--d:.55;--x:-.8;top:12%"></span>
+        <span class="streak px" style="--d:.35;--x:1.1;top:26%"></span>
+        <span class="streak px" style="--d:.18;--x:-1.5;top:41%"></span>
+        <span class="streak px" style="--d:.45;--x:.7;top:57%"></span>
+        <span class="streak px" style="--d:.05;--x:-2;top:70%"></span>
+        <span class="streak px" style="--d:.28;--x:1.6;top:84%"></span>
+        <span class="streak px" style="--d:-.2;--x:-2.4;top:93%"></span>
       </div>
+      <div class="leak leak-ice px" style="--d:.3;--x:-.8" aria-hidden="true"></div>
       <div class="scene-grid">
         <div class="copy">
           <p class="chapter reveal"><span>04</span>After day seven</p>
           <h2 id="run-title" class="reveal">Keep it, and it <em>keeps running.</em></h2>
-          <p class="reveal">Whatever is still live after those seven days moves onto a simple monthly subscription. There is no setup fee to get started. You only subscribe to what you chose to keep.</p>
+          <p class="reveal">Then a monthly subscription for anything still running. You only subscribe to what you chose to keep.</p>
+          <p class="reveal strong">No setup fee.</p>
         </div>
         <dl class="terms">
           <div class="term reveal"><dt>Setup fee</dt><dd>None</dd></div>
-          <div class="term reveal"><dt>Decide by</dt><dd>Day 7</dd></div>
+          <div class="term reveal"><dt>Decide within</dt><dd>7 days</dd></div>
           <div class="term reveal"><dt>After that</dt><dd>Monthly, for what&rsquo;s still running</dd></div>
         </dl>
       </div>
     </section>
 
-    <!-- 05 INTAKE -->
+    <!-- 05 INTAKE: the one call to action -->
     <section class="scene intake" id="intake" aria-labelledby="intake-title">
-      <div class="glow glow-launch px" style="--d:.4" aria-hidden="true"></div>
-      <div class="horizon horizon-low px" style="--d:.25" aria-hidden="true"></div>
+      <div class="glow glow-launch px" style="--d:.45" aria-hidden="true"></div>
+      <div class="horizon horizon-low px" style="--d:.3" aria-hidden="true"></div>
       <div class="scene-grid">
         <div class="copy">
           <p class="chapter reveal"><span>05</span>Launch</p>
           <h2 id="intake-title" class="reveal">Tell us where to <em>land it.</em></h2>
-          <p class="reveal">Five quick answers. When you press send, your own email app opens with a message to us and everything already filled in. Nothing is stored on this page.</p>
+          <p class="reveal">Five short answers. Press send and your own email app opens with a message to us, everything filled in. Nothing is stored on this page.</p>
+          <ul class="deal reveal" aria-label="The offer">
+            <li>A cinematic landing page, built by us</li>
+            <li>On the domain you own</li>
+            <li>We keep the page</li>
+            <li>Seven days to keep it or drop it</li>
+            <li>Then monthly, for anything still running</li>
+            <li>No setup fee</li>
+          </ul>
         </div>
 
         <form class="form reveal" id="intake-form" action="mailto:mooneydzander@gmail.com" method="post" enctype="text/plain">
+          <p class="form-head">All five fields are required.</p>
           <div class="field">
-            <label for="f-name">Name</label>
-            <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120" placeholder="Your name">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120">
           </div>
           <div class="field">
-            <label for="f-email">Email</label>
+            <label for="f-email">Your email</label>
             <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="160" placeholder="you@yourbusiness.com">
           </div>
           <div class="field">
-            <label for="f-business">Business</label>
-            <input id="f-business" name="business" type="text" autocomplete="organization" required maxlength="160" placeholder="What your business is called">
+            <label for="f-business">Business name</label>
+            <input id="f-business" name="business" type="text" autocomplete="organization" required maxlength="160">
           </div>
           <div class="field">
             <label for="f-domain">The domain you own</label>
-            <input id="f-domain" name="domain" type="text" inputmode="url" autocapitalize="off" spellcheck="false" required maxlength="200" placeholder="yourbusiness.com">
+            <input id="f-domain" name="domain" type="text" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" required maxlength="200" placeholder="yourbusiness.com" aria-describedby="f-domain-hint">
+            <p class="hint" id="f-domain-hint">Just the address. You keep it; we only point it at the page.</p>
           </div>
           <div class="field">
             <label for="f-goal">What should the page do?</label>
-            <textarea id="f-goal" name="goal" rows="4" required maxlength="1200" placeholder="Book calls, sell a product, collect sign-ups, announce a launch…"></textarea>
+            <textarea id="f-goal" name="goal" rows="4" required maxlength="1200" placeholder="Book calls, sell a product, collect sign-ups, announce a launch…" aria-describedby="f-goal-hint"></textarea>
+            <p class="hint" id="f-goal-hint">One or two sentences is plenty.</p>
           </div>
-          <button class="btn btn-wide" type="submit">Send my intake <span aria-hidden="true">→</span></button>
-          <p class="form-note">Opens your email app, addressed to us, with your answers filled in.</p>
+          <button class="btn btn-wide" type="submit" aria-describedby="intake-note">Send by email <span aria-hidden="true">→</span></button>
+          <p class="form-note" id="intake-note">This opens your email app with your answers filled in. You press send there. Nothing is stored on this page.</p>
           <p class="form-status" id="intake-status" role="status" aria-live="polite"></p>
         </form>
       </div>
