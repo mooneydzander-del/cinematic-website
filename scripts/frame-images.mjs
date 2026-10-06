@@ -1,11 +1,14 @@
 /*
  * Renders the share image (og.png, 1200×630) and the home-screen icon (apple-touch-icon.png,
- * 180×180) in the page's own light: letterbox, projector beam, leaks, anamorphic flare, dust.
- * No dependencies. vite.config.js calls these at build time unless public/ already has the file.
+ * 180×180) in the page's own light: a near-black sky, sparse stars, a low horizon glow and one
+ * thin amber light trail. No dependencies. vite.config.js calls these at build time unless
+ * public/ already has the file.
  */
 import { deflateSync } from 'node:zlib';
 
-const INK = [10, 10, 11];
+const BASE = [7, 9, 13];
+const AMBER = [232, 162, 74];
+const HORIZON_GLOW = [116, 138, 172];
 
 /* ── PNG encoding (RGB, 8-bit, Paeth-filtered rows) ───────────────────── */
 
@@ -93,9 +96,9 @@ function mulberry32(seed) {
 function frame(width, height) {
   const px = new Float32Array(width * height * 3);
   for (let i = 0; i < px.length; i += 3) {
-    px[i] = INK[0];
-    px[i + 1] = INK[1];
-    px[i + 2] = INK[2];
+    px[i] = BASE[0];
+    px[i + 1] = BASE[1];
+    px[i + 2] = BASE[2];
   }
 
   /** Lay a light over the frame; alphaAt(x, y) returns 0–1. box limits the work to [x0, y0, x1, y1]. */
@@ -146,11 +149,15 @@ function frame(width, height) {
   return { light, shade, bytes };
 }
 
-const angleOff = (dx, dy, axis) => {
-  let off = Math.abs(Math.atan2(dx, -dy) - axis);
-  if (off > Math.PI) off = 2 * Math.PI - off;
-  return off;
-};
+/**
+ * The one motif: a thin amber line rising from `base` to `head` at x, faint at the base and full
+ * at the head, with a soft glow around it. `half` is the line's half-width in pixels.
+ */
+function lightTrail(f, x, head, base, half, glow) {
+  const along = (y) => smoothstep(base, head, y);
+  f.light(AMBER, (px, py) => 0.33 * along(py) * gauss(px - x, glow), [x - 4 * glow, head, x + 4 * glow, base]);
+  f.light(AMBER, (px, py) => along(py) * Math.max(0, Math.min(1, half + 0.5 - Math.abs(px - x))), [x - half - 2, head, x + half + 2, base]);
+}
 
 /* ── The share image ──────────────────────────────────────────────────── */
 
@@ -158,61 +165,30 @@ export function renderOgImage() {
   const W = 1200;
   const H = 630;
   const f = frame(W, H);
-  const bar = Math.round((H - W / 2.39) / 2);
+  const horizon = Math.round(0.84 * H);
 
-  // Projector beam from above the frame, top left.
-  const apex = [0.06 * W, -0.2 * H];
-  const axis = (131 * Math.PI) / 180;
-  const spread = 0.27;
-  f.light([242, 232, 214], (x, y) => {
-    const dx = x - apex[0];
-    const dy = y - apex[1];
-    const off = angleOff(dx, dy, axis);
-    if (off > spread) return 0;
-    return 0.13 * (1 - off / spread) ** 2 * Math.max(0, 1 - Math.hypot(dx, dy) / 1500);
+  // A sparse star field, thinning out toward the horizon.
+  const rand = mulberry32(475);
+  for (let i = 0; i < 150; i++) {
+    const sx = rand() * W;
+    const sy = rand() * horizon;
+    const r = 0.55 + rand() ** 3 * 0.9;
+    const a = (0.15 + rand() ** 2 * 0.55) * (1 - smoothstep(0.3 * H, horizon, sy));
+    if (a < 0.02) continue;
+    f.light([241, 239, 233], (x, y) => a * gauss(Math.hypot(x - sx, y - sy), r), [sx - 3 * r, sy - 3 * r, sx + 3 * r, sy + 3 * r]);
+  }
+
+  // The low horizon glow: cool and wide, brightest on the line, falling off faster below it.
+  f.light(HORIZON_GLOW, (x, y) => {
+    const dy = y - horizon;
+    return 0.22 * gauss(dy, dy < 0 ? 110 : 40) * gauss(x - 0.74 * W, 560);
   });
 
-  // Light leaks bleeding in from two corners.
-  f.light([206, 92, 46], (x, y) => 0.32 * Math.max(0, 1 - Math.hypot(x + 40, y - 700) / 640) ** 2);
-  f.light([236, 204, 160], (x, y) => 0.15 * Math.max(0, 1 - Math.hypot(x - 1240, y + 60) / 560) ** 2);
+  // The light trail, in the right third: from the horizon most of the way up the frame.
+  lightTrail(f, 0.8 * W + 0.5, Math.round(0.16 * H), horizon, 1.1, 7);
 
-  // Anamorphic flare: halo, streak, warm bloom, hot core.
-  const S = [430, 262];
-  f.light([255, 228, 196], (x, y) => 0.16 * gauss(y - S[1], 26) * Math.max(0, 1 - Math.abs(x - S[0]) / 900) ** 1.2);
-  f.light([255, 242, 226], (x, y) => 0.62 * gauss(y - S[1], 1.5) * Math.max(0, 1 - Math.abs(x - S[0]) / 760) ** 1.5, [0, S[1] - 8, W - 1, S[1] + 8]);
-  f.light([240, 190, 130], (x, y) => 0.2 * gauss(Math.hypot(x - S[0], y - S[1]), 120), [S[0] - 360, S[1] - 360, S[0] + 360, S[1] + 360]);
-  f.light([255, 246, 234], (x, y) => 0.7 * gauss(Math.hypot(x - S[0], y - S[1]), 30), [S[0] - 100, S[1] - 100, S[0] + 100, S[1] + 100]);
-
-  // Lens ghosts on the far side of the centre.
-  const C = [W / 2, H / 2];
-  for (const [k, r, a] of [[0.45, 22, 0.05], [0.9, 38, 0.045], [1.35, 12, 0.07]]) {
-    const gx = C[0] + (C[0] - S[0]) * k;
-    const gy = C[1] + (C[1] - S[1]) * k;
-    f.light(
-      [237, 226, 205],
-      (x, y) => {
-        const d = Math.hypot(x - gx, y - gy);
-        return a * (0.55 + 0.45 * smoothstep(r * 0.6, r, d)) * (1 - smoothstep(r - 1.5, r, d));
-      },
-      [gx - r, gy - r, gx + r, gy + r],
-    );
-  }
-
-  // Dust in the beam.
-  const rand = mulberry32(2390);
-  for (let i = 0; i < 110; i++) {
-    const mx = rand() * W;
-    const my = bar + rand() * (H - 2 * bar);
-    const lit = Math.max(0, 1 - angleOff(mx - apex[0], my - apex[1], axis) / spread) ** 2;
-    const a = (0.05 + 0.75 * lit) * (0.4 + 0.6 * rand());
-    const r = 0.7 + rand() * 1.6;
-    if (a < 0.03) continue;
-    f.light([255, 240, 220], (x, y) => a * gauss(Math.hypot(x - mx, y - my), r), [mx - 3 * r, my - 3 * r, mx + 3 * r, my + 3 * r]);
-  }
-
-  // Vignette, then the 2.39:1 bars.
-  f.shade((x, y) => 1 - 0.62 * smoothstep(0.42, 1.05, Math.hypot((x - W / 2) / (0.62 * W), (y - H * 0.47) / (0.62 * H))));
-  f.shade((x, y) => (y < bar || y > H - bar ? 0 : 1));
+  // Vignette.
+  f.shade((x, y) => 1 - 0.6 * smoothstep(0.45, 1.1, Math.hypot((x - W / 2) / (0.62 * W), (y - H * 0.45) / (0.62 * H))));
 
   return encodePng(W, H, f.bytes());
 }
@@ -223,9 +199,9 @@ export function renderTouchIcon() {
   const S = 180;
   const c = S / 2;
   const f = frame(S, S);
-  f.light([232, 162, 74], (x, y) => 0.42 * gauss(Math.hypot(x - c, y - c), 34));
-  f.light([237, 232, 223], (x, y) => 0.85 * gauss(y - c, 1.6) * Math.max(0, 1 - Math.abs(x - c) / 76) ** 1.3);
-  f.light([232, 162, 74], (x, y) => Math.max(0, Math.min(1, 15.5 - Math.hypot(x - c, y - c))));
+  const base = 146;
+  f.light(HORIZON_GLOW, (x, y) => 0.16 * gauss(y - base, 26) * gauss(x - c, 90));
+  lightTrail(f, c, 34, base, 1.9, 8);
   f.shade((x, y) => 1 - 0.35 * smoothstep(0.55, 1.2, Math.hypot(x - c, y - c) / c));
   return encodePng(S, S, f.bytes());
 }

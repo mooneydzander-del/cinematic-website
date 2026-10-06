@@ -29,9 +29,11 @@ register(`data:text/javascript,${encodeURIComponent(loader)}`);
 const { clean, composeBrief, mailtoHref, subjectFor, normalizeDomain, isDomain, isEmail } = await import('../script.js');
 
 // The form, as the browser sees it: label text, name, required, maxlength, in DOM order.
+// Required labels carry a "required" marker beside the name; the email uses the name only.
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const fields = [...html.matchAll(/<label class="field__label" for="([^"]+)">([^<]+)<\/label>/g)].map(([, id, label]) => {
+const fields = [...html.matchAll(/<label class="field__label" for="([^"]+)">([\s\S]*?)<\/label>/g)].map(([, id, inner]) => {
   const tag = html.match(new RegExp(`<(?:input|textarea)[^>]*\\bid="${id}"[^>]*>`))[0];
+  const label = inner.match(/<span class="field__name">([^<]+)<\/span>/)?.[1] ?? inner.replace(/<[^>]*>/g, '');
   return {
     label: label.trim(),
     name: tag.match(/\bname="([^"]+)"/)[1],
@@ -44,6 +46,7 @@ assert.deepEqual(
   fields.filter((f) => f.required).map((f) => f.name),
   ['name', 'email', 'business', 'domain', 'goal'],
 );
+assert.ok(fields.every((f) => !/required/i.test(f.label)), 'no "required" marker leaks into a label');
 
 // Mirrors the submit handler in script.js.
 function send(values) {
