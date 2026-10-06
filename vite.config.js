@@ -30,31 +30,6 @@ function heroMedia() {
   };
 }
 
-/* Preload the two latin font files the first frame needs (their names are hashed at build time). */
-function preloadFonts() {
-  let base = '/';
-  return {
-    name: 'lpr:preload-fonts',
-    apply: 'build',
-    configResolved(config) {
-      base = config.base;
-    },
-    transformIndexHtml: {
-      order: 'post',
-      handler(html, ctx) {
-        const fonts = Object.keys(ctx.bundle ?? {}).filter((file) =>
-          /(?:^|\/)(?:instrument-serif|geist)-latin-(?:400|wght)-normal-[^/]*\.woff2$/.test(file),
-        );
-        return fonts.map((file) => ({
-          tag: 'link',
-          attrs: { rel: 'preload', href: base + file, as: 'font', type: 'font/woff2', crossorigin: true },
-          injectTo: 'head-prepend',
-        }));
-      },
-    },
-  };
-}
-
 /*
  * og.png and apple-touch-icon.png, rendered in the page's own light (scripts/frame-images.mjs).
  * A file with the same name in public/ always wins. Loaded lazily so a rendering problem
@@ -103,7 +78,7 @@ function frameImages() {
 }
 
 export default defineConfig({
-  plugins: [heroMedia(), preloadFonts(), frameImages()],
+  plugins: [heroMedia(), frameImages()],
   build: {
     modulePreload: { polyfill: false },
   },

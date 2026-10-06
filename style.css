@@ -1,45 +1,74 @@
 /*
  * Landing Page Rocket
- * Near-black frame, warm paper text, one tungsten-amber accent (price, button, focus).
- * Everything that moves moves by transform or opacity. Choreography lives in script.js.
+ * Near-black with a faint cool tint, off-white type, one amber accent: the price, the button,
+ * the focus state and the light trail. Two families: Instrument Serif for headlines, Geist for
+ * everything else. Everything that moves moves by transform or opacity; choreography lives in
+ * script.js. Without it (or with reduced motion) the scenes simply stack.
  */
 
-@import '@fontsource/instrument-serif/400.css';
-@import '@fontsource-variable/geist/index.css';
+/* ── Fonts: self-hosted in public/fonts, preloaded in index.html ────── */
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/geist-latin-wght-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Only downloaded if someone types an accented name into the form. */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/geist-latin-ext-wght-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
 
 /* ── Tokens ──────────────────────────────────────────────────────────── */
 
 :root {
-  --ink: #0a0a0b;
-  --paper: #ede8df;
-  --paper-2: rgb(237 232 223 / .7);   /* labels, notes: about 6:1 on ink */
-  --paper-ph: rgb(237 232 223 / .56); /* placeholder: about 4.7:1 on ink */
-  --hair: rgb(237 232 223 / .42);     /* input underline: about 3.5:1, a visible boundary */
+  --base: #07090d;
+  --white: #ecebe7;
+  --white-70: rgb(236 235 231 / .7);   /* sub lines, notes: about 8:1 on base */
+  --white-60: rgb(236 235 231 / .6);
+  --line: rgb(255 255 255 / .25);      /* input borders */
+  --ph: #8e8f93;                       /* placeholder: about 6:1 on base */
   --amber: #e8a24a;
+  --amber-hi: #f0b264;
 
-  --serif: 'Instrument Serif', 'Iowan Old Style', Baskerville, 'Times New Roman', serif;
-  --sans: 'Geist Variable', Geist, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --serif: 'Instrument Serif', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
+  /* One grid for the whole page: 12 columns, one left edge, one max width. */
   --gutter: clamp(1.25rem, 5vw, 5rem);
-  /* 2.39:1 letterbox, capped so tall screens keep room for the line. */
-  --bar: clamp(2svh, (100svh - 100vw / 2.39) / 2, 16svh);
-  /* The brief's clamp(2.5rem, 8vw, 8rem), with a height cap for short landscape screens. */
-  --line: clamp(2.5rem, min(8vw, 13svh), 8rem);
-  /* Always larger than --line. */
-  --price: clamp(3.75rem, min(14vw, 24svh), 13rem);
-  /* Scroll length of the pinned film (scenes 1–4). */
-  --film: 660svh;
+  --edge: max(var(--gutter), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  --gap: clamp(.75rem, 1.6vw, 1.5rem);
+  --maxw: 110rem;
 
-  --ease: cubic-bezier(.65, 0, .35, 1);
+  --display: clamp(2.75rem, 7.5vw, 7.5rem);
+  --price: clamp(4rem, 13vw, 13rem);
+
+  --scene-pad: max(4.5rem, 11svh);
+  /* Scroll length of the pinned film. */
+  --film: 980svh;
+
   --ease-out: cubic-bezier(.22, 1, .36, 1);
 }
 
-@media (orientation: portrait) {
-  :root { --bar: clamp(2svh, (100svh - 100vw / 2.39) / 2, 7svh); }
-}
-
 @media (max-width: 767px) {
-  :root { --film: 600svh; }
+  :root { --film: 880svh; }
 }
 
 /* ── Base ────────────────────────────────────────────────────────────── */
@@ -49,8 +78,8 @@
 *::after { box-sizing: border-box; }
 
 html {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--base);
+  color: var(--white);
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -67,15 +96,17 @@ body {
 
 h1, h2, p { margin: 0; }
 
+a { color: inherit; }
+
 button, input, textarea {
   font: inherit;
   color: inherit;
   letter-spacing: inherit;
 }
 
-::selection { background: rgb(237 232 223 / .88); color: var(--ink); }
+::selection { background: rgb(236 235 231 / .88); color: var(--base); }
 
-:focus-visible { outline: 1px solid var(--paper); outline-offset: 6px; }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
 
 .sr-only {
   position: absolute;
@@ -97,7 +128,22 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: clip; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
 
-/* ── Atmosphere: far light, mid dust, house light, vignette ──────────── */
+/* ── Grid ────────────────────────────────────────────────────────────── */
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--maxw) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--edge);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+}
+
+/* ── Atmosphere: stars (far), horizon glow and grain (mid), vignette ─── */
 
 .atmos {
   position: fixed;
@@ -105,159 +151,47 @@ html.lenis, html.lenis body { height: auto; }
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  background: var(--ink);
 }
 
-.atmos > *,
-.atmos__far > * { position: absolute; }
-
-.atmos__far { inset: -8% 0; will-change: transform; }
-
-/* Projector beam: a soft cone from above the frame, top left. */
-.beam {
-  --beam-x: 6%;
-  --beam-y: -6%;
-  --beam-from: 116deg;
-  inset: 0;
-  background: conic-gradient(from var(--beam-from) at var(--beam-x) var(--beam-y),
-    transparent 0deg,
-    rgb(238 226 204 / .03) 6deg,
-    rgb(238 226 204 / .08) 12deg,
-    rgb(242 232 214 / .12) 17deg,
-    rgb(238 226 204 / .08) 22deg,
-    rgb(238 226 204 / .03) 28deg,
-    transparent 34deg);
-  -webkit-mask-image: radial-gradient(farthest-corner at var(--beam-x) var(--beam-y), #000 25%, transparent 92%);
-          mask-image: radial-gradient(farthest-corner at var(--beam-x) var(--beam-y), #000 25%, transparent 92%);
-  transform-origin: var(--beam-x) var(--beam-y);
-}
-
-@media (orientation: portrait) {
-  .beam { --beam-from: 136deg; }
-}
-
-/* Light leaks: warm blooms bleeding in from two corners. */
-.leak { width: 95vmax; height: 95vmax; }
-.leak--a { left: -52vmax; bottom: -48vmax; }
-.leak--b { right: -55vmax; top: -50vmax; }
-
-.leak__glow { width: 100%; height: 100%; border-radius: 50%; }
-
-.leak--a .leak__glow {
-  background: radial-gradient(closest-side,
-    rgb(206 92 46 / .3),
-    rgb(178 64 38 / .12) 42%,
-    rgb(120 40 30 / .04) 68%,
-    transparent);
-}
-
-.leak--b .leak__glow {
-  background: radial-gradient(closest-side,
-    rgb(236 204 160 / .15),
-    rgb(214 160 112 / .055) 46%,
-    transparent 78%);
-}
-
-/* Anamorphic flare: a horizontal streak, a soft halo and a hot core. JS drifts it. */
-.flare { left: 0; top: 0; width: 0; height: 0; transform: translate(30vw, 26vh); }
-.flare > * { position: absolute; left: 0; top: 0; }
-
-.flare__halo {
-  width: 150vw;
-  height: 9vh;
-  margin: -4.5vh 0 0 -75vw;
-  background: radial-gradient(50% 50% at 50% 50%, rgb(255 228 196 / .13), rgb(255 214 170 / .04) 45%, transparent 75%);
-}
-
-.flare__streak {
-  width: 120vw;
-  height: 2px;
-  margin: -1px 0 0 -60vw;
-  background: radial-gradient(50% 50% at 50% 50%, rgb(255 242 226 / .55), rgb(255 226 190 / .16) 40%, transparent 80%);
-}
-
-.flare__core {
-  width: 34vmin;
-  height: 34vmin;
-  margin: -17vmin 0 0 -17vmin;
-  background: radial-gradient(closest-side, rgb(255 246 234 / .5), rgb(255 226 188 / .14) 22%, rgb(255 210 160 / .04) 50%, transparent);
-}
-
-/* Lens ghosts, mirrored through the frame centre from the flare source. */
-.ghost { left: 0; top: 0; border-radius: 50%; }
-
-.ghost--1 {
-  width: 9vmin;
-  height: 9vmin;
-  margin: -4.5vmin 0 0 -4.5vmin;
-  background: radial-gradient(closest-side, rgb(237 232 223 / .035) 62%, rgb(237 232 223 / .08) 88%, transparent);
-  transform: translate(59vw, 60.8vh);
-}
-
-.ghost--2 {
-  width: 16vmin;
-  height: 16vmin;
-  margin: -8vmin 0 0 -8vmin;
-  background: radial-gradient(closest-side, rgb(226 196 160 / .03) 70%, rgb(226 196 160 / .06) 92%, transparent);
-  transform: translate(68vw, 71.6vh);
-}
-
-.ghost--3 {
-  width: 5vmin;
-  height: 5vmin;
-  margin: -2.5vmin 0 0 -2.5vmin;
-  background: radial-gradient(closest-side, rgb(237 232 223 / .07), transparent);
-  transform: translate(77vw, 82.4vh);
-}
-
-/* Hero video, injected at build time only when public/hero.mp4 exists. */
-.atmos__media { inset: 0; transform-origin: 50% 45%; }
-
-.atmos__video {
+/* Painted once by script.js; taller than the screen so its slow drift never shows an edge. */
+.stars {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: 115vh;
+  height: 115lvh;
+  opacity: .6;
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 88%);
+          mask-image: linear-gradient(to bottom, #000 30%, transparent 88%);
 }
 
-.atmos__shade {
+.mid { position: absolute; inset: 0 0 -30vh; }
+
+/* The horizon sits at 84% of the screen: a cool glow, brightest on the line, dimmer below it. */
+.horizon {
   position: absolute;
-  inset: 0;
+  top: 50svh;
+  left: -10%;
+  right: -10%;
+  height: 70svh;
   background:
-    radial-gradient(70% 55% at 50% 50%, rgb(10 10 11 / .35), transparent),
-    linear-gradient(180deg, rgb(10 10 11 / .62), rgb(10 10 11 / .38) 45%, rgb(10 10 11 / .8));
+    radial-gradient(42% 26% at 74% 49%, rgb(128 150 184 / .16), transparent 72%),
+    radial-gradient(90% 20% at 55% 49%, rgb(80 100 132 / .16), transparent 72%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 49%, rgb(0 0 0 / .4) 60%, transparent 80%);
+          mask-image: linear-gradient(to bottom, #000 49%, rgb(0 0 0 / .4) 60%, transparent 80%);
 }
-
-.dust { inset: 0; width: 100%; height: 100%; }
-
-/* House light: the frame lifts slightly when the brief arrives. */
-.house {
-  inset: 0;
-  opacity: 0;
-  background:
-    radial-gradient(100% 70% at 50% 0%, rgb(240 228 208 / .075), transparent 72%),
-    rgb(237 232 223 / .02);
-}
-
-.vignette {
-  inset: 0;
-  background: radial-gradient(125% 95% at 50% 46%, transparent 42%, rgb(0 0 0 / .66) 100%);
-}
-
-/* ── Film grain ──────────────────────────────────────────────────────── */
 
 .grain {
   --tile: 220px;
-  position: fixed;
+  position: absolute;
   inset: calc(var(--tile) * -1);
-  z-index: 2;
-  pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1.4 0 0 0 -.55 1.4 0 0 0 -.55 1.4 0 0 0 -.55 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   background-size: var(--tile) var(--tile);
-  opacity: .09;
+  opacity: .07;
   will-change: transform;
-  animation: grain 1.1s steps(1, end) infinite;
+  animation: grain 1.4s steps(1, end) infinite;
 }
 
 @media (max-width: 767px) {
@@ -278,118 +212,152 @@ html.lenis, html.lenis body { height: auto; }
   100% { transform: translate3d(0, 0, 0); }
 }
 
-/* ── Frame: letterbox bars and the reel (scroll timeline) ───────────── */
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(130% 100% at 50% 42%, transparent 50%, rgb(2 3 5 / .6) 100%);
+}
 
-.frame {
+/* Hero video, injected at build time only when public/hero.mp4 exists. */
+.atmos__media { position: absolute; inset: 0; transform-origin: 50% 45%; }
+
+.atmos__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.atmos__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(7 9 13 / .72), rgb(7 9 13 / .5) 45%, rgb(7 9 13 / .88));
+}
+
+/* ── The light trail: a launch seen from far away ────────────────────── */
+
+/* Column 12, clear of every line of text; in the right margin on phones. */
+.trail {
   position: fixed;
   inset: 0;
-  z-index: 3;
+  z-index: 0;
   pointer-events: none;
 }
 
-.frame__bars { position: absolute; inset: 0; }
+.trail__track { height: 100%; }
 
-.bar {
+/* From the horizon (84%) up to 12% of the screen. script.js draws it with scroll. */
+.trail__beam {
+  position: relative;
+  grid-column: 12;
+  justify-self: center;
+  align-self: start;
+  width: 1.5px;
+  height: 72svh;
+  margin-top: 12svh;
+  background: linear-gradient(to top, rgb(232 162 74 / 0), rgb(232 162 74 / .5) 40%, var(--amber));
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+.trail__beam::before {
+  content: '';
   position: absolute;
+  inset: 0 -5px;
+  background: inherit;
+  filter: blur(6px);
+  opacity: .6;
+}
+
+@media (max-width: 767px) {
+  .trail__beam {
+    justify-self: end;
+    margin-right: calc(var(--edge) / -2);
+  }
+}
+
+/* ── Header ──────────────────────────────────────────────────────────── */
+
+.masthead {
+  position: absolute;
+  top: 0;
   left: 0;
   right: 0;
-  height: calc(50% + 1px);
-  background: #000;
+  z-index: 2;
 }
 
-.bar--top { top: 0; }
-.bar--bottom { bottom: 0; }
-
-/* Closed on first paint; opens to the letterbox when script.js adds .is-open. */
-.is-open .bar { transition: transform 2.2s var(--ease); }
-.is-open .bar--top { transform: translate3d(0, calc(var(--bar) - 100%), 0); }
-.is-open .bar--bottom { transform: translate3d(0, calc(100% - var(--bar)), 0); }
-
-/* If the script never arrives, open the frame anyway. */
-html:not(.is-ready) .bar--top { animation: failsafe-top 1.6s var(--ease) 5s both; }
-html:not(.is-ready) .bar--bottom { animation: failsafe-bottom 1.6s var(--ease) 5s both; }
-
-@keyframes failsafe-top { to { transform: translate3d(0, calc(var(--bar) - 100%), 0); } }
-@keyframes failsafe-bottom { to { transform: translate3d(0, calc(100% - var(--bar)), 0); } }
-@keyframes fade-in { from { opacity: 0; } }
-
-.reel {
-  position: absolute;
-  inset: 0 0 auto;
-  height: 1px;
-  background: rgb(237 232 223 / .12);
-  animation: fade-in 2s ease .6s both;
+.masthead__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4.5rem;
+  font-size: .9375rem;
+  line-height: 1.3;
 }
 
-.reel__fill {
-  position: absolute;
-  inset: 0;
-  background: rgb(237 232 223 / .6);
-  transform-origin: 0 50%;
-  transform: scaleX(0);
+.masthead__name { font-weight: 500; }
+
+.masthead__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgb(236 235 231 / .4);
+  text-underline-offset: .35em;
+  transition: text-decoration-color .4s ease;
 }
 
-.reel__ticks { position: absolute; inset: 0; }
-
-.reel__tick {
-  position: absolute;
-  top: 0;
-  width: 1px;
-  height: 5px;
-  background: rgb(237 232 223 / .34);
+@media (hover: hover) {
+  .masthead__link:hover { text-decoration-color: currentColor; }
 }
 
-.reel__head {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 1px;
-  height: 9px;
-  background: var(--paper);
-  opacity: .85;
-}
-
-/* ── The film: scenes 1–4 on one sticky stage ────────────────────────── */
+/* ── Scenes ──────────────────────────────────────────────────────────── */
 
 main,
 .credits { position: relative; z-index: 1; }
 
-.film {
-  position: relative;
-  height: calc(100svh + var(--film));
-}
-
-.stage {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
-}
-
+/* Every scene is one screen with its text centred vertically. */
 .scene {
-  position: absolute;
-  inset: 0;
   display: grid;
-  place-items: center;
-  padding: calc(var(--bar) + 1rem) var(--gutter);
+  align-content: center;
+  min-height: 100svh;
+  padding-block: var(--scene-pad);
+}
+
+.scene__text { grid-column: 1 / -1; }
+
+@media (min-width: 768px) {
+  .scene__text { grid-column: 1 / span 10; }
 }
 
 .scene__title,
 .brief__title {
-  max-width: 12em;
   font-family: var(--serif);
-  font-size: var(--line);
+  font-size: var(--display);
   font-weight: 400;
+  font-synthesis: none;
+  font-kerning: normal;
   line-height: .98;
-  letter-spacing: -.01em;
-  text-align: center;
+  letter-spacing: -.015em;
   text-wrap: balance;
+}
+
+.scene__sub {
+  max-width: 60ch;
+  margin-top: clamp(1.25rem, 2.6vw, 2.25rem);
+  font-size: clamp(1.0625rem, .95rem + .45vw, 1.375rem);
+  line-height: 1.5;
+  color: var(--white-70);
+  text-wrap: pretty;
 }
 
 .line { display: block; }
 
-/* script.js wraps each line with a pre-blurred twin; focus pulls crossfade the two. */
-.focus { display: grid; }
+/* script.js pairs each line with a pre-blurred twin; focus pulls crossfade the two. */
+.focus { display: grid; transform-origin: 0 50%; }
 .focus > .line { grid-area: 1 / 1; }
 
 .line--soft {
@@ -400,94 +368,108 @@ main,
           user-select: none;
 }
 
-/* Scenes 2–4 wait out of sight. The hero line is painted from the first frame, under the closed bars. */
-.scene:not(.scene--1) .line { opacity: 0; }
+/* The price: the one centred scene. */
+.price {
+  grid-column: 1 / -1;
+  text-align: center;
+}
 
-.scene--2 .focus + .focus { margin-top: .08em; }
+@media (min-width: 768px) {
+  .price { grid-column: 2 / span 10; }
+}
 
-/* Only the scenes on screen get compositor layers. */
-.is-live .scene__title,
-.is-live .price,
-.is-live .focus { will-change: transform; }
-.is-live .line { will-change: opacity; }
-
-/* Scene 4: the subscription line and the price share the centre of the frame. */
-.scene--4 > * { grid-area: 1 / 1; }
-
-.price { position: relative; text-align: center; }
+.price .focus { transform-origin: 50% 50%; }
 
 .price__amount {
   font-family: var(--serif);
   font-size: var(--price);
   font-weight: 400;
-  line-height: .92;
+  font-synthesis: none;
+  font-kerning: normal;
+  line-height: .9;
   letter-spacing: -.02em;
   color: var(--amber);
   font-variant-numeric: lining-nums proportional-nums;
 }
 
 .price__fee {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  padding-top: .5em;
+  margin-top: clamp(1rem, 2.2vw, 2rem);
   font-family: var(--serif);
-  font-size: clamp(1.75rem, min(4.2vw, 7svh), 4rem);
+  font-size: clamp(1.5rem, 3.2vw, 3.25rem);
+  font-weight: 400;
+  font-synthesis: none;
   line-height: 1.05;
-  text-align: center;
+  letter-spacing: -.01em;
 }
 
-/* Scroll cue: a thin line with light travelling down it. */
-.cue {
-  position: absolute;
-  left: 50%;
-  bottom: calc(var(--bar) + clamp(1rem, 4svh, 2.5rem));
-  width: 1px;
-  height: clamp(2.5rem, 8svh, 4.5rem);
-  margin-left: -.5px;
+/* The pinned film, switched on by script.js when motion is welcome. */
+.is-film .film { height: calc(100svh + var(--film)); }
+
+.is-film .stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
 }
 
-.cue__inner {
+.is-film .scene {
   position: absolute;
   inset: 0;
-  overflow: hidden;
-  background: rgb(237 232 223 / .14);
-  opacity: 0;
+  min-height: 0;
 }
 
-.cue__light {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 45%;
-  background: linear-gradient(transparent, rgb(237 232 223 / .9), transparent);
-  animation: cue 3.6s var(--ease) infinite;
-}
+/* Scenes 2–5 wait out of sight; the hero is on screen from the first paint. */
+.is-film .scene:not(.scene--hero) .line,
+.is-film .scene__sub { opacity: 0; }
 
-@keyframes cue {
-  from { transform: translate3d(0, -100%, 0); }
-  to { transform: translate3d(0, 230%, 0); }
-}
+/* Only the scenes on screen get compositor layers. */
+.is-live .scene__text,
+.is-live .price,
+.is-live .focus { will-change: transform; }
+.is-live .line,
+.is-live .scene__sub { will-change: opacity; }
 
-/* ── Scene 5: the brief ──────────────────────────────────────────────── */
+/* ── The brief ───────────────────────────────────────────────────────── */
 
 .brief {
   position: relative;
-  padding: clamp(7rem, 24svh, 14rem) var(--gutter) clamp(5rem, 14svh, 9rem);
+  padding-block: clamp(6rem, 18svh, 11rem) clamp(4rem, 10svh, 6.5rem);
 }
 
-.brief__inner {
-  width: min(100%, 60rem);
-  margin: 0 auto;
+.brief:focus { outline: none; }
+
+.brief__inner { grid-column: 1 / -1; }
+
+@media (min-width: 768px) {
+  .brief__inner { grid-column: 1 / span 10; }
 }
 
-.brief__title { margin: 0 auto clamp(3rem, 9svh, 6rem); }
+.brief__title { margin-bottom: clamp(2.5rem, 7svh, 4.5rem); }
+
+.form { max-width: 720px; }
+
+.group {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.group__title {
+  float: left;
+  width: 100%;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.group__title + * { clear: both; }
 
 .form__grid {
   display: grid;
-  gap: clamp(1.5rem, 3.5svh, 2.25rem) clamp(1.5rem, 4vw, 3.5rem);
+  gap: 1.5rem;
 }
 
 @media (min-width: 768px) {
@@ -495,7 +477,7 @@ main,
   .field--wide { grid-column: 1 / -1; }
 }
 
-.form__more { margin-top: clamp(1.5rem, 4svh, 2.5rem); }
+.form__more { margin-top: 2rem; }
 .form__more[hidden] { display: none; }
 
 .field {
@@ -512,68 +494,64 @@ main,
 }
 
 .field__label {
-  font-size: .9375rem;
-  line-height: 1.35;
-  letter-spacing: .01em;
-  color: var(--paper-2);
+  font-size: .875rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
-.field:focus-within .field__label { color: var(--paper); }
+.field__req {
+  font-size: .75rem;
+  font-weight: 400;
+  color: var(--white-60);
+}
 
 .field__count {
   font-size: .8125rem;
-  color: var(--paper-2);
+  color: var(--white-70);
   font-variant-numeric: tabular-nums;
 }
-
-.field__control {
-  position: relative;
-  margin-top: .55rem;
-}
-
-/* Amber focus line, drawn from the centre. */
-.field__control::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background: var(--amber);
-  transform: scaleX(0);
-  transition: transform .7s var(--ease-out);
-  pointer-events: none;
-}
-
-.field__control:focus-within::after { transform: scaleX(1); }
 
 .field__input {
   display: block;
   width: 100%;
-  min-height: 3rem;
-  margin: 0;
-  padding: .35rem 0 .6rem;
-  font-size: clamp(1.25rem, 1.1rem + .6vw, 1.5rem);
-  line-height: 1.35;
-  color: var(--paper);
+  height: 3.5rem;
+  margin: .5rem 0 0;
+  padding: 0 1rem;
+  font-size: 1.125rem;
+  line-height: 1.4;
+  color: var(--white);
   background: transparent;
-  border: 0;
-  border-bottom: 1px solid var(--hair);
-  border-radius: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
   box-shadow: none;
   outline: none;
   -webkit-appearance: none;
           appearance: none;
   caret-color: var(--amber);
+  transition: border-color .35s ease, box-shadow .35s ease;
 }
 
-.field__input:focus-visible { outline: none; }
-.field__input::placeholder { color: var(--paper-ph); opacity: 1; }
-.field__input[aria-invalid='true'] { border-bottom-color: var(--paper); }
+@media (hover: hover) {
+  .field__input:hover { border-color: rgb(255 255 255 / .4); }
+}
+
+.field__input[aria-invalid='true'] { border-color: rgb(236 235 231 / .9); }
+
+/* Focus wins over hover and the error state: amber, drawn 2px inside the 1px border. */
+.field__input:focus,
+.field__input:focus:hover {
+  border-color: var(--amber);
+  box-shadow: inset 0 0 0 1px var(--amber);
+}
+
+.field__input::placeholder { color: var(--ph); opacity: 1; }
 
 .field__input--area {
-  min-height: 7.5rem;
+  height: auto;
+  min-height: 8.5rem;
   max-height: 20rem;
+  padding: .85rem 1rem;
+  line-height: 1.5;
   resize: vertical;
   field-sizing: content;
 }
@@ -581,26 +559,26 @@ main,
 .field__input:-webkit-autofill,
 .field__input:-webkit-autofill:hover,
 .field__input:-webkit-autofill:focus {
-  -webkit-text-fill-color: var(--paper);
+  -webkit-text-fill-color: var(--white);
   caret-color: var(--amber);
   transition: background-color 600000s 0s, color 600000s 0s;
 }
 
 .field__msg {
-  min-height: 1.35rem;
   margin-top: .5rem;
   font-size: .875rem;
-  line-height: 1.35;
-  color: var(--paper);
+  line-height: 1.4;
 }
+
+.field__msg:empty { display: none; }
 
 .more {
   display: inline-flex;
   align-items: center;
-  gap: .85rem;
+  gap: .75rem;
   min-height: 3rem;
-  margin-top: clamp(1.5rem, 3.5svh, 2.25rem);
-  padding: .5rem 0;
+  margin-top: 1.75rem;
+  padding: 0;
   font-size: 1rem;
   line-height: 1.3;
   background: none;
@@ -608,65 +586,64 @@ main,
   cursor: pointer;
 }
 
+/* A plus that becomes a minus: the upright simply folds away. */
 .more__icon {
   position: relative;
   flex: none;
-  width: .875rem;
-  height: .875rem;
+  width: .75rem;
+  height: .75rem;
 }
 
 .more__icon::before,
 .more__icon::after {
   content: '';
   position: absolute;
-  left: 0;
-  top: calc(50% - .5px);
-  width: 100%;
-  height: 1px;
   background: currentColor;
-  transition: transform .7s var(--ease);
 }
 
-.more__icon::after { transform: rotate(90deg); }
-.more[aria-expanded='true'] .more__icon::after { transform: rotate(0deg); }
+.more__icon::before {
+  left: 0;
+  right: 0;
+  top: calc(50% - .5px);
+  height: 1px;
+}
 
-.form__send { margin-top: clamp(2.25rem, 6svh, 3.5rem); }
+.more__icon::after {
+  top: 0;
+  bottom: 0;
+  left: calc(50% - .5px);
+  width: 1px;
+  transition: transform .6s var(--ease-out);
+}
+
+.more[aria-expanded='true'] .more__icon::after { transform: scaleY(0); }
+
+.form__send { margin-top: 2.5rem; }
 
 .send {
-  position: relative;
   display: block;
   width: 100%;
-  min-height: 4rem;
-  padding: 1.1rem 1.5rem;
+  height: 4rem;
+  padding: 0 1.5rem;
   font-size: 1.0625rem;
   font-weight: 500;
-  letter-spacing: .015em;
-  color: var(--ink);
+  letter-spacing: .005em;
+  color: var(--base);
   background: var(--amber);
   border: 0;
-  border-radius: 0;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color .35s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Glow fades in with opacity only. */
-.send::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  box-shadow: 0 0 2.75rem .35rem rgb(232 162 74 / .34), 0 0 .75rem rgb(232 162 74 / .3);
-  opacity: 0;
-  transition: opacity .9s var(--ease-out);
-  pointer-events: none;
-}
-
-.send:focus-visible { outline: 2px solid var(--paper); outline-offset: 4px; }
-.send:focus-visible::after { opacity: 1; }
+.send:focus-visible { outline-offset: 3px; }
 
 @media (hover: hover) {
-  .send:hover::after { opacity: 1; }
+  .send:hover { background-color: var(--amber-hi); }
   .more:hover .more__text,
-  .fallback__copy:hover {
+  .fallback__copy:hover,
+  .credits__addr:hover {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: .3em;
@@ -676,112 +653,98 @@ main,
 .form__note {
   margin-top: 1rem;
   font-size: .875rem;
-  line-height: 1.4;
-  text-align: center;
-  color: var(--paper-2);
+  line-height: 1.45;
+  color: var(--white-70);
 }
 
 .fallback {
   display: grid;
-  justify-items: center;
-  gap: .9rem;
-  margin-top: clamp(2.5rem, 6svh, 3.5rem);
-  padding-top: clamp(2rem, 5svh, 3rem);
-  border-top: 1px solid rgb(237 232 223 / .12);
-  text-align: center;
+  justify-items: start;
+  gap: .75rem;
+  margin-top: 2.5rem;
 }
 
 .fallback[hidden] { display: none; }
 
 .fallback__q {
-  font-family: var(--serif);
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  line-height: 1.05;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .fallback__copy {
   min-height: 3rem;
-  padding: .6rem 1.4rem;
+  padding: 0 1.25rem;
   font-size: 1rem;
   background: none;
-  border: 1px solid rgb(237 232 223 / .42);
-  border-radius: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
   cursor: pointer;
 }
 
-.fallback__addr,
-.credits__addr {
+.fallback__addr {
+  color: var(--white-70);
   -webkit-user-select: all;
           user-select: all;
   overflow-wrap: anywhere;
 }
 
-.fallback__addr { color: var(--paper-2); }
-
 .fallback__status {
   min-height: 1.4em;
   font-size: .875rem;
-  color: var(--paper-2);
+  color: var(--white-70);
 }
 
-/* ── Credits ─────────────────────────────────────────────────────────── */
+/* ── Footer ──────────────────────────────────────────────────────────── */
 
 .credits {
+  padding-block: 1.25rem calc(1.25rem + env(safe-area-inset-bottom));
+  font-size: .875rem;
+  line-height: 1.4;
+  color: var(--white-70);
+}
+
+.credits__inner {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: baseline;
-  gap: .75rem 2rem;
-  padding: 2.25rem var(--gutter) calc(2.25rem + env(safe-area-inset-bottom));
-  font-size: .75rem;
-  line-height: 1.4;
-  color: var(--paper-2);
-  border-top: 1px solid rgb(237 232 223 / .08);
+  align-items: center;
+  gap: 0 2rem;
 }
 
-.credits__name {
-  font-weight: 500;
-  letter-spacing: .3em;
-  text-transform: uppercase;
+.credits__addr {
+  display: inline-block;
+  padding-block: .625rem;
+  text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
-.credits__addr { letter-spacing: .04em; }
+/* ── Opening: CSS only, so the hero line never waits on script or fonts ─ */
 
-/* ── Reduced motion, or no script: stacked scenes, fades only ────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .atmos { animation: fade-in 2.8s ease .1s both; }
+  .trail { animation: fade-in 2.8s ease .6s both; }
+  .masthead { animation: fade-in 2s ease 1s both; }
+  .scene--hero .scene__title { animation: resolve 2.6s var(--ease-out) .15s both; }
+}
 
-@media (prefers-reduced-motion: reduce), (scripting: none) {
-  .film { height: auto; }
+/* With motion and script, the trail starts as a spark on the horizon and script.js draws it. */
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  .trail__beam { transform: scaleY(.03); }
+}
 
-  .stage {
-    position: relative;
-    height: auto;
-    overflow: visible;
-  }
+@keyframes fade-in { from { opacity: 0; } }
 
-  .scene {
-    position: relative;
-    inset: auto;
-    min-height: 100svh;
-    padding: 18svh var(--gutter);
-  }
+@keyframes resolve {
+  from { opacity: 0; filter: blur(.1em); transform: translate3d(0, .12em, 0); }
+  to { opacity: 1; filter: none; transform: none; }
+}
 
-  .scene--4 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(3rem, 12svh, 7rem);
-  }
+/* ── Reduced motion: stacked scenes, fades only, a still trail ───────── */
 
-  .price__fee { position: static; }
-  .scene:not(.scene--1) .line { opacity: 1; }
-
-  .line--soft,
-  .frame__bars,
-  .cue,
-  .dust { display: none; }
-
+@media (prefers-reduced-motion: reduce) {
   .grain { animation: none; }
+  .more__icon::after { transition: none; }
 
   .rm-fade { opacity: 0; transition: opacity 1.4s ease; }
   .rm-fade.is-in { opacity: 1; }
@@ -793,4 +756,5 @@ main,
 @media (forced-colors: active) {
   .field__input:focus { outline: 2px solid CanvasText; outline-offset: 2px; }
   .send { border: 1px solid ButtonText; }
+  .trail { display: none; }
 }
