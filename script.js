@@ -232,7 +232,7 @@ function timeline(L, vh) {
   drift(text(L.subscription), T.sub, T.subOut);
   leave(L.subscription, T.subOut);
 
-  // 5 — $475 a month. alone on screen, then No setup fee. beneath it. It holds to the end of the film.
+  // 5 — the pitch line alone on screen, then No setup fee. beneath it. It holds to the end of the film.
   enter(L.price, T.price, 1.1);
   enter(L.fee, T.fee, 0.9);
   tl.fromTo(text(L.price), { y: vh(3) }, { y: 0, duration: T.end - T.price, immediateRender: false }, T.price);
@@ -366,7 +366,7 @@ function heroVideo(end) {
 function still() {
   // The hero is on screen from the first paint, so it simply stays.
   const faders = [
-    ...document.querySelectorAll('.scene:not(.scene--hero) .scene__text, .scene--price .price, .brief__title, .form'),
+    ...document.querySelectorAll('.scene:not(.scene--hero) .scene__text, .scene--price .price, .terms__inner, .brief__title, .form'),
   ];
   faders.forEach((el) => el.classList.add('rm-fade'));
   const io = new IntersectionObserver(
