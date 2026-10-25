@@ -218,7 +218,7 @@ function timeline(L, vh) {
   leave(L.keep, T.ownOut + 0.06);
   leaveSub(ownSub, T.ownOut + 0.1);
 
-  // 3 — You get seven days to keep it or drop it.
+  // 3 — It starts with a 3-month term.
   const trial = text(L.trial);
   const trialSub = trial.querySelector('.scene__sub');
   enter(L.trial, T.trial);
