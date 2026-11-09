@@ -1,14 +1,14 @@
 /*
  * Renders the share image (og.png, 1200×630) and the home-screen icon (apple-touch-icon.png,
- * 180×180) in the page's own light: a near-black sky, sparse stars, a low horizon glow and one
- * thin amber light trail. No dependencies. vite.config.js calls these at build time unless
- * public/ already has the file.
+ * 180×180) in the page's own light: warm black, a page slab, one brass rule. No dependencies.
+ * vite.config.js calls these at build time unless public/ already has the file.
  */
 import { deflateSync } from 'node:zlib';
 
-const BASE = [7, 9, 13];
-const AMBER = [232, 162, 74];
-const HORIZON_GLOW = [116, 138, 172];
+const BASE = [16, 14, 12];
+const AMBER = [224, 177, 90];
+const PAPER = [244, 240, 232];
+const SLAB = [28, 25, 22];
 
 /* ── PNG encoding (RGB, 8-bit, Paeth-filtered rows) ───────────────────── */
 
@@ -76,23 +76,6 @@ export function encodePng(width, height, rgb) {
 
 /* ── A tiny light table ───────────────────────────────────────────────── */
 
-const gauss = (d, s) => Math.exp(-(d * d) / (s * s));
-
-const smoothstep = (a, b, v) => {
-  const t = Math.min(1, Math.max(0, (v - a) / (b - a)));
-  return t * t * (3 - 2 * t);
-};
-
-/** Deterministic randomness, so every build renders the same frame. */
-function mulberry32(seed) {
-  return () => {
-    seed = (seed + 0x6d2b79f5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
 function frame(width, height) {
   const px = new Float32Array(width * height * 3);
   for (let i = 0; i < px.length; i += 3) {
@@ -119,20 +102,7 @@ function frame(width, height) {
     }
   };
 
-  /** Multiply the frame by factorAt(x, y). */
-  const shade = (factorAt) => {
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        const f = factorAt(x + 0.5, y + 0.5);
-        const k = (y * width + x) * 3;
-        px[k] *= f;
-        px[k + 1] *= f;
-        px[k + 2] *= f;
-      }
-    }
-  };
-
-  /** Quantise with a 4×4 ordered dither so the dark gradients don't band. */
+  /** Quantise with a 4×4 ordered dither so flat fields don't band. */
   const bytes = () => {
     const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
     const out = new Uint8Array(width * height * 3);
@@ -146,62 +116,28 @@ function frame(width, height) {
     return out;
   };
 
-  return { light, shade, bytes };
+  return { light, bytes };
 }
 
-/**
- * The one motif: a thin amber line rising from `base` to `head` at x, faint at the base and full
- * at the head, with a soft glow around it. `half` is the line's half-width in pixels.
- */
-function lightTrail(f, x, head, base, half, glow) {
-  const along = (y) => smoothstep(base, head, y);
-  f.light(AMBER, (px, py) => 0.33 * along(py) * gauss(px - x, glow), [x - 4 * glow, head, x + 4 * glow, base]);
-  f.light(AMBER, (px, py) => along(py) * Math.max(0, Math.min(1, half + 0.5 - Math.abs(px - x))), [x - half - 2, head, x + half + 2, base]);
-}
-
-/* ── The share image ──────────────────────────────────────────────────── */
+/* ── The share image: a page slab and one brass rule. No sky, no trail. ─ */
 
 export function renderOgImage() {
   const W = 1200;
   const H = 630;
   const f = frame(W, H);
-  const horizon = Math.round(0.84 * H);
-
-  // A sparse star field, thinning out toward the horizon.
-  const rand = mulberry32(475);
-  for (let i = 0; i < 150; i++) {
-    const sx = rand() * W;
-    const sy = rand() * horizon;
-    const r = 0.55 + rand() ** 3 * 0.9;
-    const a = (0.15 + rand() ** 2 * 0.55) * (1 - smoothstep(0.3 * H, horizon, sy));
-    if (a < 0.02) continue;
-    f.light([241, 239, 233], (x, y) => a * gauss(Math.hypot(x - sx, y - sy), r), [sx - 3 * r, sy - 3 * r, sx + 3 * r, sy + 3 * r]);
-  }
-
-  // The low horizon glow: cool and wide, brightest on the line, falling off faster below it.
-  f.light(HORIZON_GLOW, (x, y) => {
-    const dy = y - horizon;
-    return 0.22 * gauss(dy, dy < 0 ? 110 : 40) * gauss(x - 0.74 * W, 560);
-  });
-
-  // The light trail, in the right third: from the horizon most of the way up the frame.
-  lightTrail(f, 0.8 * W + 0.5, Math.round(0.16 * H), horizon, 1.1, 7);
-
-  // Vignette.
-  f.shade((x, y) => 1 - 0.6 * smoothstep(0.45, 1.1, Math.hypot((x - W / 2) / (0.62 * W), (y - H * 0.45) / (0.62 * H))));
-
+  f.light(SLAB, () => 1, [560, 78, 1110, 552]);
+  f.light(AMBER, () => 1, [560, 78, 1110, 96]);
+  f.light(PAPER, () => 0.14, [596, 150, 980, 168]);
+  f.light(PAPER, () => 0.1, [596, 196, 860, 214]);
   return encodePng(W, H, f.bytes());
 }
 
-/* ── The home-screen icon: the favicon, rendered ──────────────────────── */
+/* ── The home-screen icon: a page with a brass top edge ──────────────── */
 
 export function renderTouchIcon() {
   const S = 180;
-  const c = S / 2;
   const f = frame(S, S);
-  const base = 146;
-  f.light(HORIZON_GLOW, (x, y) => 0.16 * gauss(y - base, 26) * gauss(x - c, 90));
-  lightTrail(f, c, 34, base, 1.9, 8);
-  f.shade((x, y) => 1 - 0.35 * smoothstep(0.55, 1.2, Math.hypot(x - c, y - c) / c));
+  f.light(PAPER, () => 1, [48, 36, 132, 146]);
+  f.light(AMBER, () => 1, [48, 36, 132, 54]);
   return encodePng(S, S, f.bytes());
 }

@@ -7,11 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check:brief": "node scripts/check-brief.mjs"
-  },
-  "dependencies": {
-    "gsap": "^3.13.0",
-    "lenis": "^1.3.0"
+    "check:brief": "node scripts/check-brief.mjs",
+    "check:page": "node scripts/check-page.mjs",
+    "test": "node scripts/check-brief.mjs && node scripts/check-page.mjs"
   },
   "devDependencies": {
     "vite": "^7.0.0"

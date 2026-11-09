@@ -7,24 +7,6 @@
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { register } from 'node:module';
-
-// script.js imports the animation libraries; stub them so only the brief functions load.
-const stubs = {
-  gsap: 'export default {};',
-  'gsap/ScrollTrigger': 'export const ScrollTrigger = {};',
-  lenis: 'export default class Lenis {}',
-};
-const loader = `
-  const stubs = ${JSON.stringify(stubs)};
-  export async function resolve(specifier, context, next) {
-    if (Object.hasOwn(stubs, specifier)) {
-      return { shortCircuit: true, url: 'data:text/javascript,' + encodeURIComponent(stubs[specifier]) };
-    }
-    return next(specifier, context);
-  }
-`;
-register(`data:text/javascript,${encodeURIComponent(loader)}`);
 
 const { clean, composeBrief, mailtoHref, subjectFor, normalizeDomain, isDomain, isEmail } = await import('../script.js');
 
@@ -32,7 +14,7 @@ const { clean, composeBrief, mailtoHref, subjectFor, normalizeDomain, isDomain, 
 // Required labels carry a "required" marker beside the name; the email uses the name only.
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const fields = [...html.matchAll(/<label class="field__label" for="([^"]+)">([\s\S]*?)<\/label>/g)].map(([, id, inner]) => {
-  const tag = html.match(new RegExp(`<(?:input|textarea)[^>]*\\bid="${id}"[^>]*>`))[0];
+  const tag = html.match(new RegExp(`<(?:input|textarea|select)[^>]*\\bid="${id}"[^>]*>`))[0];
   const label = inner.match(/<span class="field__name">([^<]+)<\/span>/)?.[1] ?? inner.replace(/<[^>]*>/g, '');
   return {
     label: label.trim(),
@@ -41,7 +23,7 @@ const fields = [...html.matchAll(/<label class="field__label" for="([^"]+)">([\s
     max: Number(tag.match(/\bmaxlength="(\d+)"/)?.[1] ?? 200),
   };
 });
-assert.equal(fields.length, 13, 'expected 13 fields');
+assert.equal(fields.length, 15, 'expected 15 fields');
 assert.deepEqual(
   fields.filter((f) => f.required).map((f) => f.name),
   ['name', 'email', 'business', 'domain', 'goal'],
@@ -80,6 +62,8 @@ const everything = {
   video: 'https://vimeo.com/000000000',
   animation: 'https://example.com/loop.mp4',
   brand: '#1F2A44',
+  kind: 'Catering or local service',
+  plan: 'Flat $475/mo',
 };
 
 for (const [title, values] of [['All fields filled', everything], ['Required fields only', required]]) {
@@ -103,8 +87,11 @@ for (const [title, values] of [['All fields filled', everything], ['Required fie
 
 // Required-only: exactly the five required lines, no blank separator.
 assert.equal(send(required).body.split('\r\n').length, 5);
-// Everything: five required, a blank line, eight optional.
-assert.equal(send(everything).body.split('\r\n').length, 14);
+// Everything: five required, a blank line, ten optional.
+assert.equal(send(everything).body.split('\r\n').length, 16);
+assert.match(send(everything).body, /Kind of business: Catering or local service/);
+assert.match(send(everything).body, /Pricing plan: Flat \$475\/mo/);
+assert.doesNotMatch(send(required).body, /Kind of business/);
 
 // Caps: 600 for the textarea, 200 for short fields, measured in characters.
 const long = send({ ...required, name: 'N'.repeat(260), goal: 'g'.repeat(900) });
