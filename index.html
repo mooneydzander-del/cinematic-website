@@ -3,118 +3,283 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Landing Page Rocket — We build a cinematic landing page.</title>
-  <meta name="description" content="We build a cinematic landing page. You own the domain. We keep the page. A landing page you pay for when it pays you. No setup fee.">
+  <title>Landing Page Rocket — A page that takes the booking.</title>
+  <meta name="description" content="A cinematic landing page for caterers, local services, and online stores. You own the domain. We build, host, and run the page. No setup fee.">
   <link rel="canonical" href="https://www.landingpagerocket.com/">
-  <meta name="theme-color" content="#07090D">
+  <meta name="theme-color" content="#100e0c">
   <meta name="color-scheme" content="dark">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Landing Page Rocket">
   <meta property="og:url" content="https://www.landingpagerocket.com/">
-  <meta property="og:title" content="Landing Page Rocket">
-  <meta property="og:description" content="We build a cinematic landing page. You own the domain. We keep the page.">
+  <meta property="og:title" content="Landing Page Rocket — A page that takes the booking.">
+  <meta property="og:description" content="You own the domain. We build, host, and run the page. No setup fee.">
   <meta property="og:image" content="https://www.landingpagerocket.com/og.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="A thin amber light trail rising from a low horizon into a dark, starry sky.">
+  <meta property="og:image:alt" content="Landing Page Rocket. A page that takes the booking. You own the domain. We keep the page.">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Landing Page Rocket — A page that takes the booking.">
+  <meta name="twitter:description" content="You own the domain. We build, host, and run the page. No setup fee.">
+  <meta name="twitter:image" content="https://www.landingpagerocket.com/og.png">
 
-  <link rel="preload" href="/fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/style.css">
   <script type="module" src="/script.js"></script>
 </head>
-<body>
-  <div class="atmos" aria-hidden="true">
-    <canvas class="stars"></canvas>
-    <!--hero-media-->
-    <div class="mid">
-      <div class="horizon"></div>
-      <div class="grain"></div>
-    </div>
-    <div class="vignette"></div>
-  </div>
-  <div class="trail" aria-hidden="true">
-    <div class="trail__track wrap grid"><div class="trail__beam"></div></div>
-  </div>
+<body id="top">
+  <a class="skip" href="#main">Skip to content</a>
 
   <header class="masthead">
     <div class="masthead__inner wrap">
-      <p class="masthead__name">Landing Page Rocket</p>
-      <a class="masthead__link" href="#brief">Send the brief</a>
+      <a class="brand" href="#top">Landing Page Rocket</a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#work">Work</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#brief">Brief</a>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <div class="film">
-      <div class="stage">
-        <section class="scene scene--hero" aria-labelledby="scene-1-title">
-          <div class="scene__inner wrap grid">
-            <div class="scene__text">
-              <h1 class="scene__title" id="scene-1-title"><span class="line" data-line="hero">We build a cinematic landing page.</span></h1>
-            </div>
+  <main id="main">
+    <section class="scene scene--hero" aria-labelledby="hero-title">
+      <div class="wrap grid hero">
+        <div class="hero__copy">
+          <p class="kicker">Caterers, local services, and online stores</p>
+          <h1 id="hero-title">A page that takes the booking.</h1>
+          <p class="lede">Landing Page Rocket builds one cinematic landing page, then hosts and runs it. You own the domain. We keep the page.</p>
+          <div class="hero__actions">
+            <a class="btn" href="#brief">Send a project brief</a>
+            <a class="textlink" href="#work">See the live example</a>
           </div>
-        </section>
+          <p class="fine">No setup fee. <span class="nowrap">$150/mo</span> minimum that counts toward results fees, or <span class="nowrap">$475/mo</span> flat.</p>
+        </div>
 
-        <section class="scene scene--own" aria-labelledby="scene-2-title">
-          <div class="scene__inner wrap grid">
-            <div class="scene__text">
-              <h2 class="scene__title" id="scene-2-title"><span class="line" data-line="own">You own the domain.</span> <span class="line" data-line="keep">We keep the page.</span></h2>
-              <p class="scene__sub">The address stays in your name. We build, host and run the page.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="scene scene--trial" aria-labelledby="scene-3-title">
-          <div class="scene__inner wrap grid">
-            <div class="scene__text">
-              <h2 class="scene__title" id="scene-3-title"><span class="line" data-line="trial">It starts with a 3-month term.</span></h2>
-              <p class="scene__sub">Live on your domain from day one. After three months, it goes month to month.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="scene scene--sub" aria-labelledby="scene-4-title">
-          <div class="scene__inner wrap grid">
-            <div class="scene__text">
-              <h2 class="scene__title" id="scene-4-title"><span class="line" data-line="subscription">Then a monthly subscription for anything still running.</span></h2>
-            </div>
-          </div>
-        </section>
-
-        <section class="scene scene--price" aria-labelledby="scene-5-title">
-          <div class="scene__inner wrap grid">
-            <div class="price">
-              <h2 class="price__amount price__amount--pitch" id="scene-5-title"><span class="line" data-line="price">A landing page you pay for when it pays you.</span></h2>
-              <p class="price__fee"><span class="line" data-line="fee">No setup fee.</span></p>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <section class="terms" aria-labelledby="terms-title">
-      <div class="wrap grid">
-        <div class="terms__inner">
-          <h2 class="sr-only" id="terms-title">Pricing</h2>
-          <ul class="terms__list">
-            <li class="terms__item"><strong class="terms__lead">No setup fee.</strong> <span class="nowrap">$150/mo</span> minimum that counts toward your results fees: $50 per booking for caterers and local services, or 4% of online store sales.</li>
-            <li class="terms__item"><strong class="terms__lead">Every sale is traceable.</strong> Each month you get a statement with a CSV listing each order or booking by its ID, which you can check against your own dashboard.</li>
-            <li class="terms__item"><strong class="terms__lead">Simple terms.</strong> A 3-month start, then month to month. Prefer a fixed price? Choose flat <span class="nowrap">$475/mo</span> instead.</li>
-          </ul>
-          <p class="terms__note">Results vary, and we don’t guarantee any number of sales.</p>
+        <div class="stage">
+          <figure class="shot shot--desk">
+            <img
+              src="/work/tct-desktop-hero.webp"
+              width="1440"
+              height="900"
+              alt="Desktop view of the live TC Tacos Catering page. The headline reads Flavor that ignites the party, above a Book My Date button and a line that a $200 deposit is required."
+              fetchpriority="high"
+              decoding="async">
+            <figcaption>Desktop. The live page at tctacoscatering.com.</figcaption>
+          </figure>
+          <figure class="shot shot--phone">
+            <img
+              src="/work/tct-mobile-hero.webp"
+              width="780"
+              height="1688"
+              alt="Phone view of the same TC Tacos Catering page, with the headline, Book My Date button, and the $200 deposit line."
+              fetchpriority="high"
+              decoding="async">
+            <figcaption>Phone. The same page.</figcaption>
+          </figure>
         </div>
       </div>
     </section>
 
-    <section class="brief" id="brief" tabindex="-1" aria-labelledby="brief-title">
+    <section class="scene" id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <p class="index">01</p>
+        <div class="grid work-head">
+          <div class="work-head__copy">
+            <h2 id="work-title">Selected work</h2>
+            <p class="lede">TC Tacos Catering. A live page for taco catering at birthdays, weddings, and corporate events. It opens on “Flavor that ignites the party.” The booking step asks for two meats, extras, and a date, and the page says a $200 deposit is required to book.</p>
+            <p class="fine">Screenshots of the live page, captured as it stands. No results are claimed.</p>
+            <p><a class="textlink" href="https://tctacoscatering.com/" target="_blank" rel="noopener noreferrer">View the live page<span class="sr-only"> (opens in a new tab)</span></a></p>
+          </div>
+        </div>
+
+        <figure class="study">
+          <img
+            class="frame"
+            src="/work/tct-desktop-book.webp"
+            width="1280"
+            height="900"
+            alt="Desktop view of the TC Tacos Catering booking step. A note reads A $200 deposit is required to book your date, above choices for two meats and a list of included toppings."
+            loading="lazy"
+            decoding="async">
+          <figcaption>Desktop. Booking step on the live page, including the $200 deposit note.</figcaption>
+        </figure>
+
+        <div class="phones">
+          <figure>
+            <img
+              class="frame"
+              src="/work/tct-mobile-menu.webp"
+              width="780"
+              height="1688"
+              alt="Phone view of the TC Tacos Catering menu. The heading is Pick your meats, with cards for Pollo, Asada, Al pastor, and Adobada."
+              loading="lazy"
+              decoding="async">
+            <figcaption>Phone. Pick your meats.</figcaption>
+          </figure>
+          <figure>
+            <img
+              class="frame"
+              src="/work/tct-mobile-book.webp"
+              width="780"
+              height="1560"
+              alt="Phone view of the TC Tacos Catering booking step, with the $200 deposit note and meat choices for Pollo, Asada, Al pastor, Adobada, and Trompo."
+              loading="lazy"
+              decoding="async">
+            <figcaption>Phone. The same booking step.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" id="offer" aria-labelledby="offer-title">
       <div class="wrap grid">
-        <div class="brief__inner">
-          <h2 class="brief__title" id="brief-title"><span class="line" data-line="brief">Send the brief</span></h2>
+        <div class="col-8">
+          <p class="index">02</p>
+          <h2 id="offer-title">What you get</h2>
+          <ol class="sheet">
+            <li>
+              <span class="n">01</span>
+              <div>
+                <h3>One cinematic landing page</h3>
+                <p>Built to take a booking or a sale: a catering date, a local-service appointment, or a path through an online store.</p>
+              </div>
+            </li>
+            <li>
+              <span class="n">02</span>
+              <div>
+                <h3>You own the domain</h3>
+                <p>The address stays in your name. The page is live on your domain from day one.</p>
+              </div>
+            </li>
+            <li>
+              <span class="n">03</span>
+              <div>
+                <h3>We keep the page</h3>
+                <p>We build it, host it, and run it. That is the service.</p>
+              </div>
+            </li>
+            <li>
+              <span class="n">04</span>
+              <div>
+                <h3>A record you can check</h3>
+                <p>Each month, a statement with a CSV listing each tracked order or booking by its ID, which you can check against your own dashboard.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <p class="index">03</p>
+        <h2 id="how-title">How it works</h2>
+        <ol class="steps">
+          <li>
+            <span class="n">01</span>
+            <h3>Send a brief</h3>
+            <p>Tell us the business, the domain you own, and what the page should do. The form opens your email app.</p>
+          </li>
+          <li>
+            <span class="n">02</span>
+            <h3>We build the page</h3>
+            <p>One cinematic landing page, on your domain. We host it and run it.</p>
+          </li>
+          <li>
+            <span class="n">03</span>
+            <h3>Three months, then monthly</h3>
+            <p>An initial 3-month term, then month to month.</p>
+          </li>
+          <li>
+            <span class="n">04</span>
+            <h3>A statement each month</h3>
+            <p>Tracked bookings or online sales, listed by ID, for you to check.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="scene" id="pricing" aria-labelledby="price-title">
+      <div class="wrap">
+        <p class="index">04</p>
+        <h2 id="price-title">Pricing</h2>
+        <p class="lede">No setup fee.</p>
+        <div class="rates">
+          <article>
+            <h3>Results</h3>
+            <p class="rate"><span class="rate__num">$150</span> <span class="rate__per">/mo minimum</span></p>
+            <p>The minimum counts toward your results fees: $50 per booking for caterers and local services, or 4% of tracked online store sales.</p>
+            <p class="fine">A quiet month still has the $150 minimum. We don’t guarantee any number of sales.</p>
+          </article>
+          <article>
+            <h3>Flat</h3>
+            <p class="rate"><span class="rate__num">$475</span> <span class="rate__per">/mo</span></p>
+            <p>One price for the same page, the hosting, and the running of it.</p>
+            <p class="fine">Same term. You own the domain. We keep the page.</p>
+          </article>
+        </div>
+        <ul class="points">
+          <li>An initial 3-month term, then month to month.</li>
+          <li>You own the domain. We keep the page.</li>
+          <li>Every sale is traceable against the statement and the CSV.</li>
+          <li>Results vary, and we don’t guarantee any number of sales.</li>
+        </ul>
+        <p class="next"><a class="btn" href="#brief">Send a project brief</a></p>
+      </div>
+    </section>
+
+    <section class="scene" id="terms" aria-labelledby="terms-title">
+      <div class="wrap grid">
+        <div class="col-8">
+          <p class="index">05</p>
+          <h2 id="terms-title">Terms, in plain language</h2>
+          <dl class="faq">
+            <div>
+              <dt>Is there a setup fee?</dt>
+              <dd>No setup fee.</dd>
+            </div>
+            <div>
+              <dt>Who owns the domain, and who keeps the page?</dt>
+              <dd>You own the domain. Landing Page Rocket keeps the page as the service: we build, host, and run it.</dd>
+            </div>
+            <div>
+              <dt>What does the $150 minimum count toward?</dt>
+              <dd>$50 per booking for caterers and local services, or 4% of tracked online store sales. The <span class="nowrap">$150/mo</span> minimum counts toward those results fees.</dd>
+            </div>
+            <div>
+              <dt>What if a month has no bookings or sales?</dt>
+              <dd>On the results plan the $150 minimum still applies. We don’t guarantee any number of sales.</dd>
+            </div>
+            <div>
+              <dt>Can I pay one flat price instead?</dt>
+              <dd>Yes. <span class="nowrap">$475/mo</span> for the same page, hosting, and running of it.</dd>
+            </div>
+            <div>
+              <dt>How long is the term?</dt>
+              <dd>An initial 3-month term, then month to month.</dd>
+            </div>
+            <div>
+              <dt>How do I check the numbers?</dt>
+              <dd>Each month you get a statement with a CSV listing each order or booking by its ID, which you can check against your own dashboard.</dd>
+            </div>
+            <div>
+              <dt>Does this page store my brief?</dt>
+              <dd>No. Opening the brief opens your email app, addressed to mooneydzander@gmail.com. Nothing is stored on this page. If the app doesn’t open, copy the brief and send it yourself.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene brief" id="brief" tabindex="-1" aria-labelledby="brief-title">
+      <div class="wrap grid">
+        <div class="col-8">
+          <p class="index">06</p>
+          <h2 class="brief__title" id="brief-title">Send a project brief</h2>
+          <p class="lede">Name, email, the business, the domain you own, and what the page should do. That is enough to start.</p>
 
           <form class="form" id="brief-form" action="mailto:mooneydzander@gmail.com" method="post" enctype="text/plain" novalidate>
             <fieldset class="group">
@@ -145,8 +310,26 @@
                     <label class="field__label" for="f-goal"><span class="field__name">What the page should do</span> <span class="field__req" aria-hidden="true">required</span></label>
                     <span class="field__count" aria-hidden="true"></span>
                   </div>
-                  <textarea class="field__input field__input--area" id="f-goal" name="goal" rows="4" maxlength="600" required aria-describedby="f-goal-msg" data-lenis-prevent></textarea>
+                  <textarea class="field__input field__input--area" id="f-goal" name="goal" rows="4" maxlength="600" required aria-describedby="f-goal-msg" placeholder="Take catering bookings, or sell from the shop."></textarea>
                   <p class="field__msg" id="f-goal-msg"></p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="f-kind"><span class="field__name">Kind of business</span></label>
+                  <select class="field__input" id="f-kind" name="kind">
+                    <option value="">Optional</option>
+                    <option>Catering or local service</option>
+                    <option>Online store</option>
+                    <option>Not sure yet</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="f-plan"><span class="field__name">Pricing plan</span></label>
+                  <select class="field__input" id="f-plan" name="plan">
+                    <option value="">Optional</option>
+                    <option>Results plan, $150/mo minimum</option>
+                    <option>Flat $475/mo</option>
+                    <option>Help me choose</option>
+                  </select>
                 </div>
               </div>
             </fieldset>
@@ -195,16 +378,17 @@
             </fieldset>
 
             <div class="form__send">
-              <button class="send" type="submit">Send the brief</button>
-              <p class="form__note">Opens your email app. Nothing is stored on this page.</p>
+              <button class="send" type="submit" aria-describedby="send-note">Open email with this brief</button>
+              <button class="copy" type="button" id="copy-brief">Copy the brief instead</button>
+              <p class="form__note" id="send-note">Opens your email app, addressed to mooneydzander@gmail.com. Nothing is stored on this page. If the app doesn’t open, copy the brief and send it yourself.</p>
             </div>
 
             <div class="fallback" id="fallback" hidden>
               <p class="fallback__q">Email didn’t open?</p>
-              <button class="fallback__copy" type="button">Copy the brief</button>
               <p class="fallback__addr">mooneydzander@gmail.com</p>
-              <p class="fallback__status" role="status"></p>
+              <textarea class="field__input field__input--area brief-out" id="brief-out" readonly hidden aria-label="The brief, ready to copy"></textarea>
             </div>
+            <p class="form__status" id="copy-status" role="status"></p>
             <p class="sr-only" id="form-announce" role="status"></p>
           </form>
         </div>
@@ -215,6 +399,7 @@
   <footer class="credits">
     <div class="credits__inner wrap">
       <p>Landing Page Rocket</p>
+      <p class="fine">You own the domain. We keep the page.</p>
       <a class="credits__addr" href="mailto:mooneydzander@gmail.com">mooneydzander@gmail.com</a>
     </div>
   </footer>

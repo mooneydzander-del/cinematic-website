@@ -1,15 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <defs>
-    <linearGradient id="trail" x1="0" y1="54" x2="0" y2="10" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#E8A24A" stop-opacity="0"/>
-      <stop offset=".45" stop-color="#E8A24A" stop-opacity=".55"/>
-      <stop offset="1" stop-color="#E8A24A"/>
-    </linearGradient>
-    <filter id="glow" x="-3" y="-.2" width="7" height="1.4">
-      <feGaussianBlur stdDeviation="2.5"/>
-    </filter>
-  </defs>
-  <rect width="64" height="64" rx="14" fill="#07090D"/>
-  <rect x="28.5" y="10" width="7" height="44" fill="url(#trail)" filter="url(#glow)" opacity=".8"/>
-  <rect x="30" y="10" width="4" height="44" fill="url(#trail)"/>
+  <rect width="64" height="64" rx="14" fill="#100E0C"/>
+  <rect x="16" y="12" width="32" height="40" fill="#F4F0E8"/>
+  <rect x="16" y="12" width="32" height="7" fill="#E0B15A"/>
 </svg>
